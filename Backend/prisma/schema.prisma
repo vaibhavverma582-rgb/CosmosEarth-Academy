@@ -1,0 +1,657 @@
+// CosmosEarth Academy — Prisma Schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Note: For PostgreSQL, indexes use the `@@index` syntax which is the same.
+// If using connection pooling (e.g., PgBouncer), add `?pgbouncer=true` to DATABASE_URL
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Users (Auth.js compatible) ─────────────────
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified DateTime?
+  name          String
+  password      String?
+  image         String?
+  avatar        String?
+  role          String    @default("student") // student | instructor | admin
+  bio           String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  enrollments   Enrollment[]
+  reviews       Review[]
+  courses       Course[]        @relation("InstructorCourses")
+  progress      CourseProgress[]
+  otpCodes      OtpCode[]
+  notes         Note[]
+  noteBookmarks NoteBookmark[]
+  galleryImages GalleryImage[]
+  videos        Video[]
+  watchProgress WatchProgress[]
+  playlists     Playlist[]
+  documentaries Documentary[]
+  watchlistItems WatchlistItem[]
+  podcasts      Podcast[]
+  podcastEpisodes PodcastEpisode[]
+  favorites     PodcastFavorite[]
+  subscriptions PodcastSubscription[]
+  listeningHistory ListeningHistory[]
+  quizzes         Quiz[]
+  quizAttempts    QuizAttempt[]
+  blogPosts       BlogPost[]
+  wallpapers      Wallpaper[]
+  studyMaterials  StudyMaterial[]
+
+  @@map("users")
+}
+
+// ─── Website Wallpaper ────────────────────────
+model Wallpaper {
+  id            String   @id @default(cuid())
+  imageUrl      String
+  position      String   @default("center")
+  size          String   @default("cover")
+  overlayOpacity Float  @default(0.5)
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  uploader   User   @relation(fields: [uploaderId], references: [id])
+  uploaderId String
+
+  @@map("wallpapers")
+}
+
+// ─── Auth.js Account (OAuth providers) ──────────
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+// ─── Auth.js Session ────────────────────────────
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+// ─── Auth.js Verification Token ─────────────────
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ─── OTP Codes (Email OTP login) ────────────────
+model OtpCode {
+  id        String   @id @default(cuid())
+  email     String
+  code      String
+  purpose   String   @default("login") // login | register | reset
+  expires   DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user   User?  @relation(fields: [userId], references: [id])
+  userId String?
+
+  @@index([email, code, purpose])
+  @@map("otp_codes")
+}
+
+// ─── Categories ─────────────────────────────────
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  icon        String?
+  color       String?
+  createdAt   DateTime @default(now())
+
+  courses Course[]
+
+  @@map("categories")
+}
+
+// ─── Courses ────────────────────────────────────
+model Course {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String
+  thumbnail   String?
+  price       Float    @default(0)
+  level       String   @default("beginner") // beginner | intermediate | advanced
+  duration    String?
+  published   Boolean  @default(false)
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  instructor   User          @relation("InstructorCourses", fields: [instructorId], references: [id])
+  instructorId String
+  category     Category?     @relation(fields: [categoryId], references: [id])
+  categoryId   String?
+
+  modules     Module[]
+  enrollments Enrollment[]
+  reviews     Review[]
+
+  @@map("courses")
+}
+
+// ─── Modules ────────────────────────────────────
+model Module {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  order       Int
+  createdAt   DateTime @default(now())
+
+  course   Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String
+  lessons  Lesson[]
+
+  @@map("modules")
+}
+
+// ─── Lessons ────────────────────────────────────
+model Lesson {
+  id          String   @id @default(cuid())
+  title       String
+  content     String?
+  videoUrl    String?
+  duration    String?
+  order       Int
+  createdAt   DateTime @default(now())
+
+  module   Module   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  moduleId String
+  progress CourseProgress[]
+
+  @@map("lessons")
+}
+
+// ─── Enrollments ────────────────────────────────
+model Enrollment {
+  id         String    @id @default(cuid())
+  status     String    @default("active") // active | completed | cancelled
+  enrolledAt DateTime  @default(now())
+  completedAt DateTime?
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  course Course @relation(fields: [courseId], references: [id])
+  courseId String
+
+  @@unique([userId, courseId])
+  @@map("enrollments")
+}
+
+// ─── Reviews ────────────────────────────────────
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  course Course @relation(fields: [courseId], references: [id])
+  courseId String
+
+  @@unique([userId, courseId])
+  @@map("reviews")
+}
+
+// ─── Course Progress ────────────────────────────
+model CourseProgress {
+  id        String   @id @default(cuid())
+  completed Boolean  @default(false)
+  updatedAt DateTime @updatedAt
+
+  user     User    @relation(fields: [userId], references: [id])
+  userId   String
+  lesson   Lesson  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  lessonId String
+
+  @@unique([userId, lessonId])
+  @@map("course_progress")
+}
+
+// ─── Notes ──────────────────────────────────────
+model Note {
+  id            String   @id @default(cuid())
+  title         String
+  description   String?
+  content       String?  // markdown content for text notes
+  subject       String
+  topic         String?
+  mediaCategory String   @default("General") // Astronomy | Geology | Geography | Current Affairs
+  fileType      String   @default("markdown") // pdf | docx | image | markdown
+  fileName      String?
+  fileSize      Int?
+  fileUrl       String?  // URL or path to uploaded file
+  thumbnail     String?
+  downloads     Int      @default(0)
+  published     Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  bookmarks NoteBookmark[]
+  tags      NoteTag[]
+
+  @@index([subject, topic])
+  @@index([authorId])
+  @@index([mediaCategory])
+  @@map("notes")
+}
+
+// ─── Note Bookmarks ────────────────────────────
+model NoteBookmark {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  note   Note   @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  noteId String
+
+  @@unique([userId, noteId])
+  @@map("note_bookmarks")
+}
+
+// ─── Note Tags ─────────────────────────────────
+model NoteTag {
+  id   String @id @default(cuid())
+  name String
+
+  note   Note   @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  noteId String
+
+  @@unique([noteId, name])
+  @@map("note_tags")
+}
+
+// ─── Gallery Images ───────────────────────────
+model GalleryImage {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  imageUrl    String
+  thumbnailUrl String?
+  category    String   @default("General")
+  tags        String? // comma-separated
+  width       Int?
+  height      Int?
+  fileSize    Int?
+  downloads   Int      @default(0)
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  uploader   User   @relation(fields: [uploaderId], references: [id])
+  uploaderId String
+
+  @@index([category])
+  @@index([uploaderId])
+  @@map("gallery_images")
+}
+
+// ─── Videos ────────────────────────────────────
+model Video {
+  id            String   @id @default(cuid())
+  title         String
+  description   String?
+  youtubeUrl    String   // full YouTube URL
+  youtubeId     String   // extracted video ID for embed
+  thumbnailUrl  String?  // YouTube thumbnail (auto-generated)
+  duration      Int?     // seconds (optional override)
+  category      String   @default("General")
+  tags          String?  // comma-separated
+  views         Int      @default(0)
+  featured      Boolean  @default(false)
+  published     Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  uploader   User   @relation(fields: [uploaderId], references: [id])
+  uploaderId String
+
+  playlistItems PlaylistItem[]
+  watchProgress WatchProgress[]
+
+  @@index([category])
+  @@index([uploaderId])
+  @@map("videos")
+}
+
+// ─── Playlists ─────────────────────────────────
+model Playlist {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  thumbnail   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  creator   User   @relation(fields: [creatorId], references: [id])
+  creatorId String
+  items     PlaylistItem[]
+
+  @@index([creatorId])
+  @@map("playlists")
+}
+
+// ─── Playlist Items ────────────────────────────
+model PlaylistItem {
+  id        String @id @default(cuid())
+  order     Int
+
+  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  playlistId String
+  video      Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  videoId    String
+
+  @@unique([playlistId, videoId])
+  @@map("playlist_items")
+}
+
+// ─── Watch Progress ────────────────────────────
+model WatchProgress {
+  id              String   @id @default(cuid())
+  currentTime     Float    @default(0) // seconds watched
+  completed       Boolean  @default(false)
+  percentComplete Float    @default(0)
+  updatedAt       DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  video  Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  videoId String
+
+  @@unique([userId, videoId])
+  @@map("watch_progress")
+}
+
+// ─── Documentaries ────────────────────────────
+model Documentary {
+  id            String   @id @default(cuid())
+  title         String
+  slug          String   @unique
+  description   String
+  posterUrl     String?
+  trailerUrl    String?  // YouTube URL for trailer
+  duration      String?  // e.g. "1h 32m"
+  year          Int?
+  director      String?
+  rating        Float?
+  category      String   @default("General")
+  tags          String?  // comma-separated
+  featured      Boolean  @default(false)
+  published     Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  uploader   User   @relation(fields: [uploaderId], references: [id])
+  uploaderId String
+  watchlistItems WatchlistItem[]
+
+  @@index([category])
+  @@map("documentaries")
+}
+
+// ─── Watchlist ─────────────────────────────────
+model WatchlistItem {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  documentary Documentary @relation(fields: [documentaryId], references: [id], onDelete: Cascade)
+  documentaryId String
+
+  @@unique([userId, documentaryId])
+  @@map("watchlist_items")
+}
+
+// ─── Podcasts ──────────────────────────────────
+model Podcast {
+  id            String   @id @default(cuid())
+  title         String
+  slug          String   @unique
+  description   String
+  author        String
+  coverUrl      String?
+  category      String   @default("General")
+  tags          String?  // comma-separated
+  episodeCount  Int      @default(0)
+  featured      Boolean  @default(false)
+  published     Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  creator   User   @relation(fields: [creatorId], references: [id])
+  creatorId String
+  episodes  PodcastEpisode[]
+  favorites PodcastFavorite[]
+  subscriptions PodcastSubscription[]
+
+  @@index([category])
+  @@map("podcasts")
+}
+
+// ─── Podcast Episodes ─────────────────────────
+model PodcastEpisode {
+  id            String   @id @default(cuid())
+  title         String
+  description   String?
+  audioUrl      String
+  duration      Int?     // seconds
+  episodeNumber Int      @default(1)
+  seasonNumber  Int      @default(1)
+  published     Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  podcast   Podcast @relation(fields: [podcastId], references: [id], onDelete: Cascade)
+  podcastId String
+  uploader  User    @relation(fields: [uploaderId], references: [id])
+  uploaderId String
+  listeningHistory ListeningHistory[]
+
+  @@index([podcastId])
+  @@map("podcast_episodes")
+}
+
+// ─── Podcast Favorites ────────────────────────
+model PodcastFavorite {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  podcast Podcast @relation(fields: [podcastId], references: [id], onDelete: Cascade)
+  podcastId String
+
+  @@unique([userId, podcastId])
+  @@map("podcast_favorites")
+}
+
+// ─── Podcast Subscriptions ────────────────────
+model PodcastSubscription {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  podcast Podcast @relation(fields: [podcastId], references: [id], onDelete: Cascade)
+  podcastId String
+
+  @@unique([userId, podcastId])
+  @@map("podcast_subscriptions")
+}
+
+// ─── Listening History ────────────────────────
+model ListeningHistory {
+  id              String   @id @default(cuid())
+  currentTime     Float    @default(0)
+  percentComplete Float    @default(0)
+  completed       Boolean  @default(false)
+  updatedAt       DateTime @updatedAt
+
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+  episode  PodcastEpisode @relation(fields: [episodeId], references: [id], onDelete: Cascade)
+  episodeId String
+
+  @@unique([userId, episodeId])
+  @@map("listening_history")
+}
+
+// ─── Quizzes ──────────────────────────────────
+model Quiz {
+  id            String   @id @default(cuid())
+  title         String
+  slug          String   @unique
+  description   String?
+  subject       String
+  category      String   @default("General")
+  difficulty    String   @default("medium") // easy | medium | hard
+  timeLimit     Int?     // minutes, null = no limit
+  passingScore  Int      @default(70) // percentage
+  published     Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  creator    User   @relation(fields: [creatorId], references: [id])
+  creatorId  String
+  questions  QuizQuestion[]
+  attempts   QuizAttempt[]
+
+  @@index([subject, category])
+  @@map("quizzes")
+}
+
+// ─── Quiz Questions ───────────────────────────
+model QuizQuestion {
+  id          String   @id @default(cuid())
+  question    String
+  type        String   @default("multiple-choice") // multiple-choice | true-false
+  options     String   // JSON array of options
+  correctAnswer String // the correct option text
+  explanation String?
+  order       Int      @default(0)
+  points      Int      @default(1)
+
+  quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizId String
+
+  @@index([quizId])
+  @@map("quiz_questions")
+}
+
+// ─── Quiz Attempts ────────────────────────────
+model QuizAttempt {
+  id            String   @id @default(cuid())
+  answers       String   // JSON: { questionId: selectedAnswer }
+  score         Float    // percentage (0-100)
+  totalPoints   Int
+  earnedPoints  Int
+  passed        Boolean
+  timeTaken     Int?     // seconds
+  completedAt   DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizId String
+
+  @@index([userId, quizId])
+  @@map("quiz_attempts")
+}
+
+// ─── Blog Posts ───────────────────────────────
+model BlogPost {
+  id            String   @id @default(cuid())
+  title         String
+  slug          String   @unique
+  excerpt       String
+  content       String   // markdown content
+  category      String
+  readTime      String   @default("5 min")
+  coverImage    String?
+  published     Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  @@index([slug])
+  @@index([category])
+  @@index([authorId])
+  @@map("blog_posts")
+}
+
+// ─── Study Materials (Books, Papers, etc.) ────
+model StudyMaterial {
+  id          String   @id @default(cuid())
+  title       String
+  author      String
+  type        String   @default("Book") // Book | Research Paper | Course | Resource
+  status      String   @default("Reading") // Reading | Completed | Ongoing | To Read
+  description String?
+  coverUrl    String?
+  link        String?  // external link to the material
+  fileUrl     String?  // uploaded file path
+  fileName    String?  // original file name
+  fileSize    Int?     // file size in bytes
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@index([userId])
+  @@index([type])
+  @@map("study_materials")
+}

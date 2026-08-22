@@ -1,0 +1,45 @@
+# Render Blueprint for CosmosEarth Academy
+# This file defines the services needed to deploy the app on Render.
+
+services:
+  # ─── Backend API ──────────────────────────────
+  - type: web
+    name: cosmos-earth-api
+    runtime: node
+    plan: free
+    rootDir: Backend
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: node dist/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false  # Set manually in Render dashboard
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        sync: false  # Set to your frontend URL after deploying
+      - key: UPLOAD_DIR
+        value: /opt/render/project/src/uploads
+      - key: PORT
+        value: 5000
+    healthCheckPath: /api/health
+    # Persistent disk for uploads
+    disk:
+      name: uploads
+      mountPath: /opt/render/project/src/uploads
+      sizeGB: 1
+
+  # ─── Frontend (Next.js) ───────────────────────
+  - type: web
+    name: cosmos-earth-frontend
+    runtime: node
+    plan: free
+    rootDir: Frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        sync: false  # Set to your backend URL after deploying

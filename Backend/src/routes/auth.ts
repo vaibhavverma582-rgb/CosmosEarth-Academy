@@ -1,0 +1,215 @@
+import { Router } from "express";
+import { prisma } from "../index";
+import { z } from "zod";
+import bcrypt from "bcryptjs";
+
+export const authRoutes = Router();
+
+// ─── Validation Schemas ────────────────────────
+const registerSchema = z.object({
+  name: z.string().min(1).max(100),
+  email: z.string().email(),
+  password: z.string().min(8),
+  emailVerified: z.boolean().optional(),
+});
+
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
+
+// ─── POST /api/auth/register ───────────────────
+authRoutes.post("/register", async (req, res) => {
+  try {
+    const data = registerSchema.parse(req.body);
+
+    // Check if user exists
+    const existingUser = await prisma.user.findUnique({
+      where: { email: data.email },
+    });
+
+    if (existingUser) {
+      return res.status(409).json({ error: "Email already registered" });
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(data.password, 12);
+
+    // Create user
+    const user = await prisma.user.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        password: hashedPassword,
+        emailVerified: data.emailVerified ? new Date() : null,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true,
+      },
+    });
+
+    res.status(201).json({ user });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({ error: "Validation failed", details: error.errors });
+    }
+    console.error("Registration error:", error);
+    res.status(500).json({ error: "Registration failed" });
+  }
+});
+
+// ─── POST /api/auth/login ──────────────────────
+authRoutes.post("/login", async (req, res) => {
+  try {
+    const data = loginSchema.parse(req.body);
+
+    // Find user
+    const user = await prisma.user.findUnique({
+      where: { email: data.email },
+    });
+
+    if (!user || !user.password) {
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
+
+    // Verify password
+    const valid = await bcrypt.compare(data.password, user.password);
+    if (!valid) {
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
+
+    res.json({
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        image: user.image || user.avatar,
+      },
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({ error: "Validation failed", details: error.errors });
+    }
+    console.error("Login error:", error);
+    res.status(500).json({ error: "Login failed" });
+  }
+});
+
+// ─── POST /api/auth/otp-login ──────────────────
+// Called after OTP is verified on the frontend
+authRoutes.post("/otp-login", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
+
+    let user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    // Auto-create user if not exists (OTP login)
+    if (!user) {
+      user = await prisma.user.create({
+        data: {
+          email,
+          name: email.split("@")[0],
+          password: "", // No password for OTP users
+          emailVerified: new Date(),
+        },
+      });
+    }
+
+    res.json({
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        image: user.image || user.avatar,
+      },
+    });
+  } catch (error) {
+    console.error("OTP login error:", error);
+    res.status(500).json({ error: "OTP login failed" });
+  }
+});
+
+// ─── POST /api/auth/reset-password ─────────────
+authRoutes.post("/reset-password", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ error: "Email and password are required" });
+    }
+
+    if (password.length < 8) {
+      return res.status(400).json({ error: "Password must be at least 8 characters" });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "No account found with this email" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { password: hashedPassword },
+    });
+
+    res.json({ success: true, message: "Password updated successfully" });
+  } catch (error) {
+    console.error("Reset password error:", error);
+    res.status(500).json({ error: "Failed to reset password" });
+  }
+});
+
+// ─── GET /api/auth/me ──────────────────────────
+authRoutes.get("/me", async (req, res) => {
+  // In production, verify JWT token here
+  // For now, accept userId from header
+  const userId = req.headers["x-user-id"] as string;
+
+  if (!userId) {
+    return res.status(401).json({ error: "Not authenticated" });
+  }
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        avatar: true,
+        bio: true,
+        createdAt: true,
+        _count: {
+          select: { enrollments: true, reviews: true },
+        },
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json({ user });
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ error: "Failed to fetch user" });
+  }
+});
