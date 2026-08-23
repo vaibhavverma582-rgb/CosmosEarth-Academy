@@ -11,17 +11,21 @@ const config: Config = {
     extend: {
       colors: {
         cosmos: {
-          navy: "#0a0e27",
-          "navy-light": "#111642",
-          "navy-mid": "#161b4a",
-          cyan: "#00d4ff",
-          "cyan-dim": "#00a3c7",
-          purple: "#7b2ff2",
-          "purple-dim": "#5a1db8",
-          orange: "#ff6b35",
-          "orange-dim": "#cc5429",
-          pink: "#ff2e97",
-          gold: "#ffd700",
+          navy: "#0c1222",
+          "navy-light": "#111a2e",
+          "navy-mid": "#162035",
+          "navy-surface": "#1a2540",
+          cyan: "#22b8d4",
+          "cyan-dim": "#1a9ab5",
+          "cyan-soft": "#3dd4ef",
+          purple: "#6c5ce7",
+          "purple-dim": "#5a4bd6",
+          orange: "#e67e22",
+          "orange-dim": "#d4701a",
+          pink: "#e84393",
+          gold: "#f0c040",
+          teal: "#00b894",
+          slate: "#8395a7",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -64,26 +68,26 @@ const config: Config = {
       },
       backgroundImage: {
         "space-gradient":
-          "radial-gradient(ellipse at 20% 50%, rgba(0, 212, 255, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(123, 47, 242, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(255, 107, 53, 0.05) 0%, transparent 50%), linear-gradient(180deg, #0a0e27 0%, #111642 100%)",
+          "radial-gradient(ellipse at 20% 50%, rgba(0, 184, 148, 0.06) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(108, 92, 231, 0.06) 0%, transparent 50%), linear-gradient(180deg, #0c1222 0%, #111a2e 100%)",
         "hero-gradient":
-          "radial-gradient(ellipse at 30% 40%, rgba(0, 212, 255, 0.12) 0%, transparent 60%), radial-gradient(ellipse at 70% 30%, rgba(123, 47, 242, 0.12) 0%, transparent 60%)",
+          "radial-gradient(ellipse at 30% 40%, rgba(0, 184, 148, 0.1) 0%, transparent 60%), radial-gradient(ellipse at 70% 30%, rgba(108, 92, 231, 0.08) 0%, transparent 60%)",
         "card-gradient":
-          "linear-gradient(135deg, rgba(17, 22, 66, 0.8) 0%, rgba(22, 27, 74, 0.6) 100%)",
+          "linear-gradient(135deg, rgba(26, 37, 64, 0.7) 0%, rgba(17, 26, 46, 0.5) 100%)",
         "glow-cyan":
-          "radial-gradient(circle, rgba(0, 212, 255, 0.3) 0%, transparent 70%)",
+          "radial-gradient(circle, rgba(34, 184, 212, 0.2) 0%, transparent 70%)",
         "glow-purple":
-          "radial-gradient(circle, rgba(123, 47, 242, 0.3) 0%, transparent 70%)",
+          "radial-gradient(circle, rgba(108, 92, 231, 0.2) 0%, transparent 70%)",
         "glow-orange":
-          "radial-gradient(circle, rgba(255, 107, 53, 0.3) 0%, transparent 70%)",
+          "radial-gradient(circle, rgba(230, 126, 34, 0.2) 0%, transparent 70%)",
       },
       boxShadow: {
-        "cosmos-sm": "0 0 15px rgba(0, 212, 255, 0.15)",
-        "cosmos-md": "0 0 30px rgba(0, 212, 255, 0.2)",
-        "cosmos-lg": "0 0 60px rgba(0, 212, 255, 0.25)",
-        "cosmos-purple": "0 0 30px rgba(123, 47, 242, 0.3)",
-        "cosmos-orange": "0 0 30px rgba(255, 107, 53, 0.3)",
+        "cosmos-sm": "0 2px 8px rgba(0, 0, 0, 0.15)",
+        "cosmos-md": "0 4px 16px rgba(0, 0, 0, 0.2)",
+        "cosmos-lg": "0 8px 32px rgba(0, 0, 0, 0.25)",
+        "cosmos-purple": "0 4px 16px rgba(108, 92, 231, 0.15)",
+        "cosmos-orange": "0 4px 16px rgba(230, 126, 34, 0.15)",
         "cosmos-glow":
-          "0 0 20px rgba(0, 212, 255, 0.15), 0 0 60px rgba(123, 47, 242, 0.1)",
+          "0 4px 16px rgba(0, 184, 148, 0.1), 0 0 40px rgba(108, 92, 231, 0.06)",
       },
       animation: {
         "float": "float 6s ease-in-out infinite",

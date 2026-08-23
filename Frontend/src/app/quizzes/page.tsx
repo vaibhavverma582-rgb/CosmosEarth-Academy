@@ -36,7 +36,7 @@ const difficulties = ["All", "easy", "medium", "hard"];
 
 const difficultyColors: Record<string, string> = {
   easy: "text-green-400 bg-green-500/10 border-green-500/20",
-  medium: "text-cosmos-orange bg-cosmos-orange/10 border-cosmos-orange/20",
+  medium: "text-orange-400 bg-orange-400/10 border-orange-400/20",
   hard: "text-red-400 bg-red-500/10 border-red-500/20",
 };
 
@@ -95,13 +95,13 @@ export default function QuizzesPage() {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
             <input type="text" placeholder="Search quizzes..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30" />
+              className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30" />
           </div>
           <div className="flex flex-wrap gap-2">
             <div className="flex gap-2 overflow-x-auto pb-1">
               {subjects.map((s) => (
                 <button key={s} onClick={() => setSelectedSubject(s)}
-                  className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${selectedSubject === s ? "bg-cosmos-cyan/20 text-cosmos-cyan border border-cosmos-cyan/30" : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"}`}>
+                  className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${selectedSubject === s ? "bg-cyan-400/20 text-cyan-400 border border-cyan-400/30" : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"}`}>
                   {s}
                 </button>
               ))}
@@ -110,7 +110,7 @@ export default function QuizzesPage() {
             <div className="flex gap-2 overflow-x-auto pb-1">
               {difficulties.map((d) => (
                 <button key={d} onClick={() => setSelectedDifficulty(d)}
-                  className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${selectedDifficulty === d ? "bg-cosmos-purple/20 text-cosmos-purple border border-cosmos-purple/30" : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"}`}>
+                  className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${selectedDifficulty === d ? "bg-purple-400/20 text-purple-400 border border-purple-400/30" : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"}`}>
                   {d === "All" ? "All Levels" : d.charAt(0).toUpperCase() + d.slice(1)}
                 </button>
               ))}
@@ -120,7 +120,7 @@ export default function QuizzesPage() {
 
         {/* Quiz Grid */}
         {loading ? (
-          <div className="flex items-center justify-center py-20"><Loader2 className="h-8 w-8 animate-spin text-cosmos-cyan" /></div>
+          <div className="flex items-center justify-center py-20"><Loader2 className="h-8 w-8 animate-spin text-cyan-400" /></div>
         ) : quizzes.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {quizzes.map((quiz) => (
@@ -129,8 +129,8 @@ export default function QuizzesPage() {
                   <CardContent className="p-5">
                     <div className="mb-3 flex items-start justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cosmos-cyan/10">
-                          <Brain className="h-5 w-5 text-cosmos-cyan" />
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-400/10">
+                          <Brain className="h-5 w-5 text-cyan-400" />
                         </div>
                         <Badge variant="outline" className={`text-[10px] ${difficultyColors[quiz.difficulty] || ""}`}>
                           {quiz.difficulty}
@@ -138,7 +138,7 @@ export default function QuizzesPage() {
                       </div>
                       <Badge variant="default" className="text-[10px]">{quiz.subject}</Badge>
                     </div>
-                    <h3 className="text-base font-bold text-white group-hover:text-cosmos-cyan transition-colors line-clamp-1">{quiz.title}</h3>
+                    <h3 className="text-base font-bold text-white group-hover:text-cyan-300 transition-colors line-clamp-1">{quiz.title}</h3>
                     {quiz.description && <p className="mt-1 text-xs text-white/40 line-clamp-2">{quiz.description}</p>}
                     <div className="mt-4 flex items-center gap-4 text-xs text-white/30">
                       <span className="flex items-center gap-1"><Brain className="h-3 w-3" />{quiz._count.questions} questions</span>

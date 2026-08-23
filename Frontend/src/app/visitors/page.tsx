@@ -187,7 +187,7 @@ export default function VisitorsPage() {
         <div className="grid grid-cols-2 gap-5 mb-8 lg:grid-cols-4">
           <Card className="text-center">
             <CardContent className="p-6">
-              <Eye className="mx-auto mb-2 h-6 w-6 text-cosmos-cyan" />
+              <Eye className="mx-auto mb-2 h-6 w-6 text-cyan-400" />
               <p className="font-display text-3xl font-bold gradient-text-cyan">
                 <AnimatedNumber target={12847} />
               </p>
@@ -196,7 +196,7 @@ export default function VisitorsPage() {
           </Card>
           <Card className="text-center">
             <CardContent className="p-6">
-              <Users className="mx-auto mb-2 h-6 w-6 text-cosmos-purple" />
+              <Users className="mx-auto mb-2 h-6 w-6 text-purple-400" />
               <p className="font-display text-3xl font-bold gradient-text-cyan">
                 <AnimatedNumber target={3291} />
               </p>
@@ -205,7 +205,7 @@ export default function VisitorsPage() {
           </Card>
           <Card className="text-center">
             <CardContent className="p-6">
-              <Clock className="mx-auto mb-2 h-6 w-6 text-cosmos-orange" />
+              <Clock className="mx-auto mb-2 h-6 w-6 text-orange-400" />
               <p className="font-display text-3xl font-bold gradient-text-cyan">4:32</p>
               <p className="text-xs text-white/40 uppercase tracking-wider mt-1">Avg. Time</p>
             </CardContent>
@@ -231,7 +231,7 @@ export default function VisitorsPage() {
                 <div className="flex gap-1 rounded-lg border border-white/10 bg-white/5 p-1">
                   <button
                     onClick={() => (window as any).__setPeriod?.(7)}
-                    className="rounded-md bg-gradient-to-r from-cosmos-cyan to-cosmos-purple px-3 py-1 text-xs font-semibold text-[#050710]"
+                    className="rounded-md bg-gradient-to-r from-cyan-500 to-purple-500 px-3 py-1 text-xs font-semibold text-[#050710]"
                   >
                     7D
                   </button>
@@ -260,7 +260,7 @@ export default function VisitorsPage() {
                       <span className="text-sm text-white/60 w-28 shrink-0">{c.name}</span>
                       <div className="flex-1 h-2 bg-white/5 rounded-full overflow-hidden">
                         <div
-                          className="h-full rounded-full bg-gradient-to-r from-cosmos-cyan to-cosmos-purple transition-all duration-1000"
+                          className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 transition-all duration-1000"
                           style={{ width: `${pct}%` }}
                         />
                       </div>

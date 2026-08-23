@@ -141,7 +141,7 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="mb-8 text-center">
           <Link href="/" className="inline-flex items-center gap-2.5 group">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cosmos-cyan to-cosmos-purple shadow-cosmos-sm">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-purple-500 shadow-cosmos-sm">
               <Rocket className="h-5 w-5 text-white" />
             </div>
             <span className="font-display text-xl font-bold">
@@ -198,7 +198,7 @@ export default function LoginPage() {
                 onClick={() => { setMode("password"); setError(""); setOtpSent(false); }}
                 className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-all ${
                   mode === "password"
-                    ? "bg-cosmos-cyan/20 text-cosmos-cyan"
+                    ? "bg-cyan-400/20 text-cyan-400"
                     : "text-white/50 hover:text-white/70"
                 }`}
               >
@@ -209,7 +209,7 @@ export default function LoginPage() {
                 onClick={() => { setMode("otp"); setError(""); setOtpSent(false); }}
                 className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-all ${
                   mode === "otp"
-                    ? "bg-cosmos-purple/20 text-cosmos-purple"
+                    ? "bg-purple-400/20 text-purple-400"
                     : "text-white/50 hover:text-white/70"
                 }`}
               >
@@ -240,7 +240,7 @@ export default function LoginPage() {
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="explorer@cosmos.edu"
                       required
-                      className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     />
                   </div>
                 </div>
@@ -257,7 +257,7 @@ export default function LoginPage() {
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
                       required
-                      className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-10 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-10 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     />
                     <button
                       type="button"
@@ -274,7 +274,7 @@ export default function LoginPage() {
                     <input type="checkbox" className="rounded border-white/20 bg-white/5" />
                     Remember me
                   </label>
-                  <Link href="/auth/forgot-password" className="text-sm text-cosmos-cyan hover:underline">
+                  <Link href="/auth/forgot-password" className="text-sm text-cyan-400 hover:underline">
                     Forgot password?
                   </Link>
                 </div>
@@ -307,7 +307,7 @@ export default function LoginPage() {
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="explorer@cosmos.edu"
                       required
-                      className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     />
                   </div>
                 </div>
@@ -328,8 +328,8 @@ export default function LoginPage() {
             {/* OTP Verify Form */}
             {mode === "otp" && otpSent && (
               <form onSubmit={handleVerifyOTP} className="space-y-4">
-                <div className="rounded-lg border border-cosmos-cyan/20 bg-cosmos-cyan/5 p-3 text-center">
-                  <p className="text-sm text-cosmos-cyan">
+                <div className="rounded-lg border border-cyan-400/20 bg-cyan-400/5 p-3 text-center">
+                  <p className="text-sm text-cyan-400">
                     ✉️ OTP sent to <strong>{email}</strong>
                   </p>
                 </div>
@@ -344,7 +344,7 @@ export default function LoginPage() {
                     onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                     placeholder="000000"
                     maxLength={6}
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-center font-mono text-2xl tracking-[0.5em] text-white placeholder:text-white/20 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-center font-mono text-2xl tracking-[0.5em] text-white placeholder:text-white/20 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                   />
                 </div>
 
@@ -374,7 +374,7 @@ export default function LoginPage() {
         {/* Register link */}
         <p className="mt-6 text-center text-sm text-white/40">
           Don&apos;t have an account?{" "}
-          <Link href="/auth/register" className="font-medium text-cosmos-cyan hover:underline">
+          <Link href="/auth/register" className="font-medium text-cyan-400 hover:underline">
             Create one free
           </Link>
         </p>

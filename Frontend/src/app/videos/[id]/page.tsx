@@ -78,7 +78,7 @@ export default function VideoPlayerPage({ params }: { params: Promise<{ id: stri
   if (loading) {
     return (
       <div className="flex min-h-[70vh] items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-cosmos-cyan" />
+        <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
       </div>
     );
   }
@@ -185,7 +185,7 @@ export default function VideoPlayerPage({ params }: { params: Promise<{ id: stri
             <Card className="mb-6">
               <CardContent className="p-5">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-cosmos-cyan to-cosmos-purple text-sm font-bold text-white">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 text-sm font-bold text-white">
                     {video.uploader.avatar ? (
                       <img
                         src={video.uploader.avatar}

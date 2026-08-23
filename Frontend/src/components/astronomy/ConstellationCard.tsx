@@ -130,7 +130,7 @@ export function ConstellationCard({
 
           {/* Info */}
           <div>
-            <h3 className="font-display text-lg font-bold text-white group-hover:text-cosmos-cyan transition-colors">
+            <h3 className="font-display text-lg font-bold text-white group-hover:text-cyan-300 transition-colors">
               {name}
             </h3>
             <p className="text-xs text-white/40 mt-0.5">
@@ -139,7 +139,7 @@ export function ConstellationCard({
 
             <div className="mt-3 flex flex-wrap gap-2">
               <Badge variant="outline" className="text-[10px]">
-                <Star className="mr-1 h-2.5 w-2.5 fill-cosmos-gold" />
+                <Star className="mr-1 h-2.5 w-2.5 fill-amber-400" />
                 {brightestStar}
               </Badge>
               <Badge variant="outline" className="text-[10px]">
@@ -150,7 +150,7 @@ export function ConstellationCard({
               </Badge>
             </div>
 
-            <div className="mt-3 flex items-center gap-1 text-xs font-medium text-cosmos-cyan opacity-0 transition-all group-hover:opacity-100">
+            <div className="mt-3 flex items-center gap-1 text-xs font-medium text-cyan-400 opacity-0 transition-all group-hover:opacity-100">
               Learn more
               <ArrowRight className="h-3 w-3" />
             </div>

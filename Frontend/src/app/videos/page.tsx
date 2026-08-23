@@ -126,7 +126,7 @@ export default function VideosPage() {
               placeholder="Search videos..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+              className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
             />
           </div>
           <div className="flex gap-2 overflow-x-auto pb-1">
@@ -134,7 +134,7 @@ export default function VideosPage() {
               onClick={() => setSelectedCategory("All")}
               className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${
                 selectedCategory === "All"
-                  ? "bg-cosmos-cyan/20 text-cosmos-cyan border border-cosmos-cyan/30"
+                  ? "bg-cyan-400/20 text-cyan-400 border border-cyan-400/30"
                   : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"
               }`}
             >
@@ -146,7 +146,7 @@ export default function VideosPage() {
                 onClick={() => setSelectedCategory(c.name)}
                 className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${
                   selectedCategory === c.name
-                    ? "bg-cosmos-cyan/20 text-cosmos-cyan border border-cosmos-cyan/30"
+                    ? "bg-cyan-400/20 text-cyan-400 border border-cyan-400/30"
                     : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"
                 }`}
               >
@@ -160,7 +160,7 @@ export default function VideosPage() {
         {featuredVideos.length > 0 && searchQuery === "" && selectedCategory === "All" && (
           <div className="mb-10">
             <h2 className="mb-4 font-display text-lg font-bold text-white flex items-center gap-2">
-              <Play className="h-5 w-5 text-cosmos-cyan" />
+              <Play className="h-5 w-5 text-cyan-400" />
               Featured
             </h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -191,7 +191,7 @@ export default function VideosPage() {
 
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-cosmos-cyan" />
+            <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
           </div>
         ) : videos.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

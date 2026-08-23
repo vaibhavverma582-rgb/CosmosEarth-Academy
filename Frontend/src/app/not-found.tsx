@@ -13,15 +13,15 @@ export default function NotFound() {
         {/* Animated rocket */}
         <div className="relative mx-auto mb-8 h-32 w-32">
           <div className="absolute inset-0 animate-float">
-            <div className="flex h-full w-full items-center justify-center rounded-full bg-cosmos-cyan/10 ring-2 ring-cosmos-cyan/20">
-              <Rocket className="h-14 w-14 text-cosmos-cyan/60 -rotate-45" />
+            <div className="flex h-full w-full items-center justify-center rounded-full bg-cyan-400/10 ring-2 ring-cyan-400/20">
+              <Rocket className="h-14 w-14 text-cyan-400/60 -rotate-45" />
             </div>
           </div>
           {/* Stars */}
-          <div className="absolute -top-2 left-4 h-1.5 w-1.5 rounded-full bg-cosmos-gold animate-glow-pulse" />
+          <div className="absolute -top-2 left-4 h-1.5 w-1.5 rounded-full bg-amber-400 animate-glow-pulse" />
           <div className="absolute top-4 -right-2 h-1 w-1 rounded-full bg-white/60 animate-glow-pulse" style={{ animationDelay: "0.5s" }} />
-          <div className="absolute bottom-4 left-0 h-1 w-1 rounded-full bg-cosmos-purple animate-glow-pulse" style={{ animationDelay: "1s" }} />
-          <div className="absolute -bottom-1 right-6 h-1.5 w-1.5 rounded-full bg-cosmos-orange/60 animate-glow-pulse" style={{ animationDelay: "1.5s" }} />
+          <div className="absolute bottom-4 left-0 h-1 w-1 rounded-full bg-purple-400 animate-glow-pulse" style={{ animationDelay: "1s" }} />
+          <div className="absolute -bottom-1 right-6 h-1.5 w-1.5 rounded-full bg-orange-400/60 animate-glow-pulse" style={{ animationDelay: "1.5s" }} />
         </div>
 
         <h1 className="font-display text-6xl font-bold text-white mb-2">404</h1>

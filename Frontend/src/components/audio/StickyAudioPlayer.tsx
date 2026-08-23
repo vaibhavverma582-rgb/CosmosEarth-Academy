@@ -114,7 +114,7 @@ export function StickyAudioPlayer({
           onClick={handleSeek}
         >
           <div
-            className="h-full bg-gradient-to-r from-cosmos-cyan to-cosmos-purple transition-all"
+            className="h-full bg-gradient-to-r from-cyan-500 to-purple-500 transition-all"
             style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
           />
         </div>
@@ -152,7 +152,7 @@ export function StickyAudioPlayer({
             )}
             <button
               onClick={togglePlay}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-cosmos-cyan text-white transition-transform hover:scale-105"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-400 text-white transition-transform hover:scale-105"
             >
               {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" fill="white" />}
             </button>
@@ -183,7 +183,7 @@ export function StickyAudioPlayer({
                     key={s}
                     onClick={() => { setSpeed(s); setShowSpeedMenu(false); }}
                     className={`block w-full rounded-md px-3 py-1.5 text-xs text-left transition-colors ${
-                      speed === s ? "bg-cosmos-cyan/20 text-cosmos-cyan" : "text-white/60 hover:text-white hover:bg-white/5"
+                      speed === s ? "bg-cyan-400/20 text-cyan-400" : "text-white/60 hover:text-white hover:bg-white/5"
                     }`}
                   >
                     {s}x
@@ -210,7 +210,7 @@ export function StickyAudioPlayer({
                 if (audioRef.current) audioRef.current.volume = v;
                 setIsMuted(v === 0);
               }}
-              className="w-16 h-1 accent-cosmos-cyan"
+              className="w-16 h-1 accent-cyan-400"
             />
           </div>
 

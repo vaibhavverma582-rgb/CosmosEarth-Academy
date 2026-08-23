@@ -17,7 +17,7 @@ const SolarSystem3D = dynamic(
     loading: () => (
       <div className="flex h-[500px] items-center justify-center rounded-2xl border border-white/10 bg-cosmos-navy">
         <div className="text-center">
-          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-cosmos-cyan border-t-transparent" />
+          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-cyan-400 border-t-transparent" />
           <p className="mt-4 text-sm text-white/50">
             Loading 3D solar system...
           </p>

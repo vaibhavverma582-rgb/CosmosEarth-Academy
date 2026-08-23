@@ -25,6 +25,12 @@ import { dashboardRoutes } from "./routes/dashboard";
 import { blogRoutes } from "./routes/blog";
 import { wallpaperRoutes } from "./routes/wallpaper";
 import { studyMaterialRoutes } from "./routes/study-materials";
+import { bookRoutes } from "./routes/books";
+import { researchPaperRoutes } from "./routes/research-papers";
+import { blogCommentRoutes } from "./routes/blog-comments";
+import { storeRoutes } from "./routes/store";
+import { orderRoutes } from "./routes/orders";
+import { searchRoutes } from "./routes/search";
 
 // ─── Prisma Client ─────────────────────────────
 export const prisma = new PrismaClient();
@@ -41,6 +47,15 @@ const UPLOAD_DIR = process.env.UPLOAD_DIR || path.join(__dirname, "..", "uploads
 // ─── Middleware ──────────────────────────────────
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" },
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      objectSrc: ["'self'", "blob:"],
+      mediaSrc: ["'self'", "blob:"],
+      frameSrc: ["'self'", "blob:", "https://www.youtube.com"],
+    },
+  },
+  crossOriginEmbedderPolicy: false,
 }));
 
 // CORS: accept FRONTEND_URL (single) or FRONTEND_URLS (comma-separated)
@@ -89,6 +104,13 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/blog", blogRoutes);
 app.use("/api/wallpaper", wallpaperRoutes);
 app.use("/api/study-materials", studyMaterialRoutes);
+app.use("/api/books", bookRoutes);
+app.use("/api/research-papers", researchPaperRoutes);
+app.use("/api/blog", blogCommentRoutes);
+app.use("/api/store", storeRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/purchases", orderRoutes);
+app.use("/api/search", searchRoutes);
 
 // Static files for uploads
 app.use("/uploads", express.static(UPLOAD_DIR));

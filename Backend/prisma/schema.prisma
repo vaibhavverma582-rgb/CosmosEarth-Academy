@@ -51,6 +51,13 @@ model User {
   blogPosts       BlogPost[]
   wallpapers      Wallpaper[]
   studyMaterials  StudyMaterial[]
+  blogComments    BlogComment[]
+  books           Book[]
+  researchPapers  ResearchPaper[]
+  storeProducts   StoreProduct[]
+  orders          Order[]
+  purchases       Purchase[]
+  downloads       Download[]
 
   @@map("users")
 }
@@ -269,6 +276,9 @@ model Note {
   fileUrl       String?  // URL or path to uploaded file
   thumbnail     String?
   downloads     Int      @default(0)
+  price         Float    @default(0)
+  salePrice     Float?
+  isFree        Boolean  @default(true)
   published     Boolean  @default(true)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -617,19 +627,47 @@ model BlogPost {
   excerpt       String
   content       String   // markdown content
   category      String
+  subcategory   String?  // subcategory within the main category
   readTime      String   @default("5 min")
   coverImage    String?
+  tags          String?  // comma-separated
+  seoTitle      String?
+  seoDescription String?
   published     Boolean  @default(true)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
   author   User   @relation(fields: [authorId], references: [id])
   authorId String
+  comments BlogComment[]
 
   @@index([slug])
   @@index([category])
   @@index([authorId])
   @@map("blog_posts")
+}
+
+// ─── Blog Comments ────────────────────────────
+model BlogComment {
+  id        String   @id @default(cuid())
+  content   String
+  guestName String?  // for public/guest comments
+  parentId  String?  // for replies
+  likes     Int      @default(0)
+  hidden    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User?    @relation(fields: [userId], references: [id])
+  userId  String?
+  blogPost BlogPost @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
+  blogPostId String
+  parent  BlogComment? @relation("CommentReplies", fields: [parentId], references: [id])
+  replies BlogComment[] @relation("CommentReplies")
+
+  @@index([blogPostId])
+  @@index([userId])
+  @@map("blog_comments")
 }
 
 // ─── Study Materials (Books, Papers, etc.) ────
@@ -654,4 +692,203 @@ model StudyMaterial {
   @@index([userId])
   @@index([type])
   @@map("study_materials")
+}
+
+// ─── Books (Store) ───────────────────────────
+model Book {
+  id              String   @id @default(cuid())
+  title           String
+  author          String
+  description     String?
+  isbn            String?
+  publisher       String?
+  publicationYear Int?
+  category        String   @default("Astronomy")
+  subcategory     String?
+  tags            String?  // comma-separated
+  coverImage      String?
+  fileUrl         String?  // uploaded digital file
+  fileName        String?
+  fileSize        Int?
+  previewUrl      String?  // preview/sample file
+  externalLink    String?  // external purchase link
+  price           Float    @default(0)
+  salePrice       Float?
+  isFree          Boolean  @default(true)
+  published       Boolean  @default(true)
+  downloads       Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  uploader   User   @relation(fields: [uploaderId], references: [id])
+  uploaderId String
+  orderItems OrderItem[]
+  purchases  Purchase[]
+
+  @@index([category, subcategory])
+  @@index([uploaderId])
+  @@map("books")
+}
+
+// ─── Research Papers ─────────────────────────
+model ResearchPaper {
+  id            String   @id @default(cuid())
+  title         String
+  authors       String   // comma-separated author names
+  abstract      String?
+  journal       String?
+  doi           String?
+  publicationYear Int?
+  category      String   @default("Astronomy")
+  subcategory   String?
+  keywords      String?  // comma-separated
+  researchArea  String?
+  fileUrl       String?  // uploaded PDF
+  fileName      String?
+  fileSize      Int?
+  externalLink  String?  // link to paper
+  coverImage    String?
+  downloads     Int      @default(0)
+  published     Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  uploader   User   @relation(fields: [uploaderId], references: [id])
+  uploaderId String
+
+  @@index([category])
+  @@index([uploaderId])
+  @@map("research_papers")
+}
+
+// ─── Store Products (Admin Study Materials) ──
+model StoreProduct {
+  id            String   @id @default(cuid())
+  title         String
+  description   String?
+  type          String   // Study Notes | PDF Notes | E-books | Books | Study Guides | Question Papers | Practice Materials | Educational Documents | Other
+  category      String   @default("Astronomy")
+  subcategory   String?
+  tags          String?  // comma-separated
+  coverImage    String?
+  fileUrl       String?  // uploaded file
+  fileName      String?
+  fileSize      Int?
+  previewUrl    String?  // preview file
+  price         Float    @default(0)
+  salePrice     Float?
+  isFree        Boolean  @default(true)
+  published     Boolean  @default(true)
+  downloads     Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  uploader   User   @relation(fields: [uploaderId], references: [id])
+  uploaderId String
+  orderItems OrderItem[]
+  purchases  Purchase[]
+  downloads2 Download[]
+
+  @@index([category, subcategory])
+  @@index([type])
+  @@index([uploaderId])
+  @@map("store_products")
+}
+
+// ─── Orders ───────────────────────────────────
+model Order {
+  id              String   @id @default(cuid())
+  orderNumber     String   @unique // human-readable order ID
+  status          String   @default("PENDING") // PENDING | PAYMENT_PROCESSING | PAID | FAILED | CANCELLED | REFUNDED
+  totalAmount     Float
+  currency        String   @default("INR")
+  paymentProvider String?  // razorpay | cashfree | payu
+  paymentId       String?  // provider transaction ID
+  paymentMethod   String?  // upi | card | netbanking
+  paymentVerified Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user     User        @relation(fields: [userId], references: [id])
+  userId   String
+  items    OrderItem[]
+  payment  Payment?
+  purchases Purchase[]
+
+  @@index([userId])
+  @@index([status])
+  @@map("orders")
+}
+
+// ─── Order Items ──────────────────────────────
+model OrderItem {
+  id        String @id @default(cuid())
+  price     Float
+  quantity  Int    @default(1)
+
+  order     Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId   String
+  product   StoreProduct? @relation(fields: [productId], references: [id])
+  productId String?
+  book      Book?        @relation(fields: [bookId], references: [id])
+  bookId    String?
+
+  @@map("order_items")
+}
+
+// ─── Payments ─────────────────────────────────
+model Payment {
+  id                String   @id @default(cuid())
+  provider          String   // razorpay | cashfree | payu
+  providerPaymentId String?
+  amount            Float
+  currency          String   @default("INR")
+  status            String   @default("created") // created | authorized | captured | failed | refunded
+  method            String?  // upi | card | netbanking | wallet
+  metadata          String?  // JSON string with extra payment data
+  verifiedAt        DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId String @unique
+
+  @@index([providerPaymentId])
+  @@map("payments")
+}
+
+// ─── Purchases (User access grant) ───────────
+model Purchase {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  user      User          @relation(fields: [userId], references: [id])
+  userId    String
+  product   StoreProduct? @relation(fields: [productId], references: [id])
+  productId String?
+  book      Book?         @relation(fields: [bookId], references: [id])
+  bookId    String?
+  order     Order         @relation(fields: [orderId], references: [id])
+  orderId   String
+
+  @@unique([userId, productId])
+  @@unique([userId, bookId])
+  @@index([userId])
+  @@map("purchases")
+}
+
+// ─── Downloads ────────────────────────────────
+model Download {
+  id        String   @id @default(cuid())
+  fileUrl   String
+  fileName  String?
+  createdAt DateTime @default(now())
+
+  user      User          @relation(fields: [userId], references: [id])
+  userId    String
+  product   StoreProduct? @relation(fields: [productId], references: [id])
+  productId String?
+
+  @@index([userId])
+  @@map("downloads")
 }

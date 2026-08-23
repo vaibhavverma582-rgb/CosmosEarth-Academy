@@ -72,7 +72,7 @@ export default function CreateQuizPage() {
   if (status === "loading") {
     return (
       <div className="flex min-h-[70vh] items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-cosmos-cyan" />
+        <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
       </div>
     );
   }
@@ -268,19 +268,19 @@ export default function CreateQuizPage() {
           <div
             className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium ${
               step === "quiz"
-                ? "bg-cosmos-cyan/20 text-cosmos-cyan border border-cosmos-cyan/30"
+                ? "bg-cyan-400/20 text-cyan-400 border border-cyan-400/30"
                 : "bg-green-500/10 text-green-400 border border-green-500/20"
             }`}
           >
             1. Quiz Info
           </div>
           <div
-            className={`h-px w-8 ${step === "questions" ? "bg-cosmos-cyan" : "bg-white/10"}`}
+            className={`h-px w-8 ${step === "questions" ? "bg-cyan-400" : "bg-white/10"}`}
           />
           <div
             className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium ${
               step === "questions"
-                ? "bg-cosmos-cyan/20 text-cosmos-cyan border border-cosmos-cyan/30"
+                ? "bg-cyan-400/20 text-cyan-400 border border-cyan-400/30"
                 : "bg-white/5 text-white/30 border border-transparent"
             }`}
           >
@@ -311,7 +311,7 @@ export default function CreateQuizPage() {
                       onChange={(e) => handleTitleChange(e.target.value)}
                       placeholder="e.g., Solar System Basics"
                       required
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     />
                   </div>
                   <div>
@@ -332,7 +332,7 @@ export default function CreateQuizPage() {
                         }
                         placeholder="solar-system-basics"
                         required
-                        className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white font-mono placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                        className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white font-mono placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                       />
                     </div>
                   </div>
@@ -347,7 +347,7 @@ export default function CreateQuizPage() {
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Brief description of the quiz..."
                     rows={2}
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30 resize-none"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30 resize-none"
                   />
                 </div>
 
@@ -359,7 +359,7 @@ export default function CreateQuizPage() {
                     <select
                       value={subject}
                       onChange={(e) => setSubject(e.target.value)}
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     >
                       {subjects.map((s) => (
                         <option key={s} value={s} className="bg-[#0a0e27]">
@@ -375,7 +375,7 @@ export default function CreateQuizPage() {
                     <select
                       value={difficulty}
                       onChange={(e) => setDifficulty(e.target.value)}
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     >
                       {difficulties.map((d) => (
                         <option key={d} value={d} className="bg-[#0a0e27]">
@@ -396,7 +396,7 @@ export default function CreateQuizPage() {
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
                       placeholder="General"
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     />
                   </div>
                   <div>
@@ -409,7 +409,7 @@ export default function CreateQuizPage() {
                       onChange={(e) => setTimeLimit(e.target.value)}
                       placeholder="No limit"
                       min="1"
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     />
                   </div>
                   <div>
@@ -422,7 +422,7 @@ export default function CreateQuizPage() {
                       onChange={(e) => setPassingScore(e.target.value)}
                       min="0"
                       max="100"
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     />
                   </div>
                 </div>
@@ -477,7 +477,7 @@ export default function CreateQuizPage() {
                           correctAnswer: "",
                         });
                       }}
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     >
                       <option value="multiple-choice" className="bg-[#0a0e27]">
                         Multiple Choice
@@ -501,7 +501,7 @@ export default function CreateQuizPage() {
                         })
                       }
                       min="1"
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     />
                   </div>
                 </div>
@@ -520,7 +520,7 @@ export default function CreateQuizPage() {
                     }
                     placeholder="What is the largest planet in our solar system?"
                     rows={2}
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30 resize-none"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30 resize-none"
                     required
                   />
                 </div>
@@ -549,7 +549,7 @@ export default function CreateQuizPage() {
                               });
                             }}
                             placeholder={`Option ${String.fromCharCode(65 + i)}`}
-                            className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                            className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                           />
                         </div>
                       ))}
@@ -568,7 +568,7 @@ export default function CreateQuizPage() {
                           correctAnswer: e.target.value,
                         })
                       }
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     >
                       <option value="" className="bg-[#0a0e27]">
                         Select answer...
@@ -597,7 +597,7 @@ export default function CreateQuizPage() {
                           correctAnswer: e.target.value,
                         })
                       }
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     >
                       <option value="" className="bg-[#0a0e27]">
                         Select correct answer...
@@ -628,7 +628,7 @@ export default function CreateQuizPage() {
                       })
                     }
                     placeholder="Why this answer is correct..."
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                   />
                 </div>
 

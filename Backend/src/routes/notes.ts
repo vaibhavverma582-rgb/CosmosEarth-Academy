@@ -208,7 +208,7 @@ noteRoutes.post("/upload", upload.single("file"), async (req: Request, res: Resp
       return res.status(400).json({ error: "No file provided" });
     }
 
-    const { title, description, subject, topic, mediaCategory, tags } = req.body;
+    const { title, description, subject, topic, mediaCategory, tags, isFree, price, salePrice } = req.body;
 
     if (!title || !subject) {
       return res.status(400).json({ error: "Title and subject are required" });
@@ -231,6 +231,9 @@ noteRoutes.post("/upload", upload.single("file"), async (req: Request, res: Resp
         fileName: file.originalname,
         fileSize: file.size,
         fileUrl: `/uploads/notes/${file.filename}` as string,
+        isFree: isFree !== "false",
+        price: price ? parseFloat(price) : 0,
+        salePrice: salePrice ? parseFloat(salePrice) : null,
         authorId,
         tags: tags
           ? { create: JSON.parse(tags).map((name: string) => ({ name })) }

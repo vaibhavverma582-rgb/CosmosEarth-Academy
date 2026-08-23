@@ -78,14 +78,14 @@ export default function MissionsPage() {
             <p className="text-xs text-white/40">Completed</p>
           </div>
           <div className="glass-card rounded-xl p-4 text-center">
-            <Clock className="mx-auto mb-1 h-5 w-5 text-cosmos-cyan" />
+            <Clock className="mx-auto mb-1 h-5 w-5 text-cyan-400" />
             <p className="font-display text-xl font-bold text-white">
               {missions.filter((m) => m.status === "active").length}
             </p>
             <p className="text-xs text-white/40">Active</p>
           </div>
           <div className="glass-card rounded-xl p-4 text-center">
-            <Calendar className="mx-auto mb-1 h-5 w-5 text-cosmos-purple" />
+            <Calendar className="mx-auto mb-1 h-5 w-5 text-purple-400" />
             <p className="font-display text-xl font-bold text-white">
               {missions.filter((m) => m.status === "planned").length}
             </p>
@@ -102,7 +102,7 @@ export default function MissionsPage() {
                 onClick={() => setSelectedType(t)}
                 className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${
                   selectedType === t
-                    ? "bg-cosmos-orange/20 text-cosmos-orange border border-cosmos-orange/30"
+                    ? "bg-orange-400/20 text-orange-400 border border-orange-400/30"
                     : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"
                 }`}
               >
@@ -117,7 +117,7 @@ export default function MissionsPage() {
                 onClick={() => setSelectedStatus(s)}
                 className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${
                   selectedStatus === s
-                    ? "bg-cosmos-cyan/20 text-cosmos-cyan border border-cosmos-cyan/30"
+                    ? "bg-cyan-400/20 text-cyan-400 border border-cyan-400/30"
                     : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"
                 }`}
               >
@@ -132,15 +132,15 @@ export default function MissionsPage() {
         {/* Timeline */}
         <div className="relative">
           {/* Vertical line */}
-          <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-cosmos-cyan/30 via-cosmos-purple/30 to-cosmos-orange/30 sm:left-1/2" />
+          <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-cyan-400/30 via-purple-400/30 to-orange-400/30 sm:left-1/2" />
 
           {Object.entries(decades).map(([decade, decadeMissions]) => (
             <div key={decade} className="mb-12">
               {/* Decade header */}
               <div className="relative mb-6">
-                <div className="absolute left-4 sm:left-1/2 -translate-x-1/2 h-3 w-3 rounded-full bg-cosmos-cyan border-2 border-cosmos-navy z-10" />
+                <div className="absolute left-4 sm:left-1/2 -translate-x-1/2 h-3 w-3 rounded-full bg-cyan-400 border-2 border-cosmos-navy z-10" />
                 <div className="ml-12 sm:ml-0 sm:text-center">
-                  <h2 className="inline-block rounded-full bg-cosmos-cyan/10 px-4 py-1 font-display text-lg font-bold text-cosmos-cyan">
+                  <h2 className="inline-block rounded-full bg-cyan-400/10 px-4 py-1 font-display text-lg font-bold text-cyan-400">
                     {decade}
                   </h2>
                 </div>
@@ -173,7 +173,7 @@ export default function MissionsPage() {
                               <div>
                                 <div className="flex items-center gap-2">
                                   <span className="text-2xl">{mission.icon}</span>
-                                  <CardTitle className="text-lg group-hover:text-cosmos-cyan transition-colors">
+                                  <CardTitle className="text-lg group-hover:text-cyan-300 transition-colors">
                                     {mission.name}
                                   </CardTitle>
                                 </div>
@@ -213,7 +213,7 @@ export default function MissionsPage() {
                                   key={j}
                                   className="flex items-start gap-2 text-xs text-white/40"
                                 >
-                                  <CheckCircle2 className="mt-0.5 h-3 w-3 shrink-0 text-cosmos-cyan" />
+                                  <CheckCircle2 className="mt-0.5 h-3 w-3 shrink-0 text-cyan-400" />
                                   {a}
                                 </div>
                               ))}

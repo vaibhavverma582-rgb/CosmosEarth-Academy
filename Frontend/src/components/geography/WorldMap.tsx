@@ -33,9 +33,9 @@ if (typeof window !== "undefined") {
 type LayerType = "satellite" | "tectonic" | "climate" | "biomes";
 
 const layerOptions = [
-  { id: "satellite" as LayerType, label: "Satellite", icon: Globe, color: "text-cosmos-cyan" },
-  { id: "tectonic" as LayerType, label: "Countries", icon: Mountain, color: "text-cosmos-purple" },
-  { id: "climate" as LayerType, label: "Climate", icon: Thermometer, color: "text-cosmos-orange" },
+  { id: "satellite" as LayerType, label: "Satellite", icon: Globe, color: "text-cyan-400" },
+  { id: "tectonic" as LayerType, label: "Countries", icon: Mountain, color: "text-purple-400" },
+  { id: "climate" as LayerType, label: "Climate", icon: Thermometer, color: "text-orange-400" },
   { id: "biomes" as LayerType, label: "Biomes", icon: TreePine, color: "text-green-400" },
 ];
 
@@ -323,7 +323,7 @@ export function WorldMap({ flyTo = null, showControls = true }: WorldMapProps) {
                 </div>
                 <Link
                   href={`/geography/countries/${selectedCountry.slug}`}
-                  className="rounded-lg bg-cosmos-cyan/10 px-3 py-1.5 text-xs font-medium text-cosmos-cyan transition-colors hover:bg-cosmos-cyan/20"
+                  className="rounded-lg bg-cyan-400/10 px-3 py-1.5 text-xs font-medium text-cyan-400 transition-colors hover:bg-cyan-400/20"
                 >
                   View Details →
                 </Link>

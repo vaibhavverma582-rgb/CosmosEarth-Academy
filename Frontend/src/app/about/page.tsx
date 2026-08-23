@@ -118,8 +118,8 @@ export default function AboutPage() {
             {values.map((v) => (
               <Card key={v.title} className="text-center">
                 <CardHeader>
-                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-cosmos-cyan/10">
-                    <v.icon className="h-6 w-6 text-cosmos-cyan" />
+                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-400/10">
+                    <v.icon className="h-6 w-6 text-cyan-400" />
                   </div>
                   <CardTitle className="text-lg">{v.title}</CardTitle>
                   <CardDescription>{v.description}</CardDescription>
@@ -138,11 +138,11 @@ export default function AboutPage() {
             {team.map((member) => (
               <Card key={member.name} className="text-center">
                 <CardHeader>
-                  <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-cosmos-cyan to-cosmos-purple text-lg font-bold text-white">
+                  <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 text-lg font-bold text-white">
                     {member.initials}
                   </div>
                   <CardTitle className="text-lg">{member.name}</CardTitle>
-                  <CardDescription className="text-cosmos-cyan">
+                  <CardDescription className="text-cyan-400">
                     {member.role}
                   </CardDescription>
                 </CardHeader>

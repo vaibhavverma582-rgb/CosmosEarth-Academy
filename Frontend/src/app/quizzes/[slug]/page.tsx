@@ -141,7 +141,7 @@ export default function QuizPage({ params }: { params: Promise<{ slug: string }>
   const formatTime = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, "0")}`;
 
   if (loading) {
-    return <div className="flex min-h-[70vh] items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-cosmos-cyan" /></div>;
+    return <div className="flex min-h-[70vh] items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-cyan-400" /></div>;
   }
 
   if (!quiz) {
@@ -170,8 +170,8 @@ export default function QuizPage({ params }: { params: Promise<{ slug: string }>
 
           <Card>
             <CardContent className="p-8 text-center">
-              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-cosmos-cyan/10">
-                <Brain className="h-8 w-8 text-cosmos-cyan" />
+              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-400/10">
+                <Brain className="h-8 w-8 text-cyan-400" />
               </div>
               <h1 className="font-display text-2xl font-bold text-white mb-2">{quiz.title}</h1>
               {quiz.description && <p className="text-sm text-white/50 mb-6">{quiz.description}</p>}
@@ -180,7 +180,7 @@ export default function QuizPage({ params }: { params: Promise<{ slug: string }>
                 <Badge variant="outline">{quiz.subject}</Badge>
                 <Badge variant="outline" className={
                   quiz.difficulty === "easy" ? "text-green-400" :
-                  quiz.difficulty === "hard" ? "text-red-400" : "text-cosmos-orange"
+                  quiz.difficulty === "hard" ? "text-red-400" : "text-orange-400"
                 }>{quiz.difficulty}</Badge>
                 <Badge variant="outline">{quiz._count.questions} questions</Badge>
                 {quiz.timeLimit && <Badge variant="outline"><Clock className="mr-1 h-3 w-3" />{quiz.timeLimit} min</Badge>}
@@ -220,7 +220,7 @@ export default function QuizPage({ params }: { params: Promise<{ slug: string }>
               <div className="hidden sm:flex gap-1">
                 {questions.map((_, i) => (
                   <div key={i} className={`h-2 w-2 rounded-full transition-colors ${
-                    i === currentQ ? "bg-cosmos-cyan" : answers[questions[i].id] ? "bg-green-400" : "bg-white/20"
+                    i === currentQ ? "bg-cyan-400" : answers[questions[i].id] ? "bg-green-400" : "bg-white/20"
                   }`} />
                 ))}
               </div>
@@ -249,7 +249,7 @@ export default function QuizPage({ params }: { params: Promise<{ slug: string }>
                   onClick={() => selectAnswer(q.id, option)}
                   className={`w-full rounded-xl border p-4 text-left text-sm transition-all ${
                     answers[q.id] === option
-                      ? "border-cosmos-cyan bg-cosmos-cyan/10 text-cosmos-cyan"
+                      ? "border-cyan-400 bg-cyan-400/10 text-cyan-400"
                       : "border-white/10 bg-white/5 text-white/70 hover:border-white/20 hover:bg-white/10"
                   }`}
                 >
@@ -295,7 +295,7 @@ export default function QuizPage({ params }: { params: Promise<{ slug: string }>
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           {/* Score Card */}
           <Card className="mb-8 overflow-hidden">
-            <div className={`p-8 text-center ${result.passed ? "bg-gradient-to-br from-green-500/20 to-cosmos-cyan/10" : "bg-gradient-to-br from-red-500/20 to-cosmos-orange/10"}`}>
+            <div className={`p-8 text-center ${result.passed ? "bg-gradient-to-br from-green-500/20 to-cyan-400/10" : "bg-gradient-to-br from-red-500/20 to-orange-400/10"}`}>
               <div className={`mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full ${result.passed ? "bg-green-500/20" : "bg-red-500/20"}`}>
                 {result.passed ? <Trophy className="h-10 w-10 text-green-400" /> : <XCircle className="h-10 w-10 text-red-400" />}
               </div>

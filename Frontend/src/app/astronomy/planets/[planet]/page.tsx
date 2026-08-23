@@ -105,7 +105,7 @@ export default async function PlanetPage({ params }: { params: Promise<{ planet:
                 <CardContent className="p-4">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/5">
-                      <spec.icon className="h-5 w-5 text-cosmos-cyan" />
+                      <spec.icon className="h-5 w-5 text-cyan-400" />
                     </div>
                     <div>
                       <p className="text-xs text-white/40">{spec.label}</p>
@@ -129,7 +129,7 @@ export default async function PlanetPage({ params }: { params: Promise<{ planet:
             {planet.funFacts.map((fact, i) => (
               <Card key={i}>
                 <CardContent className="p-5">
-                  <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-lg bg-cosmos-cyan/10 text-sm font-bold text-cosmos-cyan">
+                  <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-400/10 text-sm font-bold text-cyan-400">
                     {i + 1}
                   </div>
                   <p className="text-sm text-white/70 leading-relaxed">

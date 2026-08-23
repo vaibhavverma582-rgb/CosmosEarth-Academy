@@ -131,7 +131,7 @@ export default function BlogUploadPage() {
   if (status === "loading") {
     return (
       <div className="flex min-h-[70vh] items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-cosmos-cyan" />
+        <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
       </div>
     );
   }
@@ -204,7 +204,7 @@ export default function BlogUploadPage() {
                   value={title}
                   onChange={(e) => handleTitleChange(e.target.value)}
                   placeholder="Your blog post title"
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                   required
                 />
               </div>
@@ -220,7 +220,7 @@ export default function BlogUploadPage() {
                     value={slug}
                     onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ""))}
                     placeholder="your-post-slug"
-                    className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white font-mono placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                    className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white font-mono placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     required
                   />
                 </div>
@@ -235,7 +235,7 @@ export default function BlogUploadPage() {
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                   >
                     {categories.map((c) => (
                       <option key={c} value={c} className="bg-[#0a0e27]">{c}</option>
@@ -251,7 +251,7 @@ export default function BlogUploadPage() {
                     value={readTime}
                     onChange={(e) => setReadTime(e.target.value)}
                     placeholder="5 min"
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                   />
                 </div>
               </div>
@@ -269,7 +269,7 @@ export default function BlogUploadPage() {
                 onChange={(e) => setExcerpt(e.target.value)}
                 placeholder="A brief summary of your blog post (shown in the listing)"
                 rows={2}
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30 resize-none"
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30 resize-none"
                 required
               />
             </CardContent>
@@ -282,7 +282,7 @@ export default function BlogUploadPage() {
                 Cover Image
               </label>
               <div className="flex items-center gap-4">
-                <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-dashed border-white/20 bg-white/5 px-6 py-4 text-sm text-white/50 transition-colors hover:border-cosmos-cyan/30 hover:bg-white/10">
+                <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-dashed border-white/20 bg-white/5 px-6 py-4 text-sm text-white/50 transition-colors hover:border-cyan-400/30 hover:bg-white/10">
                   <Upload className="h-4 w-4" />
                   {uploading ? "Uploading..." : "Upload Image"}
                   <input
@@ -299,7 +299,7 @@ export default function BlogUploadPage() {
                   value={coverImage}
                   onChange={(e) => setCoverImage(e.target.value)}
                   placeholder="https://example.com/image.jpg"
-                  className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                  className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                 />
               </div>
               {coverImage && (
@@ -331,7 +331,7 @@ export default function BlogUploadPage() {
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="# Your Blog Title&#10;&#10;Write your article content here using markdown...&#10;&#10;## Section Heading&#10;&#10;Your paragraphs go here. You can use **bold** and *italic* formatting.&#10;&#10;- List item one&#10;- List item two&#10;&#10;> A blockquote for emphasis"
                 rows={16}
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white font-mono placeholder:text-white/20 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30 resize-y leading-relaxed"
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white font-mono placeholder:text-white/20 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30 resize-y leading-relaxed"
                 required
               />
             </CardContent>
@@ -348,7 +348,7 @@ export default function BlogUploadPage() {
                 <button
                   type="button"
                   onClick={() => setPublished(!published)}
-                  className={`relative h-6 w-11 rounded-full transition-colors ${published ? "bg-cosmos-cyan" : "bg-white/20"}`}
+                  className={`relative h-6 w-11 rounded-full transition-colors ${published ? "bg-cyan-400" : "bg-white/20"}`}
                 >
                   <span
                     className={`absolute top-0.5 h-5 w-5 rounded-full bg-white transition-transform ${published ? "left-[22px]" : "left-0.5"}`}

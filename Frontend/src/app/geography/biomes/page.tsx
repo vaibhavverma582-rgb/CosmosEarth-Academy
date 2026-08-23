@@ -15,9 +15,9 @@ import { biomes } from "@/data/geography/biomes";
 
 const biodiversityColors: Record<string, string> = {
   "Very High": "text-green-400",
-  High: "text-cosmos-cyan",
-  Medium: "text-cosmos-orange",
-  Low: "text-cosmos-purple",
+  High: "text-cyan-400",
+  Medium: "text-orange-400",
+  Low: "text-purple-400",
   "Very Low": "text-red-400",
 };
 
@@ -53,12 +53,12 @@ export default function BiomesPage() {
             <p className="text-xs text-white/40">Major Biomes</p>
           </div>
           <div className="glass-card rounded-xl p-4 text-center">
-            <PawPrint className="mx-auto mb-1 h-5 w-5 text-cosmos-cyan" />
+            <PawPrint className="mx-auto mb-1 h-5 w-5 text-cyan-400" />
             <p className="font-display text-xl font-bold text-white">8.7M</p>
             <p className="text-xs text-white/40">Species (est.)</p>
           </div>
           <div className="glass-card rounded-xl p-4 text-center">
-            <AlertTriangle className="mx-auto mb-1 h-5 w-5 text-cosmos-orange" />
+            <AlertTriangle className="mx-auto mb-1 h-5 w-5 text-orange-400" />
             <p className="font-display text-xl font-bold text-white">1M+</p>
             <p className="text-xs text-white/40">Species at risk</p>
           </div>
@@ -79,7 +79,7 @@ export default function BiomesPage() {
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-2xl">{biome.emoji}</span>
-                      <CardTitle className="text-lg group-hover:text-cosmos-cyan transition-colors">
+                      <CardTitle className="text-lg group-hover:text-cyan-300 transition-colors">
                         {biome.name}
                       </CardTitle>
                     </div>

@@ -56,7 +56,7 @@ export default function ConstellationsPage() {
                 onClick={() => setSelectedHemisphere(h)}
                 className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${
                   selectedHemisphere === h
-                    ? "bg-cosmos-purple/20 text-cosmos-purple border border-cosmos-purple/30"
+                    ? "bg-purple-400/20 text-purple-400 border border-purple-400/30"
                     : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"
                 }`}
               >
@@ -71,7 +71,7 @@ export default function ConstellationsPage() {
                 onClick={() => setSelectedSeason(s)}
                 className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${
                   selectedSeason === s
-                    ? "bg-cosmos-cyan/20 text-cosmos-cyan border border-cosmos-cyan/30"
+                    ? "bg-cyan-400/20 text-cyan-400 border border-cyan-400/30"
                     : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"
                 }`}
               >
@@ -125,7 +125,7 @@ export default function ConstellationsPage() {
                     </CardDescription>
                   </div>
                   <Badge variant="default" className="text-xs">
-                    <Star className="mr-1 h-3 w-3 fill-cosmos-gold" />
+                    <Star className="mr-1 h-3 w-3 fill-amber-400" />
                     {c.brightestStar}
                   </Badge>
                 </div>
@@ -186,7 +186,7 @@ export default function ConstellationsPage() {
                     <div className="flex flex-wrap gap-2">
                       {c.keyStars.map((star) => (
                         <Badge key={star} variant="outline" className="text-xs">
-                          <Star className="mr-1 h-2.5 w-2.5 fill-cosmos-gold" />
+                          <Star className="mr-1 h-2.5 w-2.5 fill-amber-400" />
                           {star}
                         </Badge>
                       ))}

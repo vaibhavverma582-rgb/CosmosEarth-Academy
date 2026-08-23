@@ -144,7 +144,7 @@ export default function GalleryPage() {
               placeholder="Search images..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+              className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
             />
           </div>
 
@@ -153,7 +153,7 @@ export default function GalleryPage() {
               onClick={() => setSelectedCategory("All")}
               className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${
                 selectedCategory === "All"
-                  ? "bg-cosmos-cyan/20 text-cosmos-cyan border border-cosmos-cyan/30"
+                  ? "bg-cyan-400/20 text-cyan-400 border border-cyan-400/30"
                   : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"
               }`}
             >
@@ -165,7 +165,7 @@ export default function GalleryPage() {
                 onClick={() => setSelectedCategory(c.name)}
                 className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${
                   selectedCategory === c.name
-                    ? "bg-cosmos-cyan/20 text-cosmos-cyan border border-cosmos-cyan/30"
+                    ? "bg-cyan-400/20 text-cyan-400 border border-cyan-400/30"
                     : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"
                 }`}
               >
@@ -178,7 +178,7 @@ export default function GalleryPage() {
         {/* Gallery Grid */}
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-cosmos-cyan" />
+            <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
           </div>
         ) : images.length > 0 ? (
           <div className="columns-2 gap-4 sm:columns-3 lg:columns-4">

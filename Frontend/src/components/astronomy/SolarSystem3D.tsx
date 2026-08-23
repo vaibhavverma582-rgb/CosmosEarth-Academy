@@ -235,7 +235,7 @@ function LoadingFallback() {
   return (
     <div className="flex h-full items-center justify-center">
       <div className="text-center">
-        <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-cosmos-cyan border-t-transparent" />
+        <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-cyan-400 border-t-transparent" />
         <p className="mt-3 text-sm text-white/50">Loading solar system...</p>
       </div>
     </div>

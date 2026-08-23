@@ -121,11 +121,11 @@ export default function PodcastsPage() {
             {session && (
               <div className="flex gap-1 rounded-lg bg-white/5 p-1 w-fit">
                 <button onClick={() => setActiveTab("all")}
-                  className={`rounded-md px-4 py-2 text-sm font-medium transition-all ${activeTab === "all" ? "bg-cosmos-cyan/20 text-cosmos-cyan" : "text-white/50 hover:text-white/70"}`}>
+                  className={`rounded-md px-4 py-2 text-sm font-medium transition-all ${activeTab === "all" ? "bg-cyan-400/20 text-cyan-400" : "text-white/50 hover:text-white/70"}`}>
                   <Headphones className="inline h-4 w-4 mr-1.5" /> All Shows
                 </button>
                 <button onClick={() => setActiveTab("favorites")}
-                  className={`rounded-md px-4 py-2 text-sm font-medium transition-all ${activeTab === "favorites" ? "bg-cosmos-purple/20 text-cosmos-purple" : "text-white/50 hover:text-white/70"}`}>
+                  className={`rounded-md px-4 py-2 text-sm font-medium transition-all ${activeTab === "favorites" ? "bg-purple-400/20 text-purple-400" : "text-white/50 hover:text-white/70"}`}>
                   <Heart className="inline h-4 w-4 mr-1.5" /> Favorites
                 </button>
               </div>
@@ -133,14 +133,14 @@ export default function PodcastsPage() {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
               <input type="text" placeholder="Search podcasts..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30" />
+                className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30" />
             </div>
           </div>
           <div className="flex gap-2 overflow-x-auto pb-1">
             {categories.map((c) => (
               <button key={c} onClick={() => setSelectedCategory(c)}
                 className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${
-                  selectedCategory === c ? "bg-cosmos-cyan/20 text-cosmos-cyan border border-cosmos-cyan/30" : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"
+                  selectedCategory === c ? "bg-cyan-400/20 text-cyan-400 border border-cyan-400/30" : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"
                 }`}>{c}</button>
             ))}
           </div>
@@ -148,7 +148,7 @@ export default function PodcastsPage() {
 
         {/* Grid */}
         {loading ? (
-          <div className="flex items-center justify-center py-20"><Loader2 className="h-8 w-8 animate-spin text-cosmos-cyan" /></div>
+          <div className="flex items-center justify-center py-20"><Loader2 className="h-8 w-8 animate-spin text-cyan-400" /></div>
         ) : podcasts.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {podcasts.map((podcast) => (
@@ -159,7 +159,7 @@ export default function PodcastsPage() {
                     {podcast.coverUrl ? (
                       <img src={podcast.coverUrl} alt={podcast.title} className="h-full w-full object-cover transition-transform group-hover:scale-105" />
                     ) : (
-                      <div className="flex h-full items-center justify-center bg-gradient-to-br from-cosmos-purple/20 to-cosmos-navy">
+                      <div className="flex h-full items-center justify-center bg-gradient-to-br from-purple-400/20 to-cosmos-navy">
                         <Mic className="h-16 w-16 text-white/10" />
                       </div>
                     )}
@@ -167,7 +167,7 @@ export default function PodcastsPage() {
                   </div>
                   <CardContent className="p-4">
                     <Badge variant="outline" className="mb-2 text-[10px]">{podcast.category}</Badge>
-                    <h3 className="text-sm font-bold text-white group-hover:text-cosmos-cyan transition-colors line-clamp-1">{podcast.title}</h3>
+                    <h3 className="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors line-clamp-1">{podcast.title}</h3>
                     <p className="mt-0.5 text-xs text-white/40">{podcast.author}</p>
                     <div className="mt-2 flex items-center justify-between text-[11px] text-white/30">
                       <span className="flex items-center gap-1"><Headphones className="h-3 w-3" />{_count(podcast)} episodes</span>

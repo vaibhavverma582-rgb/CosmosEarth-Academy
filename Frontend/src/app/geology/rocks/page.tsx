@@ -56,7 +56,7 @@ export default function RocksMineralsPage() {
             onClick={() => setTab("rocks")}
             className={`rounded-md px-4 py-2 text-sm font-medium transition-all ${
               tab === "rocks"
-                ? "bg-cosmos-orange/20 text-cosmos-orange"
+                ? "bg-orange-400/20 text-orange-400"
                 : "text-white/50 hover:text-white/70"
             }`}
           >
@@ -67,7 +67,7 @@ export default function RocksMineralsPage() {
             onClick={() => setTab("minerals")}
             className={`rounded-md px-4 py-2 text-sm font-medium transition-all ${
               tab === "minerals"
-                ? "bg-cosmos-cyan/20 text-cosmos-cyan"
+                ? "bg-cyan-400/20 text-cyan-400"
                 : "text-white/50 hover:text-white/70"
             }`}
           >
@@ -85,7 +85,7 @@ export default function RocksMineralsPage() {
               placeholder={`Search ${tab}...`}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+              className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
             />
           </div>
           {tab === "rocks" && (
@@ -96,7 +96,7 @@ export default function RocksMineralsPage() {
                   onClick={() => setSelectedCategory(cat)}
                   className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${
                     selectedCategory === cat
-                      ? "bg-cosmos-orange/20 text-cosmos-orange border border-cosmos-orange/30"
+                      ? "bg-orange-400/20 text-orange-400 border border-orange-400/30"
                       : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"
                   }`}
                 >
@@ -126,7 +126,7 @@ export default function RocksMineralsPage() {
                               className="h-4 w-4 rounded-full"
                               style={{ backgroundColor: catInfo?.color || "#888" }}
                             />
-                            <CardTitle className="text-lg group-hover:text-cosmos-cyan transition-colors">
+                            <CardTitle className="text-lg group-hover:text-cyan-300 transition-colors">
                               {rock.name}
                             </CardTitle>
                           </div>
@@ -183,10 +183,10 @@ export default function RocksMineralsPage() {
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div>
-                        <CardTitle className="text-lg group-hover:text-cosmos-cyan transition-colors">
+                        <CardTitle className="text-lg group-hover:text-cyan-300 transition-colors">
                           {mineral.name}
                         </CardTitle>
-                        <p className="mt-1 font-mono text-xs text-cosmos-cyan/60">
+                        <p className="mt-1 font-mono text-xs text-cyan-400/60">
                           {mineral.formula}
                         </p>
                       </div>
@@ -196,7 +196,7 @@ export default function RocksMineralsPage() {
                             <div
                               key={i}
                               className={`h-2 w-2 rounded-full ${
-                                i < mineral.hardness ? "bg-cosmos-cyan" : "bg-white/10"
+                                i < mineral.hardness ? "bg-cyan-400" : "bg-white/10"
                               }`}
                             />
                           ))}

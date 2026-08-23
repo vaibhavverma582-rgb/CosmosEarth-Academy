@@ -3,7 +3,36 @@ import { prisma } from "../index";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import { UPLOAD_DIRS } from "../config/uploads";
+
 export const authRoutes = Router();
+
+// ─── Avatar Upload Config ─────────────────────
+const avatarDir = path.join(UPLOAD_DIRS.base, "avatars");
+if (!fs.existsSync(avatarDir)) {
+  fs.mkdirSync(avatarDir, { recursive: true });
+}
+
+const avatarStorage = multer.diskStorage({
+  destination: (_req, _file, cb) => cb(null, avatarDir),
+  filename: (_req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, `avatar-${Date.now()}${ext}`);
+  },
+});
+
+const avatarUpload = multer({
+  storage: avatarStorage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+  fileFilter: (_req, file, cb) => {
+    const allowed = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+    if (allowed.includes(file.mimetype)) cb(null, true);
+    else cb(new Error(`File type ${file.mimetype} not allowed. Use JPG, PNG, GIF, or WebP.`));
+  },
+});
 
 // ─── Validation Schemas ────────────────────────
 const registerSchema = z.object({
@@ -231,6 +260,72 @@ authRoutes.post("/reset-password", async (req, res) => {
   } catch (error) {
     console.error("Reset password error:", error);
     res.status(500).json({ error: "Failed to reset password" });
+  }
+});
+
+// ─── POST /api/auth/avatar — Upload profile picture
+authRoutes.post("/avatar", avatarUpload.single("avatar"), async (req, res) => {
+  try {
+    const userId = req.headers["x-user-id"] as string;
+    if (!userId) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+
+    const file = req.file;
+    if (!file) {
+      return res.status(400).json({ error: "No image provided" });
+    }
+
+    // Delete old avatar file if it exists
+    const existingUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { avatar: true, image: true },
+    });
+
+    if (existingUser?.avatar && existingUser.avatar.startsWith("/uploads/avatars/")) {
+      const oldPath = path.join(UPLOAD_DIRS.base, existingUser.avatar.replace("/uploads/", ""));
+      if (fs.existsSync(oldPath)) {
+        fs.unlinkSync(oldPath);
+      }
+    }
+
+    const avatarUrl = `/uploads/avatars/${file.filename}`;
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { avatar: avatarUrl, image: avatarUrl },
+    });
+
+    res.json({ avatar: avatarUrl, message: "Profile picture updated" });
+  } catch (error) {
+    console.error("Avatar upload error:", error);
+    res.status(500).json({ error: "Failed to upload avatar" });
+  }
+});
+
+// ─── PUT /api/auth/profile — Update profile info
+authRoutes.put("/profile", async (req, res) => {
+  try {
+    const userId = req.headers["x-user-id"] as string;
+    if (!userId) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+
+    const { name, bio } = req.body;
+
+    const updated = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        ...(name && { name }),
+        ...(bio !== undefined && { bio }),
+      },
+      select: { id: true, name: true, email: true, role: true, avatar: true, bio: true },
+    });
+
+    res.json({ user: updated });
+  } catch (error) {
+    console.error("Profile update error:", error);
+    res.status(500).json({ error: "Failed to update profile" });
   }
 });
 

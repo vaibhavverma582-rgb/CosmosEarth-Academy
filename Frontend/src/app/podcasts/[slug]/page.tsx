@@ -121,7 +121,7 @@ export default function PodcastDetailPage({ params }: { params: Promise<{ slug: 
   };
 
   if (loading) {
-    return <div className="flex min-h-[70vh] items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-cosmos-cyan" /></div>;
+    return <div className="flex min-h-[70vh] items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-cyan-400" /></div>;
   }
 
   if (!podcast) {
@@ -147,7 +147,7 @@ export default function PodcastDetailPage({ params }: { params: Promise<{ slug: 
           {podcast.coverUrl ? (
             <img src={podcast.coverUrl} alt={podcast.title} className="h-48 w-48 shrink-0 rounded-2xl object-cover shadow-2xl ring-2 ring-white/10" />
           ) : (
-            <div className="flex h-48 w-48 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-cosmos-purple/20 to-cosmos-navy ring-2 ring-white/10">
+            <div className="flex h-48 w-48 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-400/20 to-cosmos-navy ring-2 ring-white/10">
               <Mic className="h-16 w-16 text-white/20" />
             </div>
           )}
@@ -182,7 +182,7 @@ export default function PodcastDetailPage({ params }: { params: Promise<{ slug: 
               <CardContent className="flex items-center gap-4 p-4">
                 <button
                   onClick={() => playEpisode(episode)}
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cosmos-cyan/10 text-cosmos-cyan transition-all hover:bg-cosmos-cyan hover:text-white"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cyan-400/10 text-cyan-400 transition-all hover:bg-cyan-400 hover:text-white"
                 >
                   <Play className="h-4 w-4 ml-0.5" fill="currentColor" />
                 </button>
@@ -190,7 +190,7 @@ export default function PodcastDetailPage({ params }: { params: Promise<{ slug: 
                   <div className="flex items-center gap-2 mb-0.5">
                     <span className="text-[10px] text-white/30">S{episode.seasonNumber} E{episode.episodeNumber}</span>
                   </div>
-                  <h3 className="text-sm font-semibold text-white group-hover:text-cosmos-cyan transition-colors line-clamp-1">
+                  <h3 className="text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors line-clamp-1">
                     {episode.title}
                   </h3>
                   {episode.description && (

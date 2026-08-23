@@ -92,7 +92,7 @@ export default async function CountryPage({ params }: { params: Promise<{ countr
             <Card key={spec.label}>
               <CardContent className="flex items-center gap-3 p-4">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/5">
-                  <spec.icon className="h-5 w-5 text-cosmos-cyan" />
+                  <spec.icon className="h-5 w-5 text-cyan-400" />
                 </div>
                 <div>
                   <p className="text-xs text-white/40">{spec.label}</p>

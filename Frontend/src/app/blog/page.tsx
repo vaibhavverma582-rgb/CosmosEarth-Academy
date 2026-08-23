@@ -90,9 +90,9 @@ export default function BlogPage() {
               Thoughts on space, science, and the patterns we find in the cosmos.
             </p>
           </div>
-          {session && (
+          {session && (session.user as any).role === 'admin' && (
             <Link href="/blog/upload">
-              <button className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-cosmos-cyan to-cosmos-purple px-4 py-2.5 text-sm font-semibold text-white transition-all hover:shadow-cosmos-sm mt-14">
+              <button className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 px-4 py-2.5 text-sm font-semibold text-white transition-all hover:shadow-cosmos-sm mt-14">
                 <Plus className="h-4 w-4" />
                 New Post
               </button>
@@ -103,7 +103,7 @@ export default function BlogPage() {
         {/* Loading */}
         {loading && (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-cosmos-cyan" />
+            <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
           </div>
         )}
 
@@ -131,7 +131,7 @@ export default function BlogPage() {
                       </Badge>
                       <span className="text-xs text-white/30">{post.readTime}</span>
                     </div>
-                    <h2 className="font-display text-xl font-bold text-white group-hover:text-cosmos-cyan transition-colors mb-3">
+                    <h2 className="font-display text-xl font-bold text-white group-hover:text-cyan-300 transition-colors mb-3">
                       {post.title}
                     </h2>
                     <p className="text-sm text-white/50 leading-relaxed mb-4">
@@ -153,7 +153,7 @@ export default function BlogPage() {
                             <Trash2 className={`h-3.5 w-3.5 ${deletingId === post.id ? "text-red-300 animate-pulse" : "text-white/30 hover:text-red-400"}`} />
                           </button>
                         )}
-                        <span className="flex items-center gap-1 text-xs font-medium text-cosmos-cyan opacity-0 group-hover:opacity-100 transition-all">
+                        <span className="flex items-center gap-1 text-xs font-medium text-cyan-400 opacity-0 group-hover:opacity-100 transition-all">
                           Read more <ArrowRight className="h-3 w-3" />
                         </span>
                       </div>

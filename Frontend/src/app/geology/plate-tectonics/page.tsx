@@ -36,7 +36,7 @@ export default function PlateTectonicsPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Map className="h-5 w-5 text-cosmos-orange" />
+                <Map className="h-5 w-5 text-orange-400" />
                 Interactive Tectonic Plate Map
               </CardTitle>
               <p className="text-xs text-white/40">
@@ -63,7 +63,7 @@ export default function PlateTectonicsPage() {
                       className="h-3 w-3 rounded-full"
                       style={{ backgroundColor: plate.color }}
                     />
-                    <h3 className="font-display text-sm font-bold text-white group-hover:text-cosmos-cyan transition-colors">
+                    <h3 className="font-display text-sm font-bold text-white group-hover:text-cyan-300 transition-colors">
                       {plate.name}
                     </h3>
                   </div>

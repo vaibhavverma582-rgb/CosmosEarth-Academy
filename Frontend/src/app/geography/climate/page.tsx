@@ -85,7 +85,7 @@ export default function ClimatePage() {
               onClick={() => setSelectedCategory(cat)}
               className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${
                 selectedCategory === cat
-                  ? "bg-cosmos-orange/20 text-cosmos-orange border border-cosmos-orange/30"
+                  ? "bg-orange-400/20 text-orange-400 border border-orange-400/30"
                   : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"
               }`}
             >
@@ -107,7 +107,7 @@ export default function ClimatePage() {
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div>
-                    <CardTitle className="text-lg group-hover:text-cosmos-orange transition-colors">
+                    <CardTitle className="text-lg group-hover:text-orange-400 transition-colors">
                       {zone.name}
                     </CardTitle>
                     <div className="mt-1 flex items-center gap-2">
@@ -132,14 +132,14 @@ export default function ClimatePage() {
 
                 <div className="grid grid-cols-2 gap-3 text-xs mb-4">
                   <div className="flex items-center gap-2">
-                    <Thermometer className="h-3.5 w-3.5 text-cosmos-orange" />
+                    <Thermometer className="h-3.5 w-3.5 text-orange-400" />
                     <div>
                       <span className="text-white/30">Temperature</span>
                       <p className="text-white/60">{zone.temperature}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Droplets className="h-3.5 w-3.5 text-cosmos-cyan" />
+                    <Droplets className="h-3.5 w-3.5 text-cyan-400" />
                     <div>
                       <span className="text-white/30">Rainfall</span>
                       <p className="text-white/60">{zone.precipitation}</p>

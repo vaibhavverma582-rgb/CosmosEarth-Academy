@@ -61,7 +61,7 @@ export default function PlaylistsPage() {
 
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-cosmos-cyan" />
+            <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
           </div>
         ) : playlists.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -102,7 +102,7 @@ export default function PlaylistsPage() {
                 </div>
 
                 <CardContent className="p-4">
-                  <h3 className="font-display text-base font-bold text-white group-hover:text-cosmos-cyan transition-colors line-clamp-1">
+                  <h3 className="font-display text-base font-bold text-white group-hover:text-cyan-300 transition-colors line-clamp-1">
                     {playlist.title}
                   </h3>
                   {playlist.description && (

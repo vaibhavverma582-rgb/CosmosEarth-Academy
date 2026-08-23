@@ -12,7 +12,7 @@ const WorldMap = dynamic(
     loading: () => (
       <div className="flex h-[500px] items-center justify-center rounded-2xl border border-white/10 bg-cosmos-navy">
         <div className="text-center">
-          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-cosmos-cyan border-t-transparent" />
+          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-cyan-400 border-t-transparent" />
           <p className="mt-4 text-sm text-white/50">Loading world map...</p>
         </div>
       </div>
@@ -56,17 +56,17 @@ export default function MapPage() {
             {
               title: "Satellite",
               description: "Real satellite imagery of Earth's surface — see deserts, forests, cities, and ice caps from space.",
-              color: "border-cosmos-cyan/20",
+              color: "border-cyan-400/20",
             },
             {
               title: "Countries",
               description: "Political boundaries with capitals, populations, and area data. Click any country for details.",
-              color: "border-cosmos-purple/20",
+              color: "border-purple-400/20",
             },
             {
               title: "Climate Zones",
               description: "Köppen climate classification overlay — see tropical, arid, temperate, and polar zones.",
-              color: "border-cosmos-orange/20",
+              color: "border-orange-400/20",
             },
             {
               title: "Biomes",

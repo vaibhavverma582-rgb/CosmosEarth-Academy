@@ -40,16 +40,16 @@ const materialTypes = ["Book", "Research Paper", "Course", "Resource"];
 const statusOptions = ["Reading", "Completed", "Ongoing", "To Read"];
 
 const typeConfig: Record<string, { icon: string; color: string }> = {
-  Book: { icon: "📖", color: "from-cosmos-cyan/10 to-transparent" },
+  Book: { icon: "📖", color: "from-cyan-400/10 to-transparent" },
   "Research Paper": { icon: "📄", color: "from-green-500/10 to-transparent" },
-  Course: { icon: "🎓", color: "from-cosmos-purple/10 to-transparent" },
+  Course: { icon: "🎓", color: "from-purple-400/10 to-transparent" },
   Resource: { icon: "🔭", color: "from-orange-500/10 to-transparent" },
 };
 
 const statusColors: Record<string, string> = {
-  Reading: "bg-cosmos-cyan/15 text-cosmos-cyan",
+  Reading: "bg-cyan-400/15 text-cyan-400",
   Completed: "bg-green-500/15 text-green-400",
-  Ongoing: "bg-cosmos-purple/15 text-cosmos-purple",
+  Ongoing: "bg-purple-400/15 text-purple-400",
   "To Read": "bg-white/10 text-white/50",
 };
 
@@ -185,7 +185,7 @@ export default function StudyMaterialsPage() {
           {session && (
             <button
               onClick={() => setShowUpload(!showUpload)}
-              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-cosmos-cyan to-cosmos-purple px-4 py-2.5 text-sm font-semibold text-white transition-all hover:shadow-cosmos-sm self-start"
+              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 px-4 py-2.5 text-sm font-semibold text-white transition-all hover:shadow-cosmos-sm self-start"
             >
               {showUpload ? (
                 <>
@@ -204,7 +204,7 @@ export default function StudyMaterialsPage() {
 
         {/* Upload Form */}
         {showUpload && (
-          <Card className="mb-8 border-cosmos-cyan/20">
+          <Card className="mb-8 border-cyan-400/20">
             <CardContent className="p-6">
               <h3 className="font-display text-lg font-bold text-white mb-4">
                 Add New Material
@@ -226,7 +226,7 @@ export default function StudyMaterialsPage() {
                       onChange={(e) => setTitle(e.target.value)}
                       placeholder="e.g., An Introduction to Modern Astrophysics"
                       required
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     />
                   </div>
                   <div>
@@ -239,7 +239,7 @@ export default function StudyMaterialsPage() {
                       onChange={(e) => setAuthor(e.target.value)}
                       placeholder="e.g., Carroll & Ostlie"
                       required
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     />
                   </div>
                 </div>
@@ -252,7 +252,7 @@ export default function StudyMaterialsPage() {
                     <select
                       value={type}
                       onChange={(e) => setType(e.target.value)}
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     >
                       {materialTypes.map((t) => (
                         <option key={t} value={t} className="bg-[#0a0e27]">
@@ -268,7 +268,7 @@ export default function StudyMaterialsPage() {
                     <select
                       value={materialStatus}
                       onChange={(e) => setMaterialStatus(e.target.value)}
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     >
                       {statusOptions.map((s) => (
                         <option key={s} value={s} className="bg-[#0a0e27]">
@@ -288,7 +288,7 @@ export default function StudyMaterialsPage() {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Brief description..."
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                   />
                 </div>
 
@@ -301,7 +301,7 @@ export default function StudyMaterialsPage() {
                     value={link}
                     onChange={(e) => setLink(e.target.value)}
                     placeholder="https://..."
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                   />
                 </div>
 
@@ -309,10 +309,10 @@ export default function StudyMaterialsPage() {
                   <label className="mb-1.5 block text-sm font-medium text-white/70">
                     File (optional — PDF, DOCX, Image)
                   </label>
-                  <div className="relative rounded-xl border-2 border-dashed border-white/10 p-6 text-center transition-colors hover:border-cosmos-cyan/30">
+                  <div className="relative rounded-xl border-2 border-dashed border-white/10 p-6 text-center transition-colors hover:border-cyan-400/30">
                     {file ? (
                       <div className="space-y-2">
-                        <FileText className="mx-auto h-6 w-6 text-cosmos-cyan" />
+                        <FileText className="mx-auto h-6 w-6 text-cyan-400" />
                         <p className="text-sm text-white">{file.name}</p>
                         <p className="text-xs text-white/40">
                           {(file.size / 1024 / 1024).toFixed(2)} MB
@@ -373,7 +373,7 @@ export default function StudyMaterialsPage() {
         {/* Materials Grid */}
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-cosmos-cyan" />
+            <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
           </div>
         ) : materials.length > 0 ? (
           <div className="grid gap-5 sm:grid-cols-2">
@@ -394,11 +394,11 @@ export default function StudyMaterialsPage() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="text-[10px] font-semibold uppercase tracking-wider text-cosmos-purple">
+                            <span className="text-[10px] font-semibold uppercase tracking-wider text-purple-400">
                               {mat.type}
                             </span>
                           </div>
-                          <h3 className="font-display text-sm font-bold text-white group-hover/card:text-cosmos-cyan transition-colors">
+                          <h3 className="font-display text-sm font-bold text-white group-hover/card:text-cyan-400 transition-colors">
                             {mat.title}
                           </h3>
                           <p className="text-xs text-white/40 mt-0.5">
@@ -417,11 +417,11 @@ export default function StudyMaterialsPage() {
                             </span>
                             {mat.fileUrl && (
                               <a
-                                href={`${API_URL}${mat.fileUrl}`}
+                                href={`${mat.fileUrl}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={(e) => e.stopPropagation()}
-                                className="inline-flex items-center gap-1 text-[10px] text-cosmos-cyan hover:text-cosmos-cyan/80"
+                                className="inline-flex items-center gap-1 text-[10px] text-cyan-400 hover:text-cyan-400/80"
                               >
                                 <FileText className="h-3 w-3" />
                                 {mat.fileName || "File"}
@@ -433,7 +433,7 @@ export default function StudyMaterialsPage() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={(e) => e.stopPropagation()}
-                                className="inline-flex items-center gap-1 text-[10px] text-cosmos-cyan hover:text-cosmos-cyan/80"
+                                className="inline-flex items-center gap-1 text-[10px] text-cyan-400 hover:text-cyan-400/80"
                               >
                                 <ExternalLink className="h-3 w-3" />
                                 Link

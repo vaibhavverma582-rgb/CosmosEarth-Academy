@@ -23,40 +23,40 @@ const sections = [
     description: "Study notes, cheat sheets, and resources uploaded by the community",
     href: "/notes",
     icon: FileText,
-    color: "from-cosmos-cyan/20 to-cyan-500/5",
-    iconColor: "text-cosmos-cyan",
+    color: "from-cyan-400/20 to-cyan-500/5",
+    iconColor: "text-cyan-400",
     stats: "Upload & share study materials",
-    gradient: "from-cosmos-cyan to-cyan-400",
+    gradient: "from-cyan-400 to-cyan-400",
   },
   {
     title: "Gallery",
     description: "Stunning astronomy, geology, and space imagery — free to download",
     href: "/gallery",
     icon: Images,
-    color: "from-cosmos-purple/20 to-purple-500/5",
-    iconColor: "text-cosmos-purple",
+    color: "from-purple-400/20 to-purple-500/5",
+    iconColor: "text-purple-400",
     stats: "Browse & download images",
-    gradient: "from-cosmos-purple to-purple-400",
+    gradient: "from-purple-400 to-purple-400",
   },
   {
     title: "Videos",
     description: "Educational YouTube videos on astronomy, physics, and space exploration",
     href: "/videos",
     icon: Video,
-    color: "from-cosmos-orange/20 to-orange-500/5",
-    iconColor: "text-cosmos-orange",
+    color: "from-orange-400/20 to-orange-500/5",
+    iconColor: "text-orange-400",
     stats: "Watch & create playlists",
-    gradient: "from-cosmos-orange to-orange-400",
+    gradient: "from-orange-400 to-orange-400",
   },
   {
     title: "Documentaries",
     description: "Cinematic explorations of the universe with trailers and watchlists",
     href: "/documentaries",
     icon: Film,
-    color: "from-cosmos-pink/20 to-pink-500/5",
-    iconColor: "text-cosmos-pink",
+    color: "from-pink-400/20 to-pink-500/5",
+    iconColor: "text-pink-400",
     stats: "Discover & track films",
-    gradient: "from-cosmos-pink to-pink-400",
+    gradient: "from-pink-400 to-pink-400",
   },
   {
     title: "Podcasts",
@@ -128,7 +128,7 @@ export default function MediaPage() {
                       <section.icon className={`h-7 w-7 ${section.iconColor}`} />
                     </div>
                     <div>
-                      <h2 className="font-display text-xl font-bold text-white group-hover:text-cosmos-cyan transition-colors">
+                      <h2 className="font-display text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
                         {section.title}
                       </h2>
                       <p className="text-xs text-white/40">{section.stats}</p>
@@ -137,7 +137,7 @@ export default function MediaPage() {
                   <p className="text-sm text-white/50 leading-relaxed mb-4">
                     {section.description}
                   </p>
-                  <div className="flex items-center gap-1 text-sm font-medium text-cosmos-cyan opacity-0 transition-all group-hover:opacity-100">
+                  <div className="flex items-center gap-1 text-sm font-medium text-cyan-400 opacity-0 transition-all group-hover:opacity-100">
                     Explore {section.title}
                     <ArrowRight className="h-4 w-4" />
                   </div>
@@ -151,10 +151,10 @@ export default function MediaPage() {
         <div className="glass-card rounded-2xl p-6 sm:p-8">
           <div className="grid grid-cols-2 gap-6 md:grid-cols-5">
             {[
-              { icon: FileText, label: "Study Notes", value: "Community", color: "text-cosmos-cyan" },
-              { icon: Images, label: "Images", value: "High-res", color: "text-cosmos-purple" },
-              { icon: Video, label: "Videos", value: "YouTube", color: "text-cosmos-orange" },
-              { icon: Film, label: "Documentaries", value: "Curated", color: "text-cosmos-pink" },
+              { icon: FileText, label: "Study Notes", value: "Community", color: "text-cyan-400" },
+              { icon: Images, label: "Images", value: "High-res", color: "text-purple-400" },
+              { icon: Video, label: "Videos", value: "YouTube", color: "text-orange-400" },
+              { icon: Film, label: "Documentaries", value: "Curated", color: "text-pink-400" },
               { icon: Headphones, label: "Podcasts", value: "Audio", color: "text-green-400" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">

@@ -102,7 +102,7 @@ export default function ExoplanetsPage() {
               placeholder="Search by name or host star..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+              className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
             />
           </div>
           <button
@@ -125,7 +125,7 @@ export default function ExoplanetsPage() {
               onClick={() => setSelectedMethod(m)}
               className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${
                 selectedMethod === m
-                  ? "bg-cosmos-pink/20 text-cosmos-pink border border-cosmos-pink/30"
+                  ? "bg-pink-400/20 text-pink-400 border border-pink-400/30"
                   : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"
               }`}
             >
@@ -147,7 +147,7 @@ export default function ExoplanetsPage() {
                 <div className="flex items-start justify-between">
                   <div>
                     <div className="flex items-center gap-2">
-                      <CardTitle className="text-lg group-hover:text-cosmos-cyan transition-colors">
+                      <CardTitle className="text-lg group-hover:text-cyan-300 transition-colors">
                         {ep.name}
                       </CardTitle>
                       {ep.habitable && (

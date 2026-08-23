@@ -201,7 +201,7 @@ export default function AdminWallpaperPage() {
   if (status === "loading" || loading) {
     return (
       <div className="flex min-h-[70vh] items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-cosmos-cyan" />
+        <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
       </div>
     );
   }
@@ -293,7 +293,7 @@ export default function AdminWallpaperPage() {
             <h3 className="font-display text-sm font-bold text-white mb-4">Upload New Wallpaper</h3>
 
             {/* File input */}
-            <label className="flex cursor-pointer flex-col items-center gap-3 rounded-xl border border-dashed border-white/20 bg-white/5 p-8 text-center transition-colors hover:border-cosmos-cyan/30 hover:bg-white/10">
+            <label className="flex cursor-pointer flex-col items-center gap-3 rounded-xl border border-dashed border-white/20 bg-white/5 p-8 text-center transition-colors hover:border-cyan-400/30 hover:bg-white/10">
               <Upload className="h-8 w-8 text-white/30" />
               <div>
                 <p className="text-sm font-medium text-white/70">
@@ -355,7 +355,7 @@ export default function AdminWallpaperPage() {
                       onClick={() => setPosition(p.value)}
                       className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                         position === p.value
-                          ? "bg-cosmos-cyan text-[#050710]"
+                          ? "bg-cyan-400 text-[#050710]"
                           : "border border-white/10 bg-white/5 text-white/50 hover:text-white"
                       }`}
                     >
@@ -375,7 +375,7 @@ export default function AdminWallpaperPage() {
                       onClick={() => setSize(s.value)}
                       className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                         size === s.value
-                          ? "bg-cosmos-cyan text-[#050710]"
+                          ? "bg-cyan-400 text-[#050710]"
                           : "border border-white/10 bg-white/5 text-white/50 hover:text-white"
                       }`}
                     >
@@ -398,7 +398,7 @@ export default function AdminWallpaperPage() {
                   step="0.05"
                   value={overlayOpacity}
                   onChange={(e) => setOverlayOpacity(parseFloat(e.target.value))}
-                  className="w-full accent-cosmos-cyan"
+                  className="w-full accent-cyan-400"
                 />
                 <div className="flex justify-between text-xs text-white/20 mt-1">
                   <span>Transparent</span>

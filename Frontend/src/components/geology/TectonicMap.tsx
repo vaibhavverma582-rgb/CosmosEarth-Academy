@@ -124,7 +124,7 @@ export function TectonicMap() {
                     <div className="space-y-1">
                       {plate.boundaries.map((b, i) => (
                         <div key={i} className="flex items-start gap-2 text-xs text-white/50">
-                          <span className="text-cosmos-cyan">•</span>
+                          <span className="text-cyan-400">•</span>
                           {b}
                         </div>
                       ))}

@@ -29,7 +29,7 @@ export default function GalleryUploadPage() {
   const [error, setError] = useState("");
 
   if (status === "loading") {
-    return <div className="flex min-h-[70vh] items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-cosmos-cyan" /></div>;
+    return <div className="flex min-h-[70vh] items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-cyan-400" /></div>;
   }
   if (!session) { router.push("/auth/login"); return null; }
 
@@ -100,7 +100,7 @@ export default function GalleryUploadPage() {
                     </button>
                   </div>
                 ) : (
-                  <label className="flex cursor-pointer flex-col items-center rounded-xl border-2 border-dashed border-white/10 p-10 transition-colors hover:border-cosmos-cyan/30">
+                  <label className="flex cursor-pointer flex-col items-center rounded-xl border-2 border-dashed border-white/10 p-10 transition-colors hover:border-cyan-400/30">
                     <Image className="h-10 w-10 text-white/30 mb-2" />
                     <p className="text-sm text-white/50">Click to select image</p>
                     <p className="text-xs text-white/30">JPEG, PNG, GIF, WEBP — max 20MB</p>
@@ -113,21 +113,21 @@ export default function GalleryUploadPage() {
                 <label className="mb-1.5 block text-sm font-medium text-white/70">Title *</label>
                 <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}
                   placeholder="e.g., Pillars of Creation" required
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30" />
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30" />
               </div>
 
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-white/70">Description</label>
                 <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3}
                   placeholder="Describe the image..."
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30 resize-none" />
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30 resize-none" />
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-white/70">Category</label>
                   <select value={category} onChange={(e) => setCategory(e.target.value)}
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30">
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30">
                     {categories.map((c) => <option key={c} value={c} className="bg-cosmos-navy">{c}</option>)}
                   </select>
                 </div>
@@ -135,7 +135,7 @@ export default function GalleryUploadPage() {
                   <label className="mb-1.5 block text-sm font-medium text-white/70">Tags</label>
                   <input type="text" value={tags} onChange={(e) => setTags(e.target.value)}
                     placeholder="comma-separated tags"
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30" />
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30" />
                 </div>
               </div>
 

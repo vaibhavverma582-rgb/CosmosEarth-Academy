@@ -123,7 +123,7 @@ export default function ForgotPasswordPage() {
         {/* Logo */}
         <div className="mb-8 text-center">
           <Link href="/" className="inline-flex items-center gap-2.5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cosmos-cyan to-cosmos-purple shadow-cosmos-sm">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-purple-500 shadow-cosmos-sm">
               <Rocket className="h-5 w-5 text-white" />
             </div>
             <span className="font-display text-xl font-bold">
@@ -139,8 +139,8 @@ export default function ForgotPasswordPage() {
             {step === "email" && (
               <>
                 <div className="mb-6 text-center">
-                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-cosmos-purple/10">
-                    <KeyRound className="h-8 w-8 text-cosmos-purple" />
+                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-purple-400/10">
+                    <KeyRound className="h-8 w-8 text-purple-400" />
                   </div>
                   <h1 className="font-display text-2xl font-bold text-white">
                     Reset Password
@@ -168,7 +168,7 @@ export default function ForgotPasswordPage() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="explorer@cosmos.edu"
-                        className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                        className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                       />
                     </div>
                   </div>
@@ -196,8 +196,8 @@ export default function ForgotPasswordPage() {
             {step === "otp" && (
               <>
                 <div className="mb-6 text-center">
-                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-cosmos-cyan/10">
-                    <Shield className="h-8 w-8 text-cosmos-cyan" />
+                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-400/10">
+                    <Shield className="h-8 w-8 text-cyan-400" />
                   </div>
                   <h1 className="font-display text-2xl font-bold text-white">
                     Check Your Email
@@ -226,7 +226,7 @@ export default function ForgotPasswordPage() {
                       }
                       placeholder="000000"
                       maxLength={6}
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-center font-mono text-2xl tracking-[0.5em] text-white placeholder:text-white/20 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-center font-mono text-2xl tracking-[0.5em] text-white placeholder:text-white/20 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     />
                   </div>
 
@@ -246,7 +246,7 @@ export default function ForgotPasswordPage() {
                   <button
                     onClick={handleSendOTP}
                     disabled={loading}
-                    className="w-full text-center text-sm text-cosmos-cyan hover:underline"
+                    className="w-full text-center text-sm text-cyan-400 hover:underline"
                   >
                     Didn&apos;t receive a code? Resend
                   </button>
@@ -287,7 +287,7 @@ export default function ForgotPasswordPage() {
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                         placeholder="Min. 8 characters"
-                        className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-10 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                        className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-10 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                       />
                       <button
                         type="button"
@@ -310,7 +310,7 @@ export default function ForgotPasswordPage() {
                               newPassword.length >= i * 2
                                 ? newPassword.length >= 8
                                   ? "bg-green-500"
-                                  : "bg-cosmos-orange"
+                                  : "bg-orange-400"
                                 : "bg-white/10"
                             }`}
                           />
@@ -330,7 +330,7 @@ export default function ForgotPasswordPage() {
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         placeholder="Repeat your password"
-                        className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                        className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                       />
                     </div>
                     {confirmPassword.length > 0 && (
@@ -399,7 +399,7 @@ export default function ForgotPasswordPage() {
             Remember your password?{" "}
             <Link
               href="/auth/login"
-              className="font-medium text-cosmos-cyan hover:underline"
+              className="font-medium text-cyan-400 hover:underline"
             >
               Sign in
             </Link>

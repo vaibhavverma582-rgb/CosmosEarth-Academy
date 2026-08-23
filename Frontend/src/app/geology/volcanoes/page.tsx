@@ -55,17 +55,17 @@ export default function VolcanoesPage() {
         {/* Stats */}
         <div className="mb-8 grid grid-cols-3 gap-4">
           <div className="glass-card rounded-xl p-4 text-center">
-            <Flame className="mx-auto mb-1 h-5 w-5 text-cosmos-orange" />
+            <Flame className="mx-auto mb-1 h-5 w-5 text-orange-400" />
             <p className="font-display text-xl font-bold text-white">1,500+</p>
             <p className="text-xs text-white/40">Active Volcanoes</p>
           </div>
           <div className="glass-card rounded-xl p-4 text-center">
-            <Activity className="mx-auto mb-1 h-5 w-5 text-cosmos-cyan" />
+            <Activity className="mx-auto mb-1 h-5 w-5 text-cyan-400" />
             <p className="font-display text-xl font-bold text-white">500K+</p>
             <p className="text-xs text-white/40">Earthquakes/Year</p>
           </div>
           <div className="glass-card rounded-xl p-4 text-center">
-            <AlertTriangle className="mx-auto mb-1 h-5 w-5 text-cosmos-pink" />
+            <AlertTriangle className="mx-auto mb-1 h-5 w-5 text-pink-400" />
             <p className="font-display text-xl font-bold text-white">~50</p>
             <p className="text-xs text-white/40">Destructive/Year</p>
           </div>
@@ -77,7 +77,7 @@ export default function VolcanoesPage() {
             onClick={() => setActiveTab("volcanoes")}
             className={`rounded-md px-4 py-2 text-sm font-medium transition-all ${
               activeTab === "volcanoes"
-                ? "bg-cosmos-orange/20 text-cosmos-orange"
+                ? "bg-orange-400/20 text-orange-400"
                 : "text-white/50 hover:text-white/70"
             }`}
           >
@@ -88,7 +88,7 @@ export default function VolcanoesPage() {
             onClick={() => setActiveTab("earthquakes")}
             className={`rounded-md px-4 py-2 text-sm font-medium transition-all ${
               activeTab === "earthquakes"
-                ? "bg-cosmos-cyan/20 text-cosmos-cyan"
+                ? "bg-cyan-400/20 text-cyan-400"
                 : "text-white/50 hover:text-white/70"
             }`}
           >
@@ -109,7 +109,7 @@ export default function VolcanoesPage() {
                     onClick={() => setSelectedType(t)}
                     className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${
                       selectedType === t
-                        ? "bg-cosmos-orange/20 text-cosmos-orange border border-cosmos-orange/30"
+                        ? "bg-orange-400/20 text-orange-400 border border-orange-400/30"
                         : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"
                     }`}
                   >
@@ -124,7 +124,7 @@ export default function VolcanoesPage() {
                     onClick={() => setSelectedStatus(s)}
                     className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${
                       selectedStatus === s
-                        ? "bg-cosmos-pink/20 text-cosmos-pink border border-cosmos-pink/30"
+                        ? "bg-pink-400/20 text-pink-400 border border-pink-400/30"
                         : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"
                     }`}
                   >
@@ -141,7 +141,7 @@ export default function VolcanoesPage() {
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div>
-                        <CardTitle className="text-lg group-hover:text-cosmos-orange transition-colors">
+                        <CardTitle className="text-lg group-hover:text-orange-400 transition-colors">
                           {volcano.name}
                         </CardTitle>
                         <p className="mt-1 text-xs text-white/40">
@@ -207,13 +207,13 @@ export default function VolcanoesPage() {
                   <div className="flex items-start justify-between">
                     <div>
                       <div className="flex items-center gap-3">
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-cosmos-cyan/10">
-                          <span className="font-display text-lg font-bold text-cosmos-cyan">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-cyan-400/10">
+                          <span className="font-display text-lg font-bold text-cyan-400">
                             {eq.magnitude}
                           </span>
                         </div>
                         <div>
-                          <CardTitle className="text-lg group-hover:text-cosmos-cyan transition-colors">
+                          <CardTitle className="text-lg group-hover:text-cyan-300 transition-colors">
                             {eq.name}
                           </CardTitle>
                           <p className="text-xs text-white/40">

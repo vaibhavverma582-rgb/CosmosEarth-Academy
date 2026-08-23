@@ -101,7 +101,7 @@ export function VideoCard({
           )}
           {/* Play overlay */}
           <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-cosmos-cyan/90 shadow-lg">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-cyan-400/90 shadow-lg">
               <Play className="h-6 w-6 text-white ml-0.5" fill="white" />
             </div>
           </div>
@@ -110,7 +110,7 @@ export function VideoCard({
           {progress !== undefined && progress > 0 && (
             <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10">
               <div
-                className="h-full bg-cosmos-cyan"
+                className="h-full bg-cyan-400"
                 style={{ width: `${Math.min(progress, 100)}%` }}
               />
             </div>
@@ -123,7 +123,7 @@ export function VideoCard({
               {uploader.name?.charAt(0)?.toUpperCase() || "U"}
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-semibold text-white group-hover:text-cosmos-cyan transition-colors line-clamp-2">
+              <h3 className="text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors line-clamp-2">
                 {title}
               </h3>
               <p className="mt-1 text-xs text-white/40">{uploader.name}</p>

@@ -54,7 +54,7 @@ export function PlanetCard({
           {/* Info */}
           <div className="text-center">
             <h3
-              className={`${textSizes[size]} font-display font-bold text-white group-hover:text-cosmos-cyan transition-colors`}
+              className={`${textSizes[size]} font-display font-bold text-white group-hover:text-cyan-300 transition-colors`}
             >
               {name}
             </h3>
@@ -69,7 +69,7 @@ export function PlanetCard({
               <p>{moons} moon{moons !== 1 ? "s" : ""}</p>
             </div>
 
-            <div className="mt-3 flex items-center justify-center gap-1 text-xs font-medium text-cosmos-cyan opacity-0 transition-all group-hover:opacity-100">
+            <div className="mt-3 flex items-center justify-center gap-1 text-xs font-medium text-cyan-400 opacity-0 transition-all group-hover:opacity-100">
               Explore
               <ArrowRight className="h-3 w-3" />
             </div>

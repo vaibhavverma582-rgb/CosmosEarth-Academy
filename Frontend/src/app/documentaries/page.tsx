@@ -106,7 +106,7 @@ export default function DocumentariesPage() {
                         <div className="mt-1 flex items-center gap-3 text-xs text-white/60">
                           {doc.year && <span className="flex items-center gap-1"><Calendar className="h-3 w-3" />{doc.year}</span>}
                           {doc.duration && <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{doc.duration}</span>}
-                          {doc.rating && <span className="flex items-center gap-1"><Star className="h-3 w-3 fill-cosmos-gold" />{doc.rating}</span>}
+                          {doc.rating && <span className="flex items-center gap-1"><Star className="h-3 w-3 fill-amber-400" />{doc.rating}</span>}
                         </div>
                       </div>
                     </div>
@@ -126,7 +126,7 @@ export default function DocumentariesPage() {
               placeholder="Search documentaries..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+              className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
             />
           </div>
           <div className="flex gap-2 overflow-x-auto pb-1">
@@ -136,7 +136,7 @@ export default function DocumentariesPage() {
                 onClick={() => setSelectedCategory(c)}
                 className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${
                   selectedCategory === c
-                    ? "bg-cosmos-orange/20 text-cosmos-orange border border-cosmos-orange/30"
+                    ? "bg-orange-400/20 text-orange-400 border border-orange-400/30"
                     : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"
                 }`}
               >
@@ -149,7 +149,7 @@ export default function DocumentariesPage() {
         {/* Grid */}
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-cosmos-cyan" />
+            <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
           </div>
         ) : docs.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -169,13 +169,13 @@ export default function DocumentariesPage() {
                       <p className="text-xs text-white/70 line-clamp-2">{doc.description}</p>
                     </div>
                     {doc.rating && (
-                      <div className="absolute top-2 right-2 flex items-center gap-1 rounded bg-black/60 px-1.5 py-0.5 text-xs text-cosmos-gold">
-                        <Star className="h-3 w-3 fill-cosmos-gold" /> {doc.rating}
+                      <div className="absolute top-2 right-2 flex items-center gap-1 rounded bg-black/60 px-1.5 py-0.5 text-xs text-amber-400">
+                        <Star className="h-3 w-3 fill-amber-400" /> {doc.rating}
                       </div>
                     )}
                   </div>
                   <CardContent className="p-3">
-                    <h3 className="text-sm font-bold text-white group-hover:text-cosmos-orange transition-colors line-clamp-1">
+                    <h3 className="text-sm font-bold text-white group-hover:text-orange-400 transition-colors line-clamp-1">
                       {doc.title}
                     </h3>
                     <div className="mt-1 flex items-center gap-2 text-[11px] text-white/40">

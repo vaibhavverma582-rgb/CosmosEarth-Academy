@@ -97,7 +97,7 @@ export default function DocumentaryDetailPage({ params }: { params: Promise<{ sl
   };
 
   if (loading) {
-    return <div className="flex min-h-[70vh] items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-cosmos-cyan" /></div>;
+    return <div className="flex min-h-[70vh] items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-cyan-400" /></div>;
   }
 
   if (!doc) {
@@ -142,7 +142,7 @@ export default function DocumentaryDetailPage({ params }: { params: Promise<{ sl
               <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-white/60">
                 {doc.year && <span className="flex items-center gap-1"><Calendar className="h-4 w-4" />{doc.year}</span>}
                 {doc.duration && <span className="flex items-center gap-1"><Clock className="h-4 w-4" />{doc.duration}</span>}
-                {doc.rating && <span className="flex items-center gap-1"><Star className="h-4 w-4 fill-cosmos-gold text-cosmos-gold" />{doc.rating}/10</span>}
+                {doc.rating && <span className="flex items-center gap-1"><Star className="h-4 w-4 fill-amber-400 text-amber-400" />{doc.rating}/10</span>}
                 {doc.director && <span className="flex items-center gap-1"><User className="h-4 w-4" />{doc.director}</span>}
               </div>
             </div>
@@ -183,7 +183,7 @@ export default function DocumentaryDetailPage({ params }: { params: Promise<{ sl
             {trailerId && (
               <div className="mb-8">
                 <h2 className="font-display text-lg font-bold text-white mb-4 flex items-center gap-2">
-                  <Play className="h-5 w-5 text-cosmos-orange" fill="currentColor" /> Trailer
+                  <Play className="h-5 w-5 text-orange-400" fill="currentColor" /> Trailer
                 </h2>
                 <div className="overflow-hidden rounded-2xl border border-white/10">
                   <div className="relative aspect-video">
@@ -229,7 +229,7 @@ export default function DocumentaryDetailPage({ params }: { params: Promise<{ sl
                 {doc.rating && (
                   <div className="flex justify-between text-sm">
                     <span className="text-white/40">Rating</span>
-                    <span className="flex items-center gap-1 text-cosmos-gold"><Star className="h-3 w-3 fill-cosmos-gold" />{doc.rating}/10</span>
+                    <span className="flex items-center gap-1 text-amber-400"><Star className="h-3 w-3 fill-amber-400" />{doc.rating}/10</span>
                   </div>
                 )}
                 <div className="flex justify-between text-sm">

@@ -42,7 +42,7 @@ export function AdminSidebar() {
       <div className="flex items-center justify-between px-4 py-4 border-b border-white/5">
         {!collapsed && (
           <div className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-cosmos-cyan to-cosmos-purple">
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-500 to-purple-500">
               <Rocket className="h-3.5 w-3.5 text-white" />
             </div>
             <span className="text-xs font-bold text-white/80 uppercase tracking-wider">Admin</span>
@@ -67,12 +67,12 @@ export function AdminSidebar() {
                 href={item.href}
                 className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
                   isActive
-                    ? "bg-cosmos-cyan/10 text-cosmos-cyan"
+                    ? "bg-cyan-400/10 text-cyan-400"
                     : "text-white/40 hover:text-white/70 hover:bg-white/5"
                 } ${collapsed ? "justify-center" : ""}`}
                 title={collapsed ? item.title : undefined}
               >
-                <item.icon className={`h-4 w-4 shrink-0 ${isActive ? "text-cosmos-cyan" : ""}`} />
+                <item.icon className={`h-4 w-4 shrink-0 ${isActive ? "text-cyan-400" : ""}`} />
                 {!collapsed && <span>{item.title}</span>}
               </Link>
             );

@@ -101,7 +101,7 @@ export default function VerifyOTPPage() {
       <div className="relative w-full max-w-md">
         <div className="mb-8 text-center">
           <Link href="/" className="inline-flex items-center gap-2.5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cosmos-cyan to-cosmos-purple shadow-cosmos-sm">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-purple-500 shadow-cosmos-sm">
               <Rocket className="h-5 w-5 text-white" />
             </div>
             <span className="font-display text-xl font-bold">
@@ -134,7 +134,7 @@ export default function VerifyOTPPage() {
                   placeholder="000000"
                   maxLength={6}
                   autoFocus
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-4 text-center font-mono text-3xl tracking-[0.5em] text-white placeholder:text-white/20 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-4 text-center font-mono text-3xl tracking-[0.5em] text-white placeholder:text-white/20 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                 />
               </div>
 
@@ -158,7 +158,7 @@ export default function VerifyOTPPage() {
               ) : (
                 <button
                   onClick={handleResend}
-                  className="inline-flex items-center gap-1.5 text-sm text-cosmos-cyan hover:underline"
+                  className="inline-flex items-center gap-1.5 text-sm text-cyan-400 hover:underline"
                 >
                   <RotateCcw className="h-3.5 w-3.5" />
                   Resend OTP
@@ -169,7 +169,7 @@ export default function VerifyOTPPage() {
         </Card>
 
         <p className="mt-6 text-center text-sm text-white/40">
-          <Link href="/auth/login" className="text-cosmos-cyan hover:underline">
+          <Link href="/auth/login" className="text-cyan-400 hover:underline">
             ← Back to sign in
           </Link>
         </p>

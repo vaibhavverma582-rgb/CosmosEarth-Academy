@@ -88,7 +88,7 @@ export default function CoursesPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search courses..."
-              className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+              className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
             />
           </div>
           <div className="flex flex-wrap gap-2">
@@ -98,7 +98,7 @@ export default function CoursesPage() {
                 onClick={() => setSelectedLevel(level)}
                 className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                   selectedLevel === level
-                    ? "bg-cosmos-cyan text-[#050710]"
+                    ? "bg-cyan-400 text-[#050710]"
                     : "border border-white/10 bg-white/5 text-white/50 hover:text-white"
                 }`}
               >
@@ -111,7 +111,7 @@ export default function CoursesPage() {
         {/* Loading */}
         {loading && (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-cosmos-cyan" />
+            <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
           </div>
         )}
 
@@ -139,7 +139,7 @@ export default function CoursesPage() {
                         {course.level}
                       </Badge>
                     </div>
-                    <h3 className="font-display text-lg font-bold text-white group-hover:text-cosmos-cyan transition-colors mb-2">
+                    <h3 className="font-display text-lg font-bold text-white group-hover:text-cyan-300 transition-colors mb-2">
                       {course.title}
                     </h3>
                     <p className="text-sm text-white/50 line-clamp-2 mb-4">

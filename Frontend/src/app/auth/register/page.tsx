@@ -159,7 +159,7 @@ export default function RegisterPage() {
         {/* Logo */}
         <div className="mb-8 text-center">
           <Link href="/" className="inline-flex items-center gap-2.5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cosmos-cyan to-cosmos-purple shadow-cosmos-sm">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-purple-500 shadow-cosmos-sm">
               <Rocket className="h-5 w-5 text-white" />
             </div>
             <span className="font-display text-xl font-bold">
@@ -217,7 +217,7 @@ export default function RegisterPage() {
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Explorer Nova"
                     required
-                    className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                   />
                 </div>
               </div>
@@ -235,7 +235,7 @@ export default function RegisterPage() {
                       placeholder="explorer@cosmos.edu"
                       required
                       disabled={otpVerified}
-                      className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30 disabled:opacity-50"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30 disabled:opacity-50"
                     />
                   </div>
                   {otpVerified ? (
@@ -248,7 +248,7 @@ export default function RegisterPage() {
                       type="button"
                       onClick={handleSendOTP}
                       disabled={otpLoading || !email}
-                      className="shrink-0 rounded-xl border border-cosmos-cyan/30 px-3 text-sm font-medium text-cosmos-cyan transition-colors hover:bg-cosmos-cyan/10 disabled:opacity-50"
+                      className="shrink-0 rounded-xl border border-cyan-400/30 px-3 text-sm font-medium text-cyan-400 transition-colors hover:bg-cyan-400/10 disabled:opacity-50"
                     >
                       {otpLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Verify"}
                     </button>
@@ -264,13 +264,13 @@ export default function RegisterPage() {
                       onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                       placeholder="6-digit code"
                       maxLength={6}
-                      className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-center font-mono text-sm tracking-widest text-white placeholder:text-white/20 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                      className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-center font-mono text-sm tracking-widest text-white placeholder:text-white/20 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     />
                     <button
                       type="button"
                       onClick={handleVerifyOTP}
                       disabled={otpLoading || otpCode.length !== 6}
-                      className="rounded-xl bg-cosmos-purple/20 px-4 text-sm font-medium text-cosmos-purple transition-colors hover:bg-cosmos-purple/30 disabled:opacity-50"
+                      className="rounded-xl bg-purple-400/20 px-4 text-sm font-medium text-purple-400 transition-colors hover:bg-purple-400/30 disabled:opacity-50"
                     >
                       {otpLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Confirm"}
                     </button>
@@ -289,7 +289,7 @@ export default function RegisterPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Min. 8 characters"
                     required
-                    className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-10 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-10 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                   />
                   <button
                     type="button"
@@ -309,7 +309,7 @@ export default function RegisterPage() {
                           password.length >= i * 2
                             ? password.length >= 8
                               ? "bg-green-500"
-                              : "bg-cosmos-orange"
+                              : "bg-orange-400"
                             : "bg-white/10"
                         }`}
                       />
@@ -329,7 +329,7 @@ export default function RegisterPage() {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="Repeat your password"
                     required
-                    className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                   />
                 </div>
                 {confirmPassword.length > 0 && (
@@ -342,8 +342,8 @@ export default function RegisterPage() {
               {/* Terms */}
               <p className="text-xs text-white/30">
                 By creating an account you agree to our{" "}
-                <Link href="/terms" className="text-cosmos-cyan hover:underline">Terms</Link> and{" "}
-                <Link href="/privacy" className="text-cosmos-cyan hover:underline">Privacy Policy</Link>.
+                <Link href="/terms" className="text-cyan-400 hover:underline">Terms</Link> and{" "}
+                <Link href="/privacy" className="text-cyan-400 hover:underline">Privacy Policy</Link>.
               </p>
 
               <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
@@ -363,7 +363,7 @@ export default function RegisterPage() {
 
         <p className="mt-6 text-center text-sm text-white/40">
           Already have an account?{" "}
-          <Link href="/auth/login" className="font-medium text-cosmos-cyan hover:underline">
+          <Link href="/auth/login" className="font-medium text-cyan-400 hover:underline">
             Sign in
           </Link>
         </p>

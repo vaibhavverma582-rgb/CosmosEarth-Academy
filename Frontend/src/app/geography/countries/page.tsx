@@ -47,7 +47,7 @@ export default function CountriesPage() {
               placeholder="Search countries or capitals..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cosmos-cyan/50 focus:outline-none focus:ring-1 focus:ring-cosmos-cyan/30"
+              className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
             />
           </div>
           <div className="flex gap-2 overflow-x-auto pb-1">
@@ -57,7 +57,7 @@ export default function CountriesPage() {
                 onClick={() => setSelectedContinent(c)}
                 className={`whitespace-nowrap rounded-lg px-3 py-2 text-xs font-medium transition-all ${
                   selectedContinent === c
-                    ? "bg-cosmos-cyan/20 text-cosmos-cyan border border-cosmos-cyan/30"
+                    ? "bg-cyan-400/20 text-cyan-400 border border-cyan-400/30"
                     : "bg-white/5 text-white/50 border border-transparent hover:bg-white/10"
                 }`}
               >
@@ -81,7 +81,7 @@ export default function CountriesPage() {
                     <div className="flex items-center gap-3">
                       <span className="text-4xl">{country.flag}</span>
                       <div>
-                        <h3 className="font-display text-lg font-bold text-white group-hover:text-cosmos-cyan transition-colors">
+                        <h3 className="font-display text-lg font-bold text-white group-hover:text-cyan-300 transition-colors">
                           {country.name}
                         </h3>
                         <p className="text-xs text-white/40">
@@ -117,7 +117,7 @@ export default function CountriesPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-1 text-xs font-medium text-cosmos-cyan opacity-0 transition-all group-hover:opacity-100">
+                  <div className="flex items-center gap-1 text-xs font-medium text-cyan-400 opacity-0 transition-all group-hover:opacity-100">
                     View details
                     <ArrowRight className="h-3 w-3" />
                   </div>

@@ -128,7 +128,7 @@ export default function RockCyclePage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Recycle className="h-5 w-5 text-cosmos-cyan" />
+                <Recycle className="h-5 w-5 text-cyan-400" />
                 Interactive Rock Cycle
               </CardTitle>
             </CardHeader>
