@@ -2,7 +2,7 @@ import { Router } from "express";
 import { prisma } from "../index";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
-
+import nodemailer from "nodemailer";
 export const authRoutes = Router();
 
 // ─── Validation Schemas ────────────────────────
@@ -100,6 +100,64 @@ authRoutes.post("/login", async (req, res) => {
   }
 });
 
+// POST /api/auth/send-otp
+authRoutes.post("/send-otp", async (req, res) => {
+  try {
+    const email = String(req.body.email || "").trim().toLowerCase();
+
+    if (!email || !z.string().email().safeParse(email).success) {
+      return res.status(400).json({ error: "Valid email is required" });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    const expires = new Date(
+      Date.now() +
+        Number(process.env.OTP_EXPIRES_IN_MINUTES || 5) * 60 * 1000
+    );
+
+    await prisma.otpCode.deleteMany({
+      where: {
+        email,
+        purpose: "LOGIN",
+        used: false,
+      },
+    });
+
+    await prisma.otpCode.create({
+      data: {
+        email,
+        code: await bcrypt.hash(otp, 10),
+        purpose: "LOGIN",
+        expires,
+        used: false,
+      },
+    });
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_APP_PASSWORD,
+      },
+    });
+
+    await transporter.sendMail({
+      from: `"CosmosEarth Academy" <${process.env.GMAIL_USER}>`,
+      to: email,
+      subject: "CosmosEarth Academy Login OTP",
+      text: `Your login OTP is ${otp}. It expires in 5 minutes.`,
+    });
+
+    res.json({
+      success: true,
+      message: "OTP sent successfully",
+    });
+  } catch (error) {
+    console.error("Send OTP error:", error);
+    res.status(500).json({ error: "Failed to send OTP" });
+  }
+});
 // ─── POST /api/auth/otp-login ──────────────────
 // Called after OTP is verified on the frontend
 authRoutes.post("/otp-login", async (req, res) => {

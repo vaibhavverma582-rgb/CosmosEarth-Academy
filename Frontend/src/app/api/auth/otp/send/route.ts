@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 import { generateOTP, storeOTP } from "@/lib/otp";
 
 export async function POST(req: NextRequest) {
@@ -12,8 +13,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (!emailRegex.test(email)) {
       return NextResponse.json(
         { error: "Invalid email format" },
@@ -21,27 +22,53 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Generate and store OTP
+    const gmailUser = process.env.GMAIL_USER;
+    const gmailPassword = process.env.GMAIL_APP_PASSWORD;
+
+    if (!gmailUser || !gmailPassword) {
+      console.error("Gmail credentials are missing");
+      return NextResponse.json(
+        { error: "Email service is not configured" },
+        { status: 500 }
+      );
+    }
+
     const code = generateOTP();
+
     storeOTP(email, code, purpose);
 
-    // In production, send email here using a service like:
-    // - Resend: await resend.emails.send({ ... })
-    // - SendGrid: await sgMail.send({ ... })
-    // - Nodemailer: await transporter.sendMail({ ... })
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: gmailUser,
+        pass: gmailPassword,
+      },
+    });
 
-    // For development, log the OTP to console
-    console.log(`\n📧 OTP for ${email}: ${code} (purpose: ${purpose})\n`);
+    await transporter.verify();
+
+    await transporter.sendMail({
+      from: `"CosmosEarth Academy" <${gmailUser}>`,
+      to: email,
+      subject: "CosmosEarth Academy - Verification Code",
+      text: `Your verification code is ${code}. It expires in 5 minutes.`,
+      html: `
+        <h2>CosmosEarth Academy</h2>
+        <p>Your verification code is:</p>
+        <h1>${code}</h1>
+        <p>This code expires in 5 minutes.</p>
+      `,
+    });
+
+    console.log(`OTP sent successfully to ${email}`);
 
     return NextResponse.json({
       success: true,
       message: "OTP sent successfully",
-      // Include OTP in response for development only
-      // Remove this in production!
-      ...(process.env.NODE_ENV === "development" && { otp: code }),
     });
   } catch (error) {
     console.error("Error sending OTP:", error);
+
     return NextResponse.json(
       { error: "Failed to send OTP" },
       { status: 500 }
