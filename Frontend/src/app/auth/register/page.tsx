@@ -131,7 +131,7 @@ export default function RegisterPage() {
         });
 
         if (signInResult?.ok) {
-          router.push("/dashboard");
+          router.push("/profile");
           router.refresh();
         } else {
           router.push("/auth/login");
@@ -148,7 +148,7 @@ export default function RegisterPage() {
 
   // Handle Google registration
   const handleGoogleRegister = () => {
-    signIn("google", { callbackUrl: "/dashboard" });
+    signIn("google", { callbackUrl: "/profile" });
   };
 
   return (

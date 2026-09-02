@@ -4,10 +4,12 @@ import Credentials from "next-auth/providers/credentials";
 
 export default {
   providers: [
-    Google({
-      clientId: process.env.AUTH_GOOGLE_ID!,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET!,
-    }),
+    ...(process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_ID !== "your-google-client-id"
+      ? [Google({
+          clientId: process.env.AUTH_GOOGLE_ID,
+          clientSecret: process.env.AUTH_GOOGLE_SECRET || "",
+        })]
+      : []),
     Credentials({
       name: "credentials",
       credentials: {

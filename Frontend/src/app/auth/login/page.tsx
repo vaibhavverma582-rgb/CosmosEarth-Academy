@@ -45,7 +45,7 @@ export default function LoginPage() {
       if (result?.error) {
         setError("Invalid email or password");
       } else {
-        router.push("/dashboard");
+        router.push("/profile");
         router.refresh();
       }
     } catch {
@@ -57,7 +57,7 @@ export default function LoginPage() {
 
   // Handle Google login
   const handleGoogleLogin = () => {
-    signIn("google", { callbackUrl: "/dashboard" });
+    signIn("google", { callbackUrl: "/profile" });
   };
 
   // Handle OTP send
@@ -119,7 +119,7 @@ export default function LoginPage() {
           // If credentials login fails, redirect to register
           router.push(`/auth/register?email=${encodeURIComponent(email)}`);
         } else {
-          router.push("/dashboard");
+          router.push("/profile");
           router.refresh();
         }
       } else {
@@ -252,6 +252,8 @@ export default function LoginPage() {
                   <div className="relative">
                     <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
                     <input
+                      id="login-password"
+                      name="password"
                       type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}

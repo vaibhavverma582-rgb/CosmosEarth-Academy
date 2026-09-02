@@ -100,7 +100,7 @@ export default function HomePage() {
               at a <span className="gradient-text-warm">time</span>
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-base text-white/40 sm:text-lg">
-              A comprehensive platform for Earth &amp; Space Science — blogs, notes, books, research papers, podcasts, and more.
+              A comprehensive platform for Earth &amp; Space Science — blogs, books, research papers, podcasts, and more.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link href="/blog" className="btn-cosmic inline-flex items-center gap-2 text-sm">
@@ -127,7 +127,7 @@ export default function HomePage() {
               Explore <span className="gradient-text-cyan">Earth &amp; Space Science</span>
             </h2>
             <p className="mx-auto mt-2 max-w-xl text-sm text-white/35">
-              Five scientific disciplines with blogs, videos, notes, books, research papers, podcasts, and more.
+              Five scientific disciplines with blogs, videos, books, research papers, podcasts, and more.
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

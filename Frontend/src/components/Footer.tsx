@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Rocket, Heart, Globe } from "lucide-react";
+import { Heart, Globe } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 const explore = [
   { title: "Blog", href: "/blog" },
@@ -18,9 +19,10 @@ const learn = [
 ];
 
 const resources = [
-  { title: "Notes", href: "/notes" },
+  { title: "Study Materials", href: "/store" },
   { title: "Books", href: "/books" },
   { title: "Research Papers", href: "/research-papers" },
+  { title: "Quizzes", href: "/quizzes" },
 ];
 
 export function Footer() {
@@ -32,14 +34,8 @@ export function Footer() {
         <div className="grid grid-cols-2 gap-8 py-10 sm:py-14 md:grid-cols-5">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-3">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-500 to-purple-500">
-                <Rocket className="h-3.5 w-3.5 text-white" />
-              </div>
-              <span className="font-display text-sm font-bold">
-                <span className="text-cyan-400">Cosmos</span>
-                <span className="text-white/80">Earth</span>
-              </span>
+            <Link href="/" className="mb-3">
+              <Logo size="sm" />
             </Link>
             <p className="text-xs leading-relaxed text-white/35 max-w-[200px]">
               Exploring the universe, one idea at a time. An educational platform for Earth &amp; Space Science.

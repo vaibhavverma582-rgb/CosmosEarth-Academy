@@ -93,31 +93,33 @@ export default function StorePage() {
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((p) => (
-              <Card key={p.id} className="group h-full">
-                <CardContent className="p-4">
-                  {p.coverImage && (
-                    <div className="mb-3 overflow-hidden rounded-xl bg-white/5 flex items-center justify-center">
-                      <img src={`${API_URL}${p.coverImage}`} alt={p.title} className="w-full max-h-56 object-contain transition-transform group-hover:scale-105" />
-                    </div>
-                  )}
-                  <h3 className="font-display text-sm font-bold text-white group-hover:text-cyan-300 transition-colors line-clamp-2">{p.title}</h3>
-                  {p.description && <p className="text-xs text-white/40 mt-1 line-clamp-2">{p.description}</p>}
-                  <div className="mt-3 flex items-center gap-2">
-                    <Badge variant="outline" className="text-[10px]">{p.type}</Badge>
-                    <Badge variant="outline" className="text-[10px]">{p.category}</Badge>
-                  </div>
-                  <div className="mt-3 flex items-center justify-between">
-                    {p.isFree || p.price === 0 ? (
-                      <Badge className="text-xs bg-green-500/20 text-green-400">Free</Badge>
-                    ) : (
-                      <Badge className="text-xs bg-orange-400/20 text-orange-400">
-                        <DollarSign className="mr-0.5 h-3 w-3" />₹{p.salePrice || p.price}
-                      </Badge>
+              <Link key={p.id} href={`/store/${p.id}`}>
+                <Card className="group h-full cursor-pointer transition-all hover:border-white/10">
+                  <CardContent className="p-4">
+                    {p.coverImage && (
+                      <div className="mb-3 overflow-hidden rounded-xl bg-white/5 flex items-center justify-center">
+                        <img src={`${API_URL}${p.coverImage}`} alt={p.title} className="w-full max-h-56 object-contain transition-transform group-hover:scale-105" />
+                      </div>
                     )}
-                    <span className="text-[10px] text-white/30">{p.downloads} downloads</span>
-                  </div>
-                </CardContent>
-              </Card>
+                    <h3 className="font-display text-sm font-bold text-white group-hover:text-cyan-300 transition-colors line-clamp-2">{p.title}</h3>
+                    {p.description && <p className="text-xs text-white/40 mt-1 line-clamp-2">{p.description}</p>}
+                    <div className="mt-3 flex items-center gap-2">
+                      <Badge variant="outline" className="text-[10px]">{p.type}</Badge>
+                      <Badge variant="outline" className="text-[10px]">{p.category}</Badge>
+                    </div>
+                    <div className="mt-3 flex items-center justify-between">
+                      {p.isFree || p.price === 0 ? (
+                        <Badge className="text-xs bg-green-500/20 text-green-400">Free</Badge>
+                      ) : (
+                        <Badge className="text-xs bg-orange-400/20 text-orange-400">
+                          <DollarSign className="mr-0.5 h-3 w-3" />₹{p.salePrice || p.price}
+                        </Badge>
+                      )}
+                      <span className="text-[10px] text-white/30">{p.downloads} downloads</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         )}

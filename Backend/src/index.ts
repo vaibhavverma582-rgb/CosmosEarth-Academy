@@ -31,6 +31,8 @@ import { blogCommentRoutes } from "./routes/blog-comments";
 import { storeRoutes } from "./routes/store";
 import { orderRoutes } from "./routes/orders";
 import { searchRoutes } from "./routes/search";
+import { visitorRoutes } from "./routes/visitors";
+import { adminRoutes } from "./routes/admin";
 
 // ─── Prisma Client ─────────────────────────────
 export const prisma = new PrismaClient();
@@ -111,6 +113,8 @@ app.use("/api/store", storeRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/purchases", orderRoutes);
 app.use("/api/search", searchRoutes);
+app.use("/api/visitors", visitorRoutes);
+app.use("/api/admin", adminRoutes);
 
 // Static files for uploads
 app.use("/uploads", express.static(UPLOAD_DIR));

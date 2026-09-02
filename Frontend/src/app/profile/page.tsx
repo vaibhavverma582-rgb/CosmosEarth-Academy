@@ -106,10 +106,12 @@ export default function ProfilePage() {
     );
   }
 
-  if (!session) {
+  if (status === "unauthenticated") {
     router.push("/auth/login");
     return null;
   }
+
+  if (!session) return null;
 
   const user = session.user;
 

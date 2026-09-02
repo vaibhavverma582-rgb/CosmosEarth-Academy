@@ -76,11 +76,7 @@ export default function DocumentariesPage() {
               Cinematic explorations of our universe and beyond
             </p>
           </div>
-          {session && (
-            <Link href="/documentaries/upload">
-              <Button><Plus className="h-4 w-4" /> Add Documentary</Button>
-            </Link>
-          )}
+
         </div>
 
         {/* Featured */}

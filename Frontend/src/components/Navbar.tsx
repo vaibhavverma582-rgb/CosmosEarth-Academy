@@ -4,10 +4,11 @@ import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import {
-  ChevronDown, Rocket, Menu, X, Globe, Telescope, User,
+  ChevronDown, Menu, X, Globe, Telescope, User,
   LayoutDashboard, LogOut, Brain, BarChart3, BookOpen,
   Mountain, Sparkles, Settings,
 } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 const earthSpaceItems = [
   { title: "Geology", href: "/geology", icon: Mountain, desc: "Rocks, tectonics, volcanoes", color: "text-orange-400" },
@@ -18,9 +19,7 @@ const earthSpaceItems = [
 ];
 
 const userMenuItems = [
-  { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { title: "Profile", href: "/profile", icon: User },
-  { title: "My Library", href: "/library", icon: BookOpen },
 ];
 
 const adminMenuItems = [
@@ -42,12 +41,7 @@ export function Navbar() {
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 shrink-0" onClick={closeMobile}>
-          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-gradient-to-br from-cyan-500 to-blue-600">
-            <Rocket className="h-3.5 w-3.5 text-white" />
-          </div>
-          <span className="font-display text-[15px] font-bold tracking-tight text-white/90">
-            Cosmos<span className="text-cyan-400">Earth</span>
-          </span>
+          <Logo size="md" />
           <span className="hidden sm:inline-flex rounded border border-purple-500/15 bg-purple-500/8 px-1.5 py-[1px] text-[8px] font-semibold uppercase tracking-widest text-purple-400/80">
             Academy
           </span>
@@ -82,9 +76,6 @@ export function Navbar() {
             )}
           </div>
 
-          <Link href="/quizzes" className="flex items-center gap-1 rounded-md px-2.5 py-1.5 text-[12.5px] font-medium text-white/55 transition-colors hover:text-white/85">
-            <Brain className="h-3 w-3 text-pink-400/70" /> Quizzes
-          </Link>
           <Link href="/visitors" className="flex items-center gap-1 rounded-md px-2.5 py-1.5 text-[12.5px] font-medium text-white/55 transition-colors hover:text-white/85">
             <BarChart3 className="h-3 w-3 text-orange-400/70" /> Visitors
           </Link>
@@ -162,9 +153,6 @@ export function Navbar() {
                   <span className="flex items-center gap-2.5"><Globe className="h-4 w-4 text-orange-400/70" /> Earth & Space Science</span>
                   <ChevronDown className="h-3.5 w-3.5 rotate-[-90deg] text-white/25" />
                 </button>
-                <Link href="/quizzes" onClick={closeMobile} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-white/65 hover:bg-white/[0.04]">
-                  <Brain className="h-4 w-4 text-pink-400/70" /> Quizzes
-                </Link>
                 <Link href="/visitors" onClick={closeMobile} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-white/65 hover:bg-white/[0.04]">
                   <BarChart3 className="h-4 w-4 text-orange-400/70" /> Visitors
                 </Link>

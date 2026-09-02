@@ -8,7 +8,6 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { useSession } from "next-auth/react";
 import { Select } from "@/components/ui/select";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -32,7 +31,6 @@ interface Paper {
 }
 
 export default function ResearchPapersPage() {
-  const { data: session } = useSession();
   const [papers, setPapers] = useState<Paper[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -55,17 +53,6 @@ export default function ResearchPapersPage() {
 
   const filtered = papers.filter((p) => !search || p.title.toLowerCase().includes(search.toLowerCase()) || p.authors.toLowerCase().includes(search.toLowerCase()));
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Delete this research paper?")) return;
-    try {
-      await fetch(`${API_URL}/api/research-papers/${id}`, {
-        method: "DELETE",
-        headers: { "x-user-id": session!.user.id },
-      });
-      setPapers((prev) => prev.filter((p) => p.id !== id));
-    } catch {}
-  };
-
   return (
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8">
@@ -75,11 +62,7 @@ export default function ResearchPapersPage() {
             <h1 className="font-display text-3xl font-bold text-white">Research Papers</h1>
             <p className="mt-1 text-sm text-white/50">Scientific research papers and journals</p>
           </div>
-          {session && (
-            <Link href="/research-papers/upload" className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 px-4 py-2.5 text-sm font-semibold text-white">
-              <Upload className="h-4 w-4" /> Add Paper
-            </Link>
-          )}
+
         </div>
 
         <div className="mb-6 flex flex-wrap gap-3">
@@ -133,13 +116,7 @@ export default function ResearchPapersPage() {
                       <ExternalLink className="h-3 w-3" /> View Paper
                     </a>
                   )}
-                  {session && (
-                    <div className="mt-2">
-                      <button onClick={() => handleDelete(paper.id)} className="flex items-center gap-1 rounded-lg border border-white/10 px-2 py-1 text-[10px] text-red-400 hover:bg-red-500/10 transition-colors">
-                        <Trash2 className="h-3 w-3" /> Delete
-                      </button>
-                    </div>
-                  )}
+
                 </CardContent>
               </Card>
             ))}

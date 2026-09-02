@@ -610,9 +610,11 @@ model QuizAttempt {
   timeTaken     Int?     // seconds
   completedAt   DateTime @default(now())
 
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-  quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  guestName String?
+
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
+  quiz   Quiz    @relation(fields: [quizId], references: [id], onDelete: Cascade)
   quizId String
 
   @@index([userId, quizId])
@@ -892,3 +894,25 @@ model Download {
   @@index([userId])
   @@map("downloads")
 }
+
+// ─── Visitor Tracking ──────────────────────────
+model Visitor {
+  id         String   @id @default(cuid())
+  ip         String?
+  userAgent  String?
+  page       String   // path visited, e.g. "/" "/blog" "/geology"
+  country    String?  // country name from client-side geo
+  countryCode String? // ISO country code (IN, US, etc.)
+  referer    String?  // where they came from
+  sessionId  String?  // browser session (tab-level)
+  visitorId  String?  // persistent browser fingerprint (localStorage)
+  userId     String?  // logged-in user ID if authenticated
+  createdAt  DateTime @default(now())
+
+  @@index([page])
+  @@index([createdAt])
+  @@index([sessionId])
+  @@index([visitorId])
+  @@map("visitors")
+}
+

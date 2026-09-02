@@ -27,6 +27,7 @@ const createQuestionSchema = z.object({
 const submitQuizSchema = z.object({
   answers: z.record(z.string(), z.string()),
   timeTaken: z.coerce.number().optional(),
+  guestName: z.string().optional(),
 });
 
 // ─── GET /api/quizzes — List quizzes ───────────
@@ -158,11 +159,9 @@ quizRoutes.post("/:id/questions", async (req: Request, res: Response) => {
 // POST /api/quizzes/:id/submit — Submit quiz attempt
 quizRoutes.post("/:id/submit", async (req: Request, res: Response) => {
   try {
-    const userId = req.headers["x-user-id"] as string;
-    if (!userId) return res.status(401).json({ error: "Auth required" });
-
+    const userId = req.headers["x-user-id"] as string | undefined;
     const quizId = req.params.id as string;
-    const { answers, timeTaken } = submitQuizSchema.parse(req.body);
+    const { answers, timeTaken, guestName } = submitQuizSchema.parse(req.body);
 
     // Get quiz with questions
     const quiz = await prisma.quiz.findUnique({
@@ -193,7 +192,8 @@ quizRoutes.post("/:id/submit", async (req: Request, res: Response) => {
 
     const attempt = await prisma.quizAttempt.create({
       data: {
-        userId,
+        userId: userId || undefined,
+        guestName: userId ? undefined : guestName?.trim() || undefined,
         quizId,
         answers: JSON.stringify(answers),
         score,
@@ -217,6 +217,51 @@ quizRoutes.post("/:id/submit", async (req: Request, res: Response) => {
     });
   } catch (error) {
     if (error instanceof z.ZodError) return res.status(400).json({ error: "Validation failed", details: error.errors });
+    res.status(500).json({ error: "Failed" });
+  }
+});
+
+// PUT /api/quizzes/:id — Update quiz info
+quizRoutes.put("/:id", async (req: Request, res: Response) => {
+  try {
+    const userId = req.headers["x-user-id"] as string;
+    if (!userId) return res.status(401).json({ error: "Auth required" });
+
+    const quiz = await prisma.quiz.findUnique({ where: { id: req.params.id as string } });
+    if (!quiz) return res.status(404).json({ error: "Quiz not found" });
+
+    const data = createQuizSchema.partial().parse(req.body);
+    const updated = await prisma.quiz.update({ where: { id: req.params.id as string }, data });
+    res.json({ data: updated });
+  } catch (error) {
+    if (error instanceof z.ZodError) return res.status(400).json({ error: "Validation failed", details: error.errors });
+    res.status(500).json({ error: "Failed" });
+  }
+});
+
+// PUT /api/quizzes/:id/questions/:qid — Update a question
+quizRoutes.put("/:id/questions/:qid", async (req: Request, res: Response) => {
+  try {
+    const data = createQuestionSchema.partial().parse(req.body);
+    const updateData: Record<string, any> = { ...data };
+    if (data.options) updateData.options = JSON.stringify(data.options);
+    const question = await prisma.quizQuestion.update({
+      where: { id: req.params.qid as string },
+      data: updateData,
+    });
+    res.json({ data: question });
+  } catch (error) {
+    if (error instanceof z.ZodError) return res.status(400).json({ error: "Validation failed", details: error.errors });
+    res.status(500).json({ error: "Failed" });
+  }
+});
+
+// DELETE /api/quizzes/:id/questions/:qid — Delete a question
+quizRoutes.delete("/:id/questions/:qid", async (req: Request, res: Response) => {
+  try {
+    await prisma.quizQuestion.delete({ where: { id: req.params.qid as string } });
+    res.json({ message: "Deleted" });
+  } catch (error) {
     res.status(500).json({ error: "Failed" });
   }
 });

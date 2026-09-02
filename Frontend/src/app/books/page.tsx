@@ -8,7 +8,6 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { useSession } from "next-auth/react";
 import { Select } from "@/components/ui/select";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -31,7 +30,6 @@ interface Book {
 }
 
 export default function BooksPage() {
-  const { data: session } = useSession();
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -54,17 +52,6 @@ export default function BooksPage() {
 
   const filtered = books.filter((b) => !search || b.title.toLowerCase().includes(search.toLowerCase()) || b.author.toLowerCase().includes(search.toLowerCase()));
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Delete this book?")) return;
-    try {
-      await fetch(`${API_URL}/api/books/${id}`, {
-        method: "DELETE",
-        headers: { "x-user-id": session!.user.id },
-      });
-      setBooks((prev) => prev.filter((b) => b.id !== id));
-    } catch {}
-  };
-
   return (
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8">
@@ -74,11 +61,7 @@ export default function BooksPage() {
             <h1 className="font-display text-3xl font-bold text-white">Books</h1>
             <p className="mt-1 text-sm text-white/50">Free and paid books and e-books</p>
           </div>
-          {session && (
-            <Link href="/books/upload" className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 px-4 py-2.5 text-sm font-semibold text-white">
-              <Upload className="h-4 w-4" /> Add Book
-            </Link>
-          )}
+
         </div>
 
         <div className="mb-6 flex flex-wrap gap-3">
@@ -130,13 +113,7 @@ export default function BooksPage() {
                       <ExternalLink className="h-3 w-3" /> External Link
                     </a>
                   )}
-                  {session && (
-                    <div className="mt-2">
-                      <button onClick={() => handleDelete(book.id)} className="flex items-center gap-1 rounded-lg border border-white/10 px-2 py-1 text-[10px] text-red-400 hover:bg-red-500/10 transition-colors">
-                        <Trash2 className="h-3 w-3" /> Delete
-                      </button>
-                    </div>
-                  )}
+
                 </CardContent>
               </Card>
             ))}

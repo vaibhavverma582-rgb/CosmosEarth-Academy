@@ -1,41 +1,21 @@
-import NextAuth from "next-auth";
-import authConfig from "@/auth.config";
-
-const { auth } = NextAuth(authConfig);
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 // Routes that require authentication
-const protectedRoutes = ["/dashboard", "/profile", "/settings"];
+const protectedRoutes = ["/profile", "/settings"];
 
-// Routes that should redirect to dashboard if already logged in
-const authRoutes = ["/auth/login", "/auth/register"];
-
-export default auth((req) => {
-  const { pathname } = req.nextUrl;
-  const isLoggedIn = !!req.auth;
-
-  // Protect authenticated routes
-  if (protectedRoutes.some((route) => pathname.startsWith(route))) {
-    if (!isLoggedIn) {
-      const callbackUrl = encodeURIComponent(pathname);
-      return Response.redirect(
-        new URL(`/auth/login?callbackUrl=${callbackUrl}`, req.url)
-      );
-    }
+export function middleware(req: NextRequest) {
+  try {
+    // For now, let NextAuth handle auth via session only
+    // Don't run the full auth middleware on every request
+    return NextResponse.next();
+  } catch {
+    return NextResponse.next();
   }
-
-  // Redirect logged-in users away from auth pages
-  if (authRoutes.some((route) => pathname.startsWith(route))) {
-    if (isLoggedIn) {
-      return Response.redirect(new URL("/dashboard", req.url));
-    }
-  }
-
-  return;
-});
+}
 
 export const config = {
   matcher: [
-    // Match all routes except static files, api routes, uploads, and Next.js internals
     "/((?!api|uploads|_next/static|_next/image|favicon.ico|.*\\.svg$).*)",
   ],
 };

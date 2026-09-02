@@ -8,7 +8,6 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { useSession } from "next-auth/react";
 import { Select } from "@/components/ui/select";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -37,7 +36,6 @@ interface Note {
 const categories = ["Geology", "Geography", "Astronomy", "Current Affairs", "General Science"];
 
 export default function NotesPage() {
-  const { data: session } = useSession();
   const [notes, setNotes] = useState<Note[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -45,17 +43,6 @@ export default function NotesPage() {
   const [accessFilter, setAccessFilter] = useState<"all" | "free" | "paid">("all");
 
   useEffect(() => { fetchNotes(); }, [category, accessFilter]);
-
-  const handleDelete = async (id: string) => {
-    if (!confirm("Delete this note?")) return;
-    try {
-      await fetch(`${API_URL}/api/notes/${id}`, {
-        method: "DELETE",
-        headers: { "x-user-id": session!.user.id },
-      });
-      setNotes((prev) => prev.filter((n) => n.id !== id));
-    } catch {}
-  };
 
   const fetchNotes = async () => {
     setLoading(true);
@@ -85,11 +72,7 @@ export default function NotesPage() {
             <h1 className="font-display text-3xl font-bold text-white">Notes</h1>
             <p className="mt-1 text-sm text-white/50">Free and paid study notes</p>
           </div>
-          {session && (
-            <Link href="/notes/upload" className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 px-4 py-2.5 text-sm font-semibold text-white">
-              <Upload className="h-4 w-4" /> Upload Note
-            </Link>
-          )}
+
         </div>
 
         {/* Filters */}
@@ -146,13 +129,7 @@ export default function NotesPage() {
                         ))}
                       </div>
                     )}
-                    {session && (
-                      <div className="mt-3 flex gap-2">
-                        <button onClick={(e) => { e.preventDefault(); handleDelete(note.id); }} className="flex items-center gap-1 rounded-lg border border-white/10 px-2 py-1 text-[10px] text-red-400 hover:bg-red-500/10 transition-colors">
-                          <Trash2 className="h-3 w-3" /> Delete
-                        </button>
-                      </div>
-                    )}
+
                   </CardContent>
                 </Card>
               </Link>

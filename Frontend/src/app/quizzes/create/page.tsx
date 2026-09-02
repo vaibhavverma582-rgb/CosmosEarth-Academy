@@ -23,9 +23,8 @@ const subjects = [
   "Astronomy",
   "Geology",
   "Geography",
-  "Physics",
-  "Space Engineering",
-  "General",
+  "Current Affairs",
+  "General Science",
 ];
 const difficulties = ["easy", "medium", "hard"];
 
@@ -47,7 +46,7 @@ export default function CreateQuizPage() {
   const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("");
   const [subject, setSubject] = useState("Astronomy");
-  const [category, setCategory] = useState("General");
+  const [category, setCategory] = useState("General Science");
   const [difficulty, setDifficulty] = useState("medium");
   const [timeLimit, setTimeLimit] = useState("");
   const [passingScore, setPassingScore] = useState("70");
@@ -395,7 +394,7 @@ export default function CreateQuizPage() {
                       type="text"
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
-                      placeholder="General"
+                      placeholder="General Science"
                       className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
                     />
                   </div>

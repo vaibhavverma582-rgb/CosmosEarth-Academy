@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Rocket, ArrowLeft, Home, Search, Map } from "lucide-react";
+import { Rocket, ArrowLeft, Home, Search, Map, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const metadata = {
@@ -40,10 +40,10 @@ export default function NotFound() {
               Return to Base
             </Button>
           </Link>
-          <Link href="/courses">
+          <Link href="/store">
             <Button variant="outline" size="lg">
               <BookOpen className="h-4 w-4" />
-              Browse Courses
+              Browse Store
             </Button>
           </Link>
         </div>
@@ -71,5 +71,4 @@ export default function NotFound() {
   );
 }
 
-// Need this import for the button
-import { BookOpen } from "lucide-react";
+

@@ -40,32 +40,6 @@ export default function PodcastsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [activeTab, setActiveTab] = useState<"all" | "favorites">("all");
-  const [deletingId, setDeletingId] = useState<string | null>(null);
-
-  const handleDelete = async (e: React.MouseEvent, id: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!confirm("Are you sure you want to delete this podcast?")) return;
-
-    setDeletingId(id);
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/podcasts/${id}`,
-        {
-          method: "DELETE",
-          headers: { "x-user-id": session!.user.id },
-        }
-      );
-      if (res.ok) {
-        setPodcasts((prev) => prev.filter((p) => p.id !== id));
-      }
-    } catch (err) {
-      console.error("Delete error:", err);
-    } finally {
-      setDeletingId(null);
-    }
-  };
-
   const fetchPodcasts = async () => {
     setLoading(true);
     try {
@@ -108,11 +82,7 @@ export default function PodcastsPage() {
               Audio explorations of science and the cosmos
             </p>
           </div>
-          {session && (
-            <Link href="/podcasts/upload">
-              <Button><Plus className="h-4 w-4" /> Add Podcast</Button>
-            </Link>
-          )}
+
         </div>
 
         {/* Tabs + Search + Filters */}
@@ -171,16 +141,7 @@ export default function PodcastsPage() {
                     <p className="mt-0.5 text-xs text-white/40">{podcast.author}</p>
                     <div className="mt-2 flex items-center justify-between text-[11px] text-white/30">
                       <span className="flex items-center gap-1"><Headphones className="h-3 w-3" />{_count(podcast)} episodes</span>
-                      {session && (
-                        <button
-                          onClick={(e) => handleDelete(e, podcast.id)}
-                          disabled={deletingId === podcast.id}
-                          className="rounded-lg p-1 transition-colors hover:bg-red-500/10 opacity-0 group-hover/podcast:opacity-100"
-                          title="Delete podcast"
-                        >
-                          <Trash2 className={`h-3 w-3 ${deletingId === podcast.id ? "text-red-300 animate-pulse" : "text-white/30 hover:text-red-400"}`} />
-                        </button>
-                      )}
+
                     </div>
                   </CardContent>
                 </Card>

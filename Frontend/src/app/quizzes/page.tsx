@@ -31,7 +31,7 @@ interface Quiz {
   _count: { questions: number; attempts: number };
 }
 
-const subjects = ["All", "Astronomy", "Geology", "Geography", "Physics", "Space Engineering", "General"];
+const subjects = ["All", "Astronomy", "Geology", "Geography", "Current Affairs", "General Science"];
 const difficulties = ["All", "easy", "medium", "hard"];
 
 const difficultyColors: Record<string, string> = {
@@ -53,7 +53,7 @@ export default function QuizzesPage() {
     try {
       const params = new URLSearchParams();
       if (searchQuery) params.set("search", searchQuery);
-      if (selectedSubject !== "All") params.set("subject", selectedSubject);
+      if (selectedSubject !== "All") params.set("category", selectedSubject);
       if (selectedDifficulty !== "All") params.set("difficulty", selectedDifficulty);
 
       const res = await fetch(
@@ -73,22 +73,6 @@ export default function QuizzesPage() {
   return (
     <div className="min-h-screen pt-24 pb-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="font-display text-3xl font-bold text-white sm:text-4xl">
-              <span className="gradient-text-cyan">Quizzes</span> & Tests
-            </h1>
-            <p className="mt-2 text-white/50">
-              Test your knowledge across astronomy, geology, and more
-            </p>
-          </div>
-          {session && (
-            <Link href="/quizzes/create">
-              <Button><Plus className="h-4 w-4" /> Create Quiz</Button>
-            </Link>
-          )}
-        </div>
 
         {/* Search + Filters */}
         <div className="mb-8 space-y-4">

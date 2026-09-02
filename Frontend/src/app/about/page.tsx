@@ -1,156 +1,229 @@
 import {
   Rocket,
   Globe,
-  Users,
-  Award,
-  Heart,
-  Star,
-  Target,
   Telescope,
+  BookOpen,
+  Brain,
+  Mountain,
+  Map,
+  Newspaper,
+  FlaskConical,
+  FileStack,
+  BookMarked,
+  Sparkles,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
 
-const team = [
+const subjects = [
   {
-    name: "Dr. Elena Vasquez",
-    role: "Founder & Lead Educator",
-    bio: "Former NASA JPL scientist with 15 years in planetary research.",
-    initials: "EV",
+    icon: Mountain,
+    name: "Geology",
+    description:
+      "Explore minerals, rocks, petrology, structural geology, geomorphology, and Earth processes.",
+    href: "/geology",
+    color: "text-orange-400",
+    bg: "from-orange-400/15 to-orange-400/5",
   },
   {
-    name: "Prof. James Chen",
-    role: "Head of Engineering",
-    bio: "Aerospace engineer and educator at MIT for 12 years.",
-    initials: "JC",
+    icon: Map,
+    name: "Geography",
+    description:
+      "Learn about physical geography, human geography, environment, maps, and GIS.",
+    href: "/geography",
+    color: "text-emerald-400",
+    bg: "from-emerald-400/15 to-emerald-400/5",
   },
   {
-    name: "Dr. Amara Singh",
-    role: "Director of Astrophysics",
-    bio: "Published 50+ papers on black hole dynamics and dark matter.",
-    initials: "AS",
+    icon: Telescope,
+    name: "Astronomy",
+    description:
+      "Discover planets, stars, galaxies, cosmology, and the science of the universe.",
+    href: "/astronomy",
+    color: "text-cyan-400",
+    bg: "from-cyan-400/15 to-cyan-400/5",
   },
   {
-    name: "Dr. Lisa Chang",
-    role: "Curriculum Director",
-    bio: "PhD in Science Education with a passion for accessible learning.",
-    initials: "LC",
+    icon: Newspaper,
+    name: "Current Affairs",
+    description:
+      "Stay informed about important developments in science, technology, environment, space, and the world.",
+    href: "/current-affairs",
+    color: "text-purple-400",
+    bg: "from-purple-400/15 to-purple-400/5",
+  },
+  {
+    icon: FlaskConical,
+    name: "General Science",
+    description:
+      "Build a broader understanding of physics, chemistry, biology, and everyday science.",
+    href: "/general-science",
+    color: "text-amber-400",
+    bg: "from-amber-400/15 to-amber-400/5",
   },
 ];
 
-const values = [
+const learnWays = [
   {
-    icon: Target,
-    title: "Mission-Driven",
-    description:
-      "Every course is designed to spark wonder and build real expertise in space science.",
+    icon: BookOpen,
+    title: "Study Materials",
+    description: "Notes, diagrams, explanations, and revision resources.",
+    color: "text-cyan-400",
+    bg: "from-cyan-400/15 to-cyan-400/5",
   },
   {
-    icon: Globe,
-    title: "Global Access",
-    description:
-      "We believe everyone deserves access to world-class space education, regardless of location.",
+    icon: Brain,
+    title: "Quizzes",
+    description: "Practice questions and knowledge assessments.",
+    color: "text-purple-400",
+    bg: "from-purple-400/15 to-purple-400/5",
   },
   {
-    icon: Heart,
-    title: "Community First",
-    description:
-      "Learning is better together. We foster a supportive, inclusive global community.",
+    icon: FileStack,
+    title: "Research Papers",
+    description: "Explore scientific literature and research.",
+    color: "text-orange-400",
+    bg: "from-orange-400/15 to-orange-400/5",
   },
   {
-    icon: Star,
-    title: "Excellence",
+    icon: BookMarked,
+    title: "Books & References",
     description:
-      "Our curriculum is vetted by leading scientists and engineers from top institutions.",
+      "Discover recommended books and additional resources.",
+    color: "text-emerald-400",
+    bg: "from-emerald-400/15 to-emerald-400/5",
   },
 ];
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen pt-24 pb-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         {/* Hero */}
         <div className="mb-16 text-center">
           <Badge variant="outline" className="mb-4">
             <Telescope className="mr-1 h-3 w-3" />
-            Our Story
+            About
           </Badge>
           <h1 className="font-display text-4xl font-bold text-white sm:text-5xl">
-            Making the Cosmos{" "}
-            <span className="gradient-text-cyan">Accessible</span> to Everyone
+            About{" "}
+            <span className="gradient-text-cyan">CosmosEarth Academy</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-3xl text-lg text-white/50">
-            CosmosEarth Academy was founded in 2022 with a simple belief: the
-            wonders of the universe should be accessible to every curious mind,
-            everywhere on Earth and beyond.
+        </div>
+
+        {/* Description */}
+        <div className="mb-16 space-y-5 text-center">
+          <p className="text-lg leading-relaxed text-white/50">
+            CosmosEarth Academy is an online educational platform created for
+            people who want to learn more about Earth and the universe.
+          </p>
+          <p className="text-base leading-relaxed text-white/40">
+            We bring together structured study materials, notes, quizzes,
+            articles, and other learning resources covering subjects across
+            Earth and Space Science.
+          </p>
+          <p className="text-base leading-relaxed text-white/40">
+            From minerals and rocks to planetary systems and the wider cosmos,
+            our goal is to make scientific knowledge easier to explore,
+            understand, and apply.
           </p>
         </div>
 
-        {/* Stats */}
-        <div className="mb-16 grid grid-cols-2 gap-4 md:grid-cols-4">
-          {[
-            { label: "Founded", value: "2022" },
-            { label: "Students", value: "12,500+" },
-            { label: "Countries", value: "85+" },
-            { label: "Courses", value: "180+" },
-          ].map((stat) => (
-            <div key={stat.label} className="glass-card rounded-xl p-6 text-center">
-              <p className="font-display text-3xl font-bold gradient-text-cyan">
-                {stat.value}
-              </p>
-              <p className="mt-1 text-sm text-white/50">{stat.label}</p>
-            </div>
-          ))}
+        <div className="section-divider mb-16" />
+
+        {/* Explore Our Subjects */}
+        <div className="mb-16">
+          <div className="text-center mb-8">
+            <h2 className="font-display text-2xl font-bold text-white">
+              Explore Our Subjects
+            </h2>
+            <p className="mt-2 text-sm text-white/35">
+              Discover learning resources across Earth, Space, and General
+              Science.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {subjects.map((s) => (
+              <Link key={s.name} href={s.href}>
+                <Card className="group h-full">
+                  <CardContent className="p-5">
+                    <div className="flex items-start gap-3">
+                      <div
+                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${s.bg}`}
+                      >
+                        <s.icon className={`h-5 w-5 ${s.color}`} />
+                      </div>
+                      <div className="flex-1">
+                        <h3
+                          className={`font-display text-base font-bold text-white ${s.color.replace("text-", "group-hover:text-")} transition-colors`}
+                        >
+                          {s.name}
+                        </h3>
+                        <p className="mt-1 text-[11px] text-white/30 leading-relaxed">
+                          {s.description}
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
         </div>
 
-        {/* Values */}
+        <div className="section-divider mb-16" />
+
+        {/* Learn Your Way */}
         <div className="mb-16">
-          <h2 className="mb-8 text-center font-display text-2xl font-bold text-white">
-            Our Values
-          </h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {values.map((v) => (
-              <Card key={v.title} className="text-center">
-                <CardHeader>
-                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-400/10">
-                    <v.icon className="h-6 w-6 text-cyan-400" />
+          <div className="text-center mb-8">
+            <h2 className="font-display text-2xl font-bold text-white">
+              Learn Your Way
+            </h2>
+            <p className="mt-2 text-sm text-white/35">
+              Subjects are what you learn. Resources are how you learn.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {learnWays.map((item) => (
+              <Card key={item.title}>
+                <CardContent className="p-5">
+                  <div className="flex items-start gap-4">
+                    <div
+                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${item.bg}`}
+                    >
+                      <item.icon className={`h-5 w-5 ${item.color}`} />
+                    </div>
+                    <div>
+                      <h3 className="font-display text-base font-bold text-white">
+                        {item.title}
+                      </h3>
+                      <p className="mt-1 text-sm text-white/40">
+                        {item.description}
+                      </p>
+                    </div>
                   </div>
-                  <CardTitle className="text-lg">{v.title}</CardTitle>
-                  <CardDescription>{v.description}</CardDescription>
-                </CardHeader>
+                </CardContent>
               </Card>
             ))}
           </div>
         </div>
 
-        {/* Team */}
-        <div>
-          <h2 className="mb-8 text-center font-display text-2xl font-bold text-white">
-            Meet the Team
+        <div className="section-divider mb-16" />
+
+        {/* Closing */}
+        <div className="text-center">
+          <h2 className="mb-4 font-display text-2xl font-bold text-white">
+            Keep Exploring
           </h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {team.map((member) => (
-              <Card key={member.name} className="text-center">
-                <CardHeader>
-                  <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 text-lg font-bold text-white">
-                    {member.initials}
-                  </div>
-                  <CardTitle className="text-lg">{member.name}</CardTitle>
-                  <CardDescription className="text-cyan-400">
-                    {member.role}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-white/50">{member.bio}</p>
-                </CardContent>
-              </Card>
-            ))}
+          <p className="mx-auto max-w-2xl text-base leading-relaxed text-white/40">
+            There is always more to discover—from the structure beneath our feet
+            to the universe beyond our planet.
+          </p>
+          <div className="mt-8">
+            <Link href="/" className="btn-cosmic inline-flex items-center gap-2 text-sm">
+              <Rocket className="h-4 w-4" /> Start Exploring
+            </Link>
           </div>
         </div>
       </div>

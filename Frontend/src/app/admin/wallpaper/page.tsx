@@ -55,25 +55,31 @@ export default function AdminWallpaperPage() {
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
+  // Logo
+  const [logoUrl, setLogoUrl] = useState<string | null>(null);
+  const [logoUploading, setLogoUploading] = useState(false);
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  const [selectedLogoFile, setSelectedLogoFile] = useState<File | null>(null);
+
   // Settings
   const [position, setPosition] = useState("center");
   const [size, setSize] = useState("cover");
   const [overlayOpacity, setOverlayOpacity] = useState(0.5);
 
-  // Fetch current wallpaper
+  // Fetch current wallpaper and logo
   useEffect(() => {
-    fetch(`${API_URL}/api/wallpaper`)
-      .then((r) => r.json())
-      .then((d) => {
-        if (d.data) {
-          setWallpaper(d.data);
-          setPosition(d.data.position);
-          setSize(d.data.size);
-          setOverlayOpacity(d.data.overlayOpacity);
-        }
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    Promise.all([
+      fetch(`${API_URL}/api/wallpaper`).then(r => r.json()),
+      fetch(`${API_URL}/api/wallpaper/logo`).then(r => r.json()),
+    ]).then(([wallpaperData, logoData]) => {
+      if (wallpaperData.data) {
+        setWallpaper(wallpaperData.data);
+        setPosition(wallpaperData.data.position);
+        setSize(wallpaperData.data.size);
+        setOverlayOpacity(wallpaperData.data.overlayOpacity);
+      }
+      if (logoData.data) setLogoUrl(logoData.data);
+    }).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
   // Handle file selection
@@ -87,6 +93,84 @@ export default function AdminWallpaperPage() {
     const reader = new FileReader();
     reader.onload = (ev) => setPreview(ev.target?.result as string);
     reader.readAsDataURL(file);
+  };
+
+  // Handle logo file selection
+  const handleLogoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setSelectedLogoFile(file);
+    setError("");
+
+    const reader = new FileReader();
+    reader.onload = (ev) => setLogoPreview(ev.target?.result as string);
+    reader.readAsDataURL(file);
+  };
+
+  // Upload logo
+  const handleLogoUpload = async () => {
+    if (!selectedLogoFile) return;
+
+    setLogoUploading(true);
+    setError("");
+    setSuccess("");
+
+    try {
+      const formData = new FormData();
+      formData.append("logo", selectedLogoFile);
+
+      const res = await fetch(`${API_URL}/api/wallpaper/logo`, {
+        method: "POST",
+        headers: { "x-user-id": session?.user?.id || "" },
+        body: formData,
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setLogoUrl(data.data);
+        setLogoPreview(null);
+        setSelectedLogoFile(null);
+        setSuccess("Logo uploaded successfully!");
+        window.dispatchEvent(new Event("logo-updated"));
+        setTimeout(() => setSuccess(""), 3000);
+      } else {
+        const data = await res.json();
+        setError(data.error || "Logo upload failed");
+      }
+    } catch {
+      setError("Failed to upload logo");
+    } finally {
+      setLogoUploading(false);
+    }
+  };
+
+  // Delete logo
+  const handleLogoDelete = async () => {
+    setDeleting(true);
+    setError("");
+    setSuccess("");
+
+    try {
+      const res = await fetch(`${API_URL}/api/wallpaper/logo`, {
+        method: "DELETE",
+        headers: { "x-user-id": session?.user?.id || "" },
+      });
+
+      if (res.ok) {
+        setLogoUrl(null);
+        setSuccess("Logo removed. Using default SVG logo.");
+        window.dispatchEvent(new Event("logo-updated"));
+        setTimeout(() => setSuccess(""), 3000);
+      } else {
+        const data = await res.json();
+        setError(data.error || "Failed to remove logo");
+      }
+    } catch {
+      setError("Failed to remove logo");
+    } finally {
+      setDeleting(false);
+    }
   };
 
   // Upload and set wallpaper
@@ -248,6 +332,71 @@ export default function AdminWallpaperPage() {
           </div>
         )}
 
+        {/* Website Logo */}
+        <Card className="mb-6">
+          <CardContent className="p-6">
+            <h3 className="font-display text-sm font-bold text-white mb-4">Website Logo</h3>
+            <div className="flex flex-col gap-4">
+              {/* Current Logo */}
+              <div className="flex items-center gap-4">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-white/5">
+                  {logoUrl ? (
+                    <img src={`${API_URL}${logoUrl}`} alt="Current logo" className="h-14 w-14 rounded-full object-cover" />
+                  ) : (
+                    <span className="text-xs text-white/30">Default</span>
+                  )}
+                </div>
+                <div>
+                  <p className="text-sm text-white/60">{logoUrl ? "Custom logo uploaded" : "Using default SVG logo"}</p>
+                  {logoUrl && (
+                    <button
+                      onClick={handleLogoDelete}
+                      disabled={deleting}
+                      className="mt-1 text-xs text-red-400 hover:text-red-300"
+                    >
+                      {deleting ? "Removing..." : "Remove logo"}
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Upload Logo */}
+              <div>
+                <label className="mb-2 block text-xs font-medium text-white/50">Upload new logo</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleLogoSelect}
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white file:mr-3 file:rounded-lg file:border-0 file:bg-cyan-500/20 file:px-3 file:py-1 file:text-xs file:text-cyan-400"
+                />
+              </div>
+
+              {/* Logo Preview & Upload Button */}
+              {logoPreview && (
+                <div className="flex items-center gap-4">
+                  <img src={logoPreview} alt="Logo preview" className="h-16 w-16 rounded-full object-cover border border-white/10" />
+                  <div className="flex gap-2">
+                    <button
+                      onClick={handleLogoUpload}
+                      disabled={logoUploading}
+                      className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 px-4 py-2 text-sm font-semibold text-white"
+                    >
+                      {logoUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                      {logoUploading ? "Uploading..." : "Save Logo"}
+                    </button>
+                    <button
+                      onClick={() => { setLogoPreview(null); setSelectedLogoFile(null); }}
+                      className="rounded-xl border border-white/10 px-4 py-2 text-sm text-white/50 hover:bg-white/5"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Current Wallpaper */}
         <Card className="mb-6">
           <CardContent className="p-6">
@@ -302,7 +451,7 @@ export default function AdminWallpaperPage() {
                 <p className="text-xs text-white/30 mt-1">JPEG, PNG, GIF, WebP — max 20MB</p>
               </div>
               <input
-                type="file"
+                id="wallpaper-file" name="wallpaper" type="file"
                 accept="image/*"
                 onChange={handleFileSelect}
                 className="hidden"

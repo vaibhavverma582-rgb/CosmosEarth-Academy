@@ -19,16 +19,6 @@ import { Button } from "@/components/ui/button";
 
 const sections = [
   {
-    title: "Notes",
-    description: "Study notes, cheat sheets, and resources uploaded by the community",
-    href: "/notes",
-    icon: FileText,
-    color: "from-cyan-400/20 to-cyan-500/5",
-    iconColor: "text-cyan-400",
-    stats: "Upload & share study materials",
-    gradient: "from-cyan-400 to-cyan-400",
-  },
-  {
     title: "Gallery",
     description: "Stunning astronomy, geology, and space imagery — free to download",
     href: "/gallery",
@@ -75,7 +65,7 @@ const quickLinks = [
   { label: "Astronomy", href: "/astronomy", icon: "🔭" },
   { label: "Geology", href: "/geology", icon: "🪨" },
   { label: "Geography", href: "/geography", icon: "🌍" },
-  { label: "Dashboard", href: "/dashboard", icon: "📊" },
+  { label: "Dashboard", href: "/profile", icon: "📊" },
 ];
 
 export default function MediaPage() {
@@ -95,7 +85,7 @@ export default function MediaPage() {
               <span className="text-white">Content</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg text-white/50">
-              Notes, images, videos, documentaries, and podcasts — everything you need to
+              Images, videos, documentaries, and podcasts — everything you need to
               explore the cosmos in one place.
             </p>
           </div>
@@ -151,7 +141,7 @@ export default function MediaPage() {
         <div className="glass-card rounded-2xl p-6 sm:p-8">
           <div className="grid grid-cols-2 gap-6 md:grid-cols-5">
             {[
-              { icon: FileText, label: "Study Notes", value: "Community", color: "text-cyan-400" },
+
               { icon: Images, label: "Images", value: "High-res", color: "text-purple-400" },
               { icon: Video, label: "Videos", value: "YouTube", color: "text-orange-400" },
               { icon: Film, label: "Documentaries", value: "Curated", color: "text-pink-400" },

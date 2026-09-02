@@ -106,14 +106,6 @@ export default function VideosPage() {
                 Playlists
               </Button>
             </Link>
-            {session && (
-              <Link href="/videos/upload">
-                <Button>
-                  <Upload className="h-4 w-4" />
-                  Upload Video
-                </Button>
-              </Link>
-            )}
           </div>
         </div>
 

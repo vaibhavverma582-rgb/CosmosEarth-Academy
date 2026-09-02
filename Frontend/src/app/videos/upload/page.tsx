@@ -56,10 +56,11 @@ export default function VideoUploadPage() {
       </div>
     );
   }
-  if (!session) {
+  if (status === "unauthenticated") {
     router.push("/auth/login");
     return null;
   }
+  if (!session) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

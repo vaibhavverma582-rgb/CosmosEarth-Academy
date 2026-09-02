@@ -4,6 +4,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SessionProvider } from "@/components/SessionProvider";
 import { WallpaperProvider } from "@/components/WallpaperProvider";
+import { PageTracker } from "@/components/PageTracker";
 
 export const metadata: Metadata = {
   title: {
@@ -70,6 +71,9 @@ export default function RootLayout({
         <div className="cosmic-orb-1" />
         <div className="cosmic-orb-2" />
         <div className="cosmic-orb-3" />
+
+        {/* Track page views */}
+        <PageTracker />
 
         {/* Main content */}
         <SessionProvider>

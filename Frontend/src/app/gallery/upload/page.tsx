@@ -31,7 +31,8 @@ export default function GalleryUploadPage() {
   if (status === "loading") {
     return <div className="flex min-h-[70vh] items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-cyan-400" /></div>;
   }
-  if (!session) { router.push("/auth/login"); return null; }
+  if (status === "unauthenticated") { router.push("/auth/login"); return null; }
+  if (!session) return null;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   FileText, Video, BookOpen, Headphones, Images, Search, Loader2,
-  ArrowRight, ExternalLink, FileStack, Tag, Calendar, ShoppingCart,
+  ArrowRight, ExternalLink, FileStack, Tag, Calendar, ShoppingCart, Brain,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,11 +14,11 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 const contentTabs = [
   { key: "blog", label: "Blogs", icon: FileText, color: "text-cyan-400" },
   { key: "video", label: "Videos", icon: Video, color: "text-red-400" },
-  { key: "note", label: "Notes", icon: BookOpen, color: "text-purple-400" },
   { key: "book", label: "Books", icon: BookOpen, color: "text-emerald-400" },
   { key: "paper", label: "Research Papers", icon: FileStack, color: "text-orange-400" },
   { key: "podcast", label: "Podcasts", icon: Headphones, color: "text-pink-400" },
   { key: "gallery", label: "Images", icon: Images, color: "text-amber-400" },
+  { key: "quiz", label: "Quizzes", icon: Brain, color: "text-purple-400" },
   { key: "store", label: "Study Materials", icon: ShoppingCart, color: "text-cyan-400" },
 ];
 
@@ -54,11 +54,12 @@ export default function CategoryPage({
       switch (activeTab) {
         case "blog": url = `${API_URL}/api/blog?category=${category}&limit=20`; break;
         case "video": url = `${API_URL}/api/videos?category=${category}&limit=20`; break;
-        case "note": url = `${API_URL}/api/notes?mediaCategory=${category}&limit=20`; break;
+
         case "book": url = `${API_URL}/api/books?category=${category}&limit=20`; break;
         case "paper": url = `${API_URL}/api/research-papers?category=${category}&limit=20`; break;
         case "podcast": url = `${API_URL}/api/podcasts?category=${category}&limit=20`; break;
         case "gallery": url = `${API_URL}/api/gallery?category=${category}&limit=20`; break;
+        case "quiz": url = `${API_URL}/api/quizzes?category=${category}&limit=20`; break;
         case "store": url = `${API_URL}/api/store?category=${category}&limit=20`; break;
       }
       if (url) {
@@ -76,7 +77,7 @@ export default function CategoryPage({
     const term = search.toLowerCase();
     return (i.title || "").toLowerCase().includes(term) ||
       (i.description || i.excerpt || i.abstract || "").toLowerCase().includes(term) ||
-      (i.author || "").toLowerCase().includes(term) ||
+      (typeof i.author === 'string' ? i.author : i.author?.name || "").toLowerCase().includes(term) ||
       (i.tags || "").toLowerCase().includes(term);
   });
 
@@ -237,7 +238,7 @@ function ContentCard({ item, type }: { item: any; type: string }) {
               </div>
               <div className="min-w-0">
                 <h3 className="font-display text-sm font-bold text-white group-hover:text-cyan-300 transition-colors">{item.title}</h3>
-                <p className="text-[11px] text-emerald-400/70">{item.author}</p>
+                <p className="text-[11px] text-emerald-400/70">{typeof item.author === 'string' ? item.author : item.author?.name}</p>
                 <p className="text-[11px] text-white/35 mt-1 line-clamp-1">{item.description}</p>
               </div>
             </div>
@@ -247,8 +248,8 @@ function ContentCard({ item, type }: { item: any; type: string }) {
     );
   }
 
-  // Book / Store cards
-  if (type === "book" || type === "store") {
+  // Book cards
+  if (type === "book") {
     return (
       <Card className="group h-full">
         <CardContent className="p-4">
@@ -258,7 +259,7 @@ function ContentCard({ item, type }: { item: any; type: string }) {
             </div>
           )}
           <h3 className="font-display text-sm font-bold text-white group-hover:text-cyan-300 transition-colors line-clamp-2">{item.title}</h3>
-          {item.author && <p className="text-[11px] text-white/35 mt-1">by {item.author}</p>}
+          {item.author && <p className="text-[11px] text-white/35 mt-1">by {typeof item.author === 'string' ? item.author : item.author?.name}</p>}
           {item.description && <p className="text-[11px] text-white/25 mt-1 line-clamp-2">{item.description}</p>}
           <div className="mt-2 flex items-center gap-2">
             {item.isFree !== false || item.price === 0 ? (
@@ -280,6 +281,63 @@ function ContentCard({ item, type }: { item: any; type: string }) {
           )}
         </CardContent>
       </Card>
+    );
+  }
+
+  // Quiz cards
+  if (type === "quiz") {
+    return (
+      <Link href={`/quizzes/${item.slug}`}>
+        <Card className="group h-full">
+          <CardContent className="p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-400/10">
+                <Brain className="h-4 w-4 text-purple-400" />
+              </div>
+              <Badge variant="outline" className={`text-[10px] ${item.difficulty === 'easy' ? 'text-green-400 border-green-500/20' : item.difficulty === 'hard' ? 'text-red-400 border-red-500/20' : 'text-orange-400 border-orange-500/20'}`}>{item.difficulty}</Badge>
+            </div>
+            <h3 className="font-display text-sm font-bold text-white group-hover:text-cyan-300 transition-colors line-clamp-2">{item.title}</h3>
+            {item.description && <p className="text-[11px] text-white/25 mt-1 line-clamp-2">{item.description}</p>}
+            <div className="mt-2 flex items-center gap-3 text-[11px] text-white/30">
+              <span>{item._count?.questions || 0} questions</span>
+              <span>{item._count?.attempts || 0} attempts</span>
+            </div>
+            <div className="mt-2 inline-flex items-center gap-1 text-[11px] text-cyan-400">
+              Take Quiz →
+            </div>
+          </CardContent>
+        </Card>
+      </Link>
+    );
+  }
+
+  // Store cards — link to purchase page
+  if (type === "store") {
+    return (
+      <Link href={`/store/${item.id}`}>
+        <Card className="group h-full">
+          <CardContent className="p-4">
+            {item.coverImage && (
+              <div className="mb-3 overflow-hidden rounded-lg bg-white/[0.02] flex items-center justify-center">
+                <img src={`${API_URL}${item.coverImage}`} alt={item.title} className="w-full max-h-48 object-contain transition-transform group-hover:scale-105" />
+              </div>
+            )}
+            <h3 className="font-display text-sm font-bold text-white group-hover:text-cyan-300 transition-colors line-clamp-2">{item.title}</h3>
+            {item.description && <p className="text-[11px] text-white/25 mt-1 line-clamp-2">{item.description}</p>}
+            <div className="mt-2 flex items-center gap-2">
+              {item.isFree || item.price === 0 ? (
+                <Badge className="text-[10px] bg-emerald-500/15 text-emerald-400 border-emerald-500/20">Free</Badge>
+              ) : (
+                <Badge className="text-[10px] bg-orange-500/15 text-orange-400 border-orange-500/20">₹{item.salePrice || item.price}</Badge>
+              )}
+              {item.type && <Badge variant="outline" className="text-[10px]">{item.type}</Badge>}
+            </div>
+            <div className="mt-2 inline-flex items-center gap-1 text-[11px] text-cyan-400">
+              {item.isFree || item.price === 0 ? "Open Material →" : "View Details →"}
+            </div>
+          </CardContent>
+        </Card>
+      </Link>
     );
   }
 

@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
-import { Calendar, ArrowRight, Tag, BookOpen, Loader2, Plus, Trash2 } from "lucide-react";
+import { Calendar, ArrowRight, Tag, BookOpen, Loader2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -22,10 +21,9 @@ interface BlogPost {
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 export default function BlogPage() {
-  const { data: session } = useSession();
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const [deletingId, setDeletingId] = useState<string | null>(null);
+
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -43,27 +41,6 @@ export default function BlogPage() {
     };
     fetchPosts();
   }, []);
-
-  const handleDelete = async (e: React.MouseEvent, id: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!confirm("Are you sure you want to delete this post?")) return;
-
-    setDeletingId(id);
-    try {
-      const res = await fetch(`${API_URL}/api/blog/${id}`, {
-        method: "DELETE",
-        headers: { "x-user-id": session!.user.id },
-      });
-      if (res.ok) {
-        setPosts((prev) => prev.filter((p) => p.id !== id));
-      }
-    } catch (err) {
-      console.error("Delete error:", err);
-    } finally {
-      setDeletingId(null);
-    }
-  };
 
   const formatDate = (dateStr: string) => {
     return new Date(dateStr).toLocaleDateString("en-US", {
@@ -90,14 +67,7 @@ export default function BlogPage() {
               Thoughts on space, science, and the patterns we find in the cosmos.
             </p>
           </div>
-          {session && (session.user as any).role === 'admin' && (
-            <Link href="/blog/upload">
-              <button className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 px-4 py-2.5 text-sm font-semibold text-white transition-all hover:shadow-cosmos-sm mt-14">
-                <Plus className="h-4 w-4" />
-                New Post
-              </button>
-            </Link>
-          )}
+
         </div>
 
         {/* Loading */}
@@ -143,16 +113,7 @@ export default function BlogPage() {
                         {formatDate(post.createdAt)}
                       </span>
                       <div className="flex items-center gap-2">
-                        {session && (
-                          <button
-                            onClick={(e) => handleDelete(e, post.id)}
-                            disabled={deletingId === post.id}
-                            className="rounded-lg p-1.5 transition-colors hover:bg-red-500/10 opacity-0 group-hover/post:opacity-100"
-                            title="Delete post"
-                          >
-                            <Trash2 className={`h-3.5 w-3.5 ${deletingId === post.id ? "text-red-300 animate-pulse" : "text-white/30 hover:text-red-400"}`} />
-                          </button>
-                        )}
+
                         <span className="flex items-center gap-1 text-xs font-medium text-cyan-400 opacity-0 group-hover:opacity-100 transition-all">
                           Read more <ArrowRight className="h-3 w-3" />
                         </span>

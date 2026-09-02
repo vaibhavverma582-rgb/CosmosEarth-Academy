@@ -141,3 +141,69 @@ wallpaperRoutes.delete("/", async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to delete wallpaper" });
   }
 });
+
+// ─── Logo routes ──────────────────────────────────
+const logoDir = path.join(__dirname, "../../uploads/logo");
+if (!fs.existsSync(logoDir)) {
+  fs.mkdirSync(logoDir, { recursive: true });
+}
+
+const logoStorage = multer.diskStorage({
+  destination: (_req, _file, cb) => cb(null, logoDir),
+  filename: (_req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, `logo-${Date.now()}${ext}`);
+  },
+});
+
+const logoUpload = multer({
+  storage: logoStorage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    const allowed = ["image/jpeg", "image/png", "image/gif", "image/webp", "image/svg+xml"];
+    if (allowed.includes(file.mimetype)) cb(null, true);
+    else cb(new Error(`File type ${file.mimetype} not allowed`));
+  },
+});
+
+// Store active logo path in memory (simple approach)
+let activeLogoPath: string | null = null;
+
+wallpaperRoutes.get("/logo", (_req: Request, res: Response) => {
+  res.json({ data: activeLogoPath });
+});
+
+wallpaperRoutes.post("/logo", logoUpload.single("logo"), async (req: Request, res: Response) => {
+  try {
+    const userId = req.headers["x-user-id"] as string;
+    if (!(await requireAuth(userId))) {
+      return res.status(403).json({ error: "Authentication required" });
+    }
+
+    const file = req.file;
+    if (!file) {
+      return res.status(400).json({ error: "No logo provided" });
+    }
+
+    activeLogoPath = `/uploads/logo/${file.filename}`;
+    res.status(201).json({ data: activeLogoPath });
+  } catch (error) {
+    console.error("Logo upload error:", error);
+    res.status(500).json({ error: "Failed to upload logo" });
+  }
+});
+
+wallpaperRoutes.delete("/logo", async (req: Request, res: Response) => {
+  try {
+    const userId = req.headers["x-user-id"] as string;
+    if (!(await requireAuth(userId))) {
+      return res.status(403).json({ error: "Authentication required" });
+    }
+
+    activeLogoPath = null;
+    res.json({ data: null });
+  } catch (error) {
+    console.error("Logo delete error:", error);
+    res.status(500).json({ error: "Failed to delete logo" });
+  }
+});

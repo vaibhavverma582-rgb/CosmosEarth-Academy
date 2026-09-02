@@ -28,7 +28,8 @@ export default function DocumentaryUploadPage() {
   const [error, setError] = useState("");
 
   if (status === "loading") return <div className="flex min-h-[70vh] items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-cyan-400" /></div>;
-  if (!session) { router.push("/auth/login"); return null; }
+  if (status === "unauthenticated") { router.push("/auth/login"); return null; }
+  if (!session) return null;
 
   const autoSlug = (t: string) => setSlug(t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""));
 
@@ -78,7 +79,7 @@ export default function DocumentaryUploadPage() {
                 <div key={f.label}>
                   <label className="mb-1.5 block text-sm font-medium text-white/70">{f.label}</label>
                   {f.type === "textarea" ? (
-                    <textarea value={f.value} onChange={(e) => f.onChange(e.target.value)} rows={4} placeholder={f.placeholder}
+                    <textarea id="doc-field" name="field" value={f.value} onChange={(e) => f.onChange(e.target.value)} rows={4} placeholder={f.placeholder}
                       className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30 resize-none" />
                   ) : (
                     <input type="text" value={f.value} onChange={(e) => f.onChange(e.target.value)} placeholder={f.placeholder}
@@ -105,7 +106,7 @@ export default function DocumentaryUploadPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-white/70">Category</label>
-                  <select value={category} onChange={(e) => setCategory(e.target.value)}
+                  <select id="doc-category" name="category" value={category} onChange={(e) => setCategory(e.target.value)}
                     className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30">
                     {cats.map((c) => <option key={c} value={c} className="bg-cosmos-navy">{c}</option>)}
                   </select>

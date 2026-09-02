@@ -76,7 +76,7 @@ export default function LibraryPage() {
     return <div className="flex justify-center py-20"><Loader2 className="h-8 w-8 animate-spin text-cyan-400" /></div>;
   }
 
-  if (!session) {
+  if (status === "unauthenticated") {
     router.push("/auth/login");
     return null;
   }

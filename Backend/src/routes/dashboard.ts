@@ -18,6 +18,7 @@ dashboardRoutes.get("/", async (req: Request, res: Response) => {
       notes,
       quizAttempts,
       noteCount,
+      purchasedProducts,
     ] = await Promise.all([
       // 1. Enrolled courses with progress
       prisma.enrollment.findMany({
@@ -98,6 +99,17 @@ dashboardRoutes.get("/", async (req: Request, res: Response) => {
 
       // 7. Total notes uploaded
       prisma.note.count({ where: { authorId: userId } }),
+
+      // 8. Purchased notes
+      prisma.purchase.findMany({
+        where: { userId },
+        include: {
+          product: { select: { id: true, title: true, description: true, category: true, coverImage: true } },
+          book: { select: { id: true, title: true, coverImage: true, category: true } },
+        },
+        orderBy: { createdAt: "desc" },
+        take: 10,
+      }),
     ]);
 
     // Calculate stats
@@ -129,6 +141,7 @@ dashboardRoutes.get("/", async (req: Request, res: Response) => {
         totalNotesUploaded: noteCount,
         totalBookmarks: noteBookmarks.length,
         totalWatchHistory: watchProgress.length + listeningHistory.length,
+        totalPurchasedNotes: purchasedProducts.length,
       },
       enrollments: enrollments.map((e) => ({
         ...e.course,
@@ -169,6 +182,13 @@ dashboardRoutes.get("/", async (req: Request, res: Response) => {
         completedAt: a.completedAt,
       })),
       recentAttempts: quizAttempts.slice(0, 5),
+      purchasedNotes: purchasedProducts.map((p) => ({
+        id: p.id,
+        title: p.product?.title || p.book?.title || "Untitled",
+        category: p.product?.category || p.book?.category || "",
+        coverImage: p.product?.coverImage || p.book?.coverImage,
+        purchasedAt: p.createdAt,
+      })),
     });
   } catch (error) {
     console.error("Dashboard error:", error);

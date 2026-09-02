@@ -64,6 +64,7 @@ export default function QuizPage({ params }: { params: Promise<{ slug: string }>
   const [result, setResult] = useState<QuizResult | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [guestName, setGuestName] = useState("");
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -114,17 +115,17 @@ export default function QuizPage({ params }: { params: Promise<{ slug: string }>
   };
 
   const handleSubmit = async () => {
-    if (!quiz || !session) return;
+    if (!quiz) return;
     setSubmitting(true);
     setError("");
     try {
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (session?.user?.id) headers["x-user-id"] = session.user.id;
+      const body: Record<string, any> = { answers, timeTaken: quiz.timeLimit ? (quiz.timeLimit * 60 - timeLeft) : undefined };
+      if (!session?.user?.id && guestName.trim()) body.guestName = guestName.trim();
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/quizzes/${quiz.id}/submit`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "x-user-id": session.user.id },
-          body: JSON.stringify({ answers, timeTaken: quiz.timeLimit ? (quiz.timeLimit * 60 - timeLeft) : undefined }),
-        }
+        { method: "POST", headers, body: JSON.stringify(body) }
       );
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to submit");
@@ -196,8 +197,20 @@ export default function QuizPage({ params }: { params: Promise<{ slug: string }>
 
               {error && <div className="mb-4 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400 flex items-center gap-2"><AlertCircle className="h-4 w-4" />{error}</div>}
 
-              <Button size="lg" onClick={startQuiz} disabled={!session}>
-                {session ? "Start Quiz" : "Sign in to take quiz"}
+              {!session && (
+                <div className="mb-4">
+                  <label className="mb-1.5 block text-sm font-medium text-white/70">Your Name</label>
+                  <input
+                    type="text"
+                    value={guestName}
+                    onChange={(e) => setGuestName(e.target.value)}
+                    placeholder="Enter your name..."
+                    className="mx-auto w-full max-w-xs rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white text-center placeholder:text-white/30 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
+                  />
+                </div>
+              )}
+              <Button size="lg" onClick={startQuiz} disabled={!session && !guestName.trim()}>
+                Start Quiz
               </Button>
             </CardContent>
           </Card>

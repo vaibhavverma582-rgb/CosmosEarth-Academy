@@ -1,12 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import {
-  Search, Loader2, FileText, Video, BookOpen, Headphones, Images,
-  FileStack, ShoppingCart, ArrowRight,
-} from "lucide-react";
+import { Loader2, Search, FileText, Video, BookOpen, Headphones, Images, FileStack, ShoppingCart, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -15,7 +12,6 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 const typeIcons: Record<string, any> = {
   blogs: FileText,
   videos: Video,
-  notes: BookOpen,
   books: FileStack,
   researchPapers: FileStack,
   podcasts: Headphones,
@@ -26,7 +22,6 @@ const typeIcons: Record<string, any> = {
 const typeLabels: Record<string, string> = {
   blogs: "Blogs",
   videos: "Videos",
-  notes: "Notes",
   books: "Books",
   researchPapers: "Research Papers",
   podcasts: "Podcasts",
@@ -34,7 +29,7 @@ const typeLabels: Record<string, string> = {
   storeProducts: "Study Materials",
 };
 
-export default function SearchPage() {
+function SearchContent() {
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get("q") || "";
   const [query, setQuery] = useState(initialQuery);
@@ -73,7 +68,7 @@ export default function SearchPage() {
           <h1 className="font-display text-3xl font-bold text-white">
             Search <span className="gradient-text-cyan">Everything</span>
           </h1>
-          <p className="mt-2 text-sm text-white/50">Search across blogs, videos, notes, books, research papers, podcasts, images, and study materials</p>
+          <p className="mt-2 text-sm text-white/50">Search across blogs, videos, books, research papers, podcasts, images, and study materials</p>
         </div>
 
         <form onSubmit={handleSubmit} className="mb-8">
@@ -83,7 +78,7 @@ export default function SearchPage() {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search blogs, videos, notes, books, papers..."
+              placeholder="Search blogs, videos, books, papers..."
               className="w-full rounded-2xl border border-white/10 bg-white/5 py-3.5 pl-12 pr-24 text-white placeholder:text-white/30 focus:border-cyan-400 focus:outline-none text-base"
               autoFocus
             />
@@ -136,5 +131,13 @@ export default function SearchPage() {
         ) : null}
       </div>
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div className="flex justify-center py-20"><Loader2 className="h-6 w-6 animate-spin text-cyan-400" /></div>}>
+      <SearchContent />
+    </Suspense>
   );
 }

@@ -186,6 +186,49 @@ storeRoutes.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
+// ─── GET /api/store/:id/purchase-status — Check if user purchased ──
+storeRoutes.get("/:id/purchase-status", async (req: Request, res: Response) => {
+  try {
+    const userId = req.headers["x-user-id"] as string | undefined;
+    const productId = req.params.id as string;
+
+    const product = await prisma.storeProduct.findUnique({ where: { id: productId } });
+    if (!product) return res.status(404).json({ error: "Product not found" });
+
+    // Free products don't need purchase
+    if (product.isFree || product.price === 0) {
+      return res.json({ purchased: true, free: true, product });
+    }
+
+    // No user = not purchased
+    if (!userId) {
+      return res.json({ purchased: false, free: false, product });
+    }
+
+    // Check if user has a successful purchase
+    const purchase = await prisma.purchase.findFirst({
+      where: {
+        userId,
+        productId,
+        order: { status: "PAID" },
+      },
+      include: {
+        order: { select: { orderNumber: true, totalAmount: true, createdAt: true, paymentId: true } },
+      },
+    });
+
+    res.json({
+      purchased: !!purchase,
+      free: false,
+      purchase: purchase || null,
+      product,
+    });
+  } catch (error) {
+    console.error("Error checking purchase status:", error);
+    res.status(500).json({ error: "Failed to check purchase status" });
+  }
+});
+
 // ─── POST /api/store — Create product (admin) ──
 storeRoutes.post("/", upload.fields([{ name: "coverImage", maxCount: 1 }, { name: "file", maxCount: 1 }, { name: "preview", maxCount: 1 }]), async (req: Request, res: Response) => {
   try {

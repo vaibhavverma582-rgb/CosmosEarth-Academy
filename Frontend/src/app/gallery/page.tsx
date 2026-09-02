@@ -1,17 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import {
   Images,
   Search,
-  Upload,
   Download,
-  Eye,
   Loader2,
-  Filter,
-  Trash2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -34,7 +29,6 @@ interface Category {
 }
 
 export default function GalleryPage() {
-  const { data: session } = useSession();
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -42,8 +36,6 @@ export default function GalleryPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
-  const [deletingId, setDeletingId] = useState<string | null>(null);
-
   const fetchImages = async () => {
     setLoading(true);
     try {
@@ -83,30 +75,6 @@ export default function GalleryPage() {
     fetchImages();
   }, [searchQuery, selectedCategory]);
 
-  const handleDelete = async (e: React.MouseEvent, id: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!confirm("Are you sure you want to delete this image?")) return;
-
-    setDeletingId(id);
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/gallery/${id}`,
-        {
-          method: "DELETE",
-          headers: { "x-user-id": session!.user.id },
-        }
-      );
-      if (res.ok) {
-        setImages((prev) => prev.filter((img) => img.id !== id));
-      }
-    } catch (err) {
-      console.error("Delete error:", err);
-    } finally {
-      setDeletingId(null);
-    }
-  };
-
   const openLightbox = (index: number) => {
     setLightboxIndex(index);
     setLightboxOpen(true);
@@ -125,14 +93,7 @@ export default function GalleryPage() {
               Stunning astronomy, geology, and space imagery — free to download
             </p>
           </div>
-          {session && (
-            <Link href="/gallery/upload">
-              <Button>
-                <Upload className="h-4 w-4" />
-                Upload Image
-              </Button>
-            </Link>
-          )}
+
         </div>
 
         {/* Search + Filters */}
@@ -195,17 +156,7 @@ export default function GalleryPage() {
                     className="w-full transition-transform group-hover:scale-105"
                     loading="lazy"
                   />
-                  {/* Delete button */}
-                  {session && (
-                    <button
-                      onClick={(e) => handleDelete(e, image.id)}
-                      disabled={deletingId === image.id}
-                      className="absolute top-2 right-2 z-10 rounded-full bg-black/60 p-1.5 text-white/50 opacity-0 transition-all group-hover:opacity-100 hover:bg-red-500/30 hover:text-red-400"
-                      title="Delete image"
-                    >
-                      <Trash2 className={`h-3.5 w-3.5 ${deletingId === image.id ? "animate-pulse" : ""}`} />
-                    </button>
-                  )}
+
                   {/* Hover overlay */}
                   <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100 p-3">
                     <h3 className="text-sm font-semibold text-white line-clamp-1">
@@ -229,14 +180,7 @@ export default function GalleryPage() {
           <div className="py-20 text-center">
             <Images className="mx-auto h-12 w-12 text-white/20" />
             <p className="mt-4 text-lg text-white/40">No images found</p>
-            {session && (
-              <Link href="/gallery/upload">
-                <Button variant="outline" className="mt-4">
-                  <Upload className="h-4 w-4" />
-                  Upload the first image
-                </Button>
-              </Link>
-            )}
+
           </div>
         )}
 
