@@ -1,85 +1,75 @@
-// CosmosEarth Academy — Prisma Schema
-
 generator client {
   provider = "prisma-client-js"
 }
-
-// Note: For PostgreSQL, indexes use the `@@index` syntax which is the same.
-// If using connection pooling (e.g., PgBouncer), add `?pgbouncer=true` to DATABASE_URL
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-// ─── Users (Auth.js compatible) ─────────────────
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  emailVerified DateTime?
-  name          String
-  password      String?
-  image         String?
-  avatar        String?
-  role          String    @default("student") // student | instructor | admin
-  bio           String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-  accounts      Account[]
-  sessions      Session[]
-  enrollments   Enrollment[]
-  reviews       Review[]
-  courses       Course[]        @relation("InstructorCourses")
-  progress      CourseProgress[]
-  otpCodes      OtpCode[]
-  notes         Note[]
-  noteBookmarks NoteBookmark[]
-  galleryImages GalleryImage[]
-  videos        Video[]
-  watchProgress WatchProgress[]
-  playlists     Playlist[]
-  documentaries Documentary[]
-  watchlistItems WatchlistItem[]
-  podcasts      Podcast[]
-  podcastEpisodes PodcastEpisode[]
-  favorites     PodcastFavorite[]
-  subscriptions PodcastSubscription[]
+  id               String                @id @default(cuid())
+  email            String                @unique
+  emailVerified    DateTime?
+  name             String
+  password         String?
+  image            String?
+  avatar           String?
+  role             String                @default("student")
+  bio              String?
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+  accounts         Account[]
+  blogComments     BlogComment[]
+  blogPosts        BlogPost[]
+  books            Book[]
+  progress         CourseProgress[]
+  courses          Course[]              @relation("InstructorCourses")
+  documentaries    Documentary[]
+  downloads        Download[]
+  enrollments      Enrollment[]
+  galleryImages    GalleryImage[]
   listeningHistory ListeningHistory[]
-  quizzes         Quiz[]
-  quizAttempts    QuizAttempt[]
-  blogPosts       BlogPost[]
-  wallpapers      Wallpaper[]
-  studyMaterials  StudyMaterial[]
-  blogComments    BlogComment[]
-  books           Book[]
-  researchPapers  ResearchPaper[]
-  storeProducts   StoreProduct[]
-  orders          Order[]
-  purchases       Purchase[]
-  downloads       Download[]
+  noteBookmarks    NoteBookmark[]
+  notes            Note[]
+  orders           Order[]
+  otpCodes         OtpCode[]
+  playlists        Playlist[]
+  podcastEpisodes  PodcastEpisode[]
+  favorites        PodcastFavorite[]
+  subscriptions    PodcastSubscription[]
+  podcasts         Podcast[]
+  purchases        Purchase[]
+  quizAttempts     QuizAttempt[]
+  quizzes          Quiz[]
+  researchPapers   ResearchPaper[]
+  reviews          Review[]
+  sessions         Session[]
+  storeProducts    StoreProduct[]
+  studyMaterials   StudyMaterial[]
+  videos           Video[]
+  wallpapers       Wallpaper[]
+  watchProgress    WatchProgress[]
+  watchlistItems   WatchlistItem[]
 
   @@map("users")
 }
 
-// ─── Website Wallpaper ────────────────────────
 model Wallpaper {
-  id            String   @id @default(cuid())
-  imageUrl      String
-  position      String   @default("center")
-  size          String   @default("cover")
-  overlayOpacity Float  @default(0.5)
-  active        Boolean  @default(true)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  uploader   User   @relation(fields: [uploaderId], references: [id])
-  uploaderId String
+  id             String   @id @default(cuid())
+  imageUrl       String
+  position       String   @default("center")
+  size           String   @default("cover")
+  overlayOpacity Float    @default(0.5)
+  active         Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  uploaderId     String
+  uploader       User     @relation(fields: [uploaderId], references: [id])
 
   @@map("wallpapers")
 }
 
-// ─── Auth.js Account (OAuth providers) ──────────
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -93,26 +83,22 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@map("accounts")
 }
 
-// ─── Auth.js Session ────────────────────────────
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
   userId       String
   expires      DateTime
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("sessions")
 }
 
-// ─── Auth.js Verification Token ─────────────────
 model VerificationToken {
   identifier String
   token      String   @unique
@@ -122,24 +108,21 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
-// ─── OTP Codes (Email OTP login) ────────────────
 model OtpCode {
   id        String   @id @default(cuid())
   email     String
   code      String
-  purpose   String   @default("login") // login | register | reset
+  purpose   String   @default("login")
   expires   DateTime
   used      Boolean  @default(false)
   createdAt DateTime @default(now())
-
-  user   User?  @relation(fields: [userId], references: [id])
-  userId String?
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
 
   @@index([email, code, purpose])
   @@map("otp_codes")
 }
 
-// ─── Categories ─────────────────────────────────
 model Category {
   id          String   @id @default(cuid())
   name        String   @unique
@@ -148,146 +131,129 @@ model Category {
   icon        String?
   color       String?
   createdAt   DateTime @default(now())
-
-  courses Course[]
+  courses     Course[]
 
   @@map("categories")
 }
 
-// ─── Courses ────────────────────────────────────
 model Course {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
-  description String
-  thumbnail   String?
-  price       Float    @default(0)
-  level       String   @default("beginner") // beginner | intermediate | advanced
-  duration    String?
-  published   Boolean  @default(false)
-  featured    Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  instructor   User          @relation("InstructorCourses", fields: [instructorId], references: [id])
+  id           String       @id @default(cuid())
+  title        String
+  slug         String       @unique
+  description  String
+  thumbnail    String?
+  price        Float        @default(0)
+  level        String       @default("beginner")
+  duration     String?
+  published    Boolean      @default(false)
+  featured     Boolean      @default(false)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
   instructorId String
-  category     Category?     @relation(fields: [categoryId], references: [id])
   categoryId   String?
-
-  modules     Module[]
-  enrollments Enrollment[]
-  reviews     Review[]
+  category     Category?    @relation(fields: [categoryId], references: [id])
+  instructor   User         @relation("InstructorCourses", fields: [instructorId], references: [id])
+  enrollments  Enrollment[]
+  modules      Module[]
+  reviews      Review[]
 
   @@map("courses")
 }
 
-// ─── Modules ────────────────────────────────────
 model Module {
   id          String   @id @default(cuid())
   title       String
   description String?
   order       Int
   createdAt   DateTime @default(now())
-
-  course   Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  courseId String
-  lessons  Lesson[]
+  courseId    String
+  lessons     Lesson[]
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   @@map("modules")
 }
 
-// ─── Lessons ────────────────────────────────────
 model Lesson {
-  id          String   @id @default(cuid())
-  title       String
-  content     String?
-  videoUrl    String?
-  duration    String?
-  order       Int
-  createdAt   DateTime @default(now())
-
-  module   Module   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
-  moduleId String
-  progress CourseProgress[]
+  id        String           @id @default(cuid())
+  title     String
+  content   String?
+  videoUrl  String?
+  duration  String?
+  order     Int
+  createdAt DateTime         @default(now())
+  moduleId  String
+  progress  CourseProgress[]
+  module    Module           @relation(fields: [moduleId], references: [id], onDelete: Cascade)
 
   @@map("lessons")
 }
 
-// ─── Enrollments ────────────────────────────────
 model Enrollment {
-  id         String    @id @default(cuid())
-  status     String    @default("active") // active | completed | cancelled
-  enrolledAt DateTime  @default(now())
+  id          String    @id @default(cuid())
+  status      String    @default("active")
+  enrolledAt  DateTime  @default(now())
   completedAt DateTime?
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-  course Course @relation(fields: [courseId], references: [id])
-  courseId String
+  userId      String
+  courseId    String
+  course      Course    @relation(fields: [courseId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
 
   @@unique([userId, courseId])
   @@map("enrollments")
 }
 
-// ─── Reviews ────────────────────────────────────
 model Review {
   id        String   @id @default(cuid())
   rating    Int
   comment   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-  course Course @relation(fields: [courseId], references: [id])
-  courseId String
+  userId    String
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, courseId])
   @@map("reviews")
 }
 
-// ─── Course Progress ────────────────────────────
 model CourseProgress {
   id        String   @id @default(cuid())
   completed Boolean  @default(false)
   updatedAt DateTime @updatedAt
-
-  user     User    @relation(fields: [userId], references: [id])
-  userId   String
-  lesson   Lesson  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  lessonId String
+  userId    String
+  lessonId  String
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, lessonId])
   @@map("course_progress")
 }
 
-// ─── Notes ──────────────────────────────────────
 model Note {
-  id            String   @id @default(cuid())
+  id            String         @id @default(cuid())
   title         String
   description   String?
-  content       String?  // markdown content for text notes
+  content       String?
   subject       String
   topic         String?
-  mediaCategory String   @default("General") // Astronomy | Geology | Geography | Current Affairs
-  fileType      String   @default("markdown") // pdf | docx | image | markdown
+  mediaCategory String         @default("General")
+  fileType      String         @default("markdown")
   fileName      String?
   fileSize      Int?
-  fileUrl       String?  // URL or path to uploaded file
+  fileUrl       String?
   thumbnail     String?
-  downloads     Int      @default(0)
-  price         Float    @default(0)
+  downloads     Int            @default(0)
+  published     Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  authorId      String
+  isFree        Boolean        @default(true)
+  price         Float          @default(0)
   salePrice     Float?
-  isFree        Boolean  @default(true)
-  published     Boolean  @default(true)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId String
-
-  bookmarks NoteBookmark[]
-  tags      NoteTag[]
+  bookmarks     NoteBookmark[]
+  tags          NoteTag[]
+  author        User           @relation(fields: [authorId], references: [id])
 
   @@index([subject, topic])
   @@index([authorId])
@@ -295,78 +261,69 @@ model Note {
   @@map("notes")
 }
 
-// ─── Note Bookmarks ────────────────────────────
 model NoteBookmark {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-  note   Note   @relation(fields: [noteId], references: [id], onDelete: Cascade)
-  noteId String
+  userId    String
+  noteId    String
+  note      Note     @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, noteId])
   @@map("note_bookmarks")
 }
 
-// ─── Note Tags ─────────────────────────────────
 model NoteTag {
-  id   String @id @default(cuid())
-  name String
-
-  note   Note   @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  id     String @id @default(cuid())
+  name   String
   noteId String
+  note   Note   @relation(fields: [noteId], references: [id], onDelete: Cascade)
 
   @@unique([noteId, name])
   @@map("note_tags")
 }
 
-// ─── Gallery Images ───────────────────────────
 model GalleryImage {
-  id          String   @id @default(cuid())
-  title       String
-  description String?
-  imageUrl    String
+  id           String   @id @default(cuid())
+  title        String
+  description  String?
+  imageUrl     String
   thumbnailUrl String?
-  category    String   @default("General")
-  tags        String? // comma-separated
-  width       Int?
-  height      Int?
-  fileSize    Int?
-  downloads   Int      @default(0)
-  featured    Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  uploader   User   @relation(fields: [uploaderId], references: [id])
-  uploaderId String
+  category     String   @default("General")
+  tags         String?
+  width        Int?
+  height       Int?
+  fileSize     Int?
+  downloads    Int      @default(0)
+  featured     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  uploaderId   String
+  uploader     User     @relation(fields: [uploaderId], references: [id])
 
   @@index([category])
   @@index([uploaderId])
   @@map("gallery_images")
 }
 
-// ─── Videos ────────────────────────────────────
 model Video {
-  id            String   @id @default(cuid())
+  id            String          @id @default(cuid())
   title         String
   description   String?
-  youtubeUrl    String   // full YouTube URL
-  youtubeId     String   // extracted video ID for embed
-  thumbnailUrl  String?  // YouTube thumbnail (auto-generated)
-  duration      Int?     // seconds (optional override)
-  category      String   @default("General")
-  tags          String?  // comma-separated
-  views         Int      @default(0)
-  featured      Boolean  @default(false)
-  published     Boolean  @default(true)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  uploader   User   @relation(fields: [uploaderId], references: [id])
-  uploaderId String
-
+  youtubeUrl    String
+  youtubeId     String
+  thumbnailUrl  String?
+  duration      Int?
+  category      String          @default("General")
+  tags          String?
+  views         Int             @default(0)
+  featured      Boolean         @default(false)
+  published     Boolean         @default(true)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  uploaderId    String
   playlistItems PlaylistItem[]
+  uploader      User            @relation(fields: [uploaderId], references: [id])
   watchProgress WatchProgress[]
 
   @@index([category])
@@ -374,274 +331,245 @@ model Video {
   @@map("videos")
 }
 
-// ─── Playlists ─────────────────────────────────
 model Playlist {
-  id          String   @id @default(cuid())
+  id          String         @id @default(cuid())
   title       String
   description String?
   thumbnail   String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  creator   User   @relation(fields: [creatorId], references: [id])
-  creatorId String
-  items     PlaylistItem[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  creatorId   String
+  items       PlaylistItem[]
+  creator     User           @relation(fields: [creatorId], references: [id])
 
   @@index([creatorId])
   @@map("playlists")
 }
 
-// ─── Playlist Items ────────────────────────────
 model PlaylistItem {
-  id        String @id @default(cuid())
-  order     Int
-
-  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  id         String   @id @default(cuid())
+  order      Int
   playlistId String
-  video      Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
   videoId    String
+  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  video      Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
 
   @@unique([playlistId, videoId])
   @@map("playlist_items")
 }
 
-// ─── Watch Progress ────────────────────────────
 model WatchProgress {
   id              String   @id @default(cuid())
-  currentTime     Float    @default(0) // seconds watched
+  currentTime     Float    @default(0)
   completed       Boolean  @default(false)
   percentComplete Float    @default(0)
   updatedAt       DateTime @updatedAt
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-  video  Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
-  videoId String
+  userId          String
+  videoId         String
+  user            User     @relation(fields: [userId], references: [id])
+  video           Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
 
   @@unique([userId, videoId])
   @@map("watch_progress")
 }
 
-// ─── Documentaries ────────────────────────────
 model Documentary {
-  id            String   @id @default(cuid())
-  title         String
-  slug          String   @unique
-  description   String
-  posterUrl     String?
-  trailerUrl    String?  // YouTube URL for trailer
-  duration      String?  // e.g. "1h 32m"
-  year          Int?
-  director      String?
-  rating        Float?
-  category      String   @default("General")
-  tags          String?  // comma-separated
-  featured      Boolean  @default(false)
-  published     Boolean  @default(true)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  uploader   User   @relation(fields: [uploaderId], references: [id])
-  uploaderId String
+  id             String          @id @default(cuid())
+  title          String
+  slug           String          @unique
+  description    String
+  posterUrl      String?
+  trailerUrl     String?
+  duration       String?
+  year           Int?
+  director       String?
+  rating         Float?
+  category       String          @default("General")
+  tags           String?
+  featured       Boolean         @default(false)
+  published      Boolean         @default(true)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  uploaderId     String
+  uploader       User            @relation(fields: [uploaderId], references: [id])
   watchlistItems WatchlistItem[]
 
   @@index([category])
   @@map("documentaries")
 }
 
-// ─── Watchlist ─────────────────────────────────
 model WatchlistItem {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-  documentary Documentary @relation(fields: [documentaryId], references: [id], onDelete: Cascade)
+  id            String      @id @default(cuid())
+  createdAt     DateTime    @default(now())
+  userId        String
   documentaryId String
+  documentary   Documentary @relation(fields: [documentaryId], references: [id], onDelete: Cascade)
+  user          User        @relation(fields: [userId], references: [id])
 
   @@unique([userId, documentaryId])
   @@map("watchlist_items")
 }
 
-// ─── Podcasts ──────────────────────────────────
 model Podcast {
-  id            String   @id @default(cuid())
+  id            String                @id @default(cuid())
   title         String
-  slug          String   @unique
+  slug          String                @unique
   description   String
   author        String
   coverUrl      String?
-  category      String   @default("General")
-  tags          String?  // comma-separated
-  episodeCount  Int      @default(0)
-  featured      Boolean  @default(false)
-  published     Boolean  @default(true)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  creator   User   @relation(fields: [creatorId], references: [id])
-  creatorId String
-  episodes  PodcastEpisode[]
-  favorites PodcastFavorite[]
+  category      String                @default("General")
+  tags          String?
+  episodeCount  Int                   @default(0)
+  featured      Boolean               @default(false)
+  published     Boolean               @default(true)
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+  creatorId     String
+  episodes      PodcastEpisode[]
+  favorites     PodcastFavorite[]
   subscriptions PodcastSubscription[]
+  creator       User                  @relation(fields: [creatorId], references: [id])
 
   @@index([category])
   @@map("podcasts")
 }
 
-// ─── Podcast Episodes ─────────────────────────
 model PodcastEpisode {
-  id            String   @id @default(cuid())
-  title         String
-  description   String?
-  audioUrl      String
-  duration      Int?     // seconds
-  episodeNumber Int      @default(1)
-  seasonNumber  Int      @default(1)
-  published     Boolean  @default(true)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  podcast   Podcast @relation(fields: [podcastId], references: [id], onDelete: Cascade)
-  podcastId String
-  uploader  User    @relation(fields: [uploaderId], references: [id])
-  uploaderId String
+  id               String             @id @default(cuid())
+  title            String
+  description      String?
+  audioUrl         String
+  duration         Int?
+  episodeNumber    Int                @default(1)
+  seasonNumber     Int                @default(1)
+  published        Boolean            @default(true)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  podcastId        String
+  uploaderId       String
   listeningHistory ListeningHistory[]
+  podcast          Podcast            @relation(fields: [podcastId], references: [id], onDelete: Cascade)
+  uploader         User               @relation(fields: [uploaderId], references: [id])
 
   @@index([podcastId])
   @@map("podcast_episodes")
 }
 
-// ─── Podcast Favorites ────────────────────────
 model PodcastFavorite {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-  podcast Podcast @relation(fields: [podcastId], references: [id], onDelete: Cascade)
+  userId    String
   podcastId String
+  podcast   Podcast  @relation(fields: [podcastId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, podcastId])
   @@map("podcast_favorites")
 }
 
-// ─── Podcast Subscriptions ────────────────────
 model PodcastSubscription {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-  podcast Podcast @relation(fields: [podcastId], references: [id], onDelete: Cascade)
+  userId    String
   podcastId String
+  podcast   Podcast  @relation(fields: [podcastId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, podcastId])
   @@map("podcast_subscriptions")
 }
 
-// ─── Listening History ────────────────────────
 model ListeningHistory {
-  id              String   @id @default(cuid())
-  currentTime     Float    @default(0)
-  percentComplete Float    @default(0)
-  completed       Boolean  @default(false)
-  updatedAt       DateTime @updatedAt
-
-  user     User   @relation(fields: [userId], references: [id])
-  userId   String
-  episode  PodcastEpisode @relation(fields: [episodeId], references: [id], onDelete: Cascade)
-  episodeId String
+  id              String         @id @default(cuid())
+  currentTime     Float          @default(0)
+  percentComplete Float          @default(0)
+  completed       Boolean        @default(false)
+  updatedAt       DateTime       @updatedAt
+  userId          String
+  episodeId       String
+  episode         PodcastEpisode @relation(fields: [episodeId], references: [id], onDelete: Cascade)
+  user            User           @relation(fields: [userId], references: [id])
 
   @@unique([userId, episodeId])
   @@map("listening_history")
 }
 
-// ─── Quizzes ──────────────────────────────────
 model Quiz {
-  id            String   @id @default(cuid())
-  title         String
-  slug          String   @unique
-  description   String?
-  subject       String
-  category      String   @default("General")
-  difficulty    String   @default("medium") // easy | medium | hard
-  timeLimit     Int?     // minutes, null = no limit
-  passingScore  Int      @default(70) // percentage
-  published     Boolean  @default(true)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  creator    User   @relation(fields: [creatorId], references: [id])
-  creatorId  String
-  questions  QuizQuestion[]
-  attempts   QuizAttempt[]
+  id           String         @id @default(cuid())
+  title        String
+  slug         String         @unique
+  description  String?
+  subject      String
+  category     String         @default("General")
+  difficulty   String         @default("medium")
+  timeLimit    Int?
+  passingScore Int            @default(70)
+  published    Boolean        @default(true)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  creatorId    String
+  attempts     QuizAttempt[]
+  questions    QuizQuestion[]
+  creator      User           @relation(fields: [creatorId], references: [id])
 
   @@index([subject, category])
   @@map("quizzes")
 }
 
-// ─── Quiz Questions ───────────────────────────
 model QuizQuestion {
-  id          String   @id @default(cuid())
-  question    String
-  type        String   @default("multiple-choice") // multiple-choice | true-false
-  options     String   // JSON array of options
-  correctAnswer String // the correct option text
-  explanation String?
-  order       Int      @default(0)
-  points      Int      @default(1)
-
-  quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  quizId String
+  id            String  @id @default(cuid())
+  question      String
+  type          String  @default("multiple-choice")
+  options       String
+  correctAnswer String
+  explanation   String?
+  order         Int     @default(0)
+  points        Int     @default(1)
+  quizId        String
+  quiz          Quiz    @relation(fields: [quizId], references: [id], onDelete: Cascade)
 
   @@index([quizId])
   @@map("quiz_questions")
 }
 
-// ─── Quiz Attempts ────────────────────────────
 model QuizAttempt {
-  id            String   @id @default(cuid())
-  answers       String   // JSON: { questionId: selectedAnswer }
-  score         Float    // percentage (0-100)
-  totalPoints   Int
-  earnedPoints  Int
-  passed        Boolean
-  timeTaken     Int?     // seconds
-  completedAt   DateTime @default(now())
-
-  guestName String?
-
-  user   User?   @relation(fields: [userId], references: [id])
-  userId String?
-  quiz   Quiz    @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  quizId String
+  id           String   @id @default(cuid())
+  answers      String
+  score        Float
+  totalPoints  Int
+  earnedPoints Int
+  passed       Boolean
+  timeTaken    Int?
+  completedAt  DateTime @default(now())
+  userId       String?
+  quizId       String
+  guestName    String?
+  quiz         Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  user         User?    @relation(fields: [userId], references: [id])
 
   @@index([userId, quizId])
   @@map("quiz_attempts")
 }
 
-// ─── Blog Posts ───────────────────────────────
 model BlogPost {
-  id            String   @id @default(cuid())
-  title         String
-  slug          String   @unique
-  excerpt       String
-  content       String   // markdown content
-  category      String
-  subcategory   String?  // subcategory within the main category
-  readTime      String   @default("5 min")
-  coverImage    String?
-  tags          String?  // comma-separated
-  seoTitle      String?
+  id             String        @id @default(cuid())
+  title          String
+  slug           String        @unique
+  excerpt        String
+  content        String
+  category       String
+  readTime       String        @default("5 min")
+  coverImage     String?
+  published      Boolean       @default(true)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  authorId       String
   seoDescription String?
-  published     Boolean  @default(true)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId String
-  comments BlogComment[]
+  seoTitle       String?
+  subcategory    String?
+  tags           String?
+  comments       BlogComment[]
+  author         User          @relation(fields: [authorId], references: [id])
 
   @@index([slug])
   @@index([category])
@@ -649,147 +577,137 @@ model BlogPost {
   @@map("blog_posts")
 }
 
-// ─── Blog Comments ────────────────────────────
 model BlogComment {
-  id        String   @id @default(cuid())
-  content   String
-  guestName String?  // for public/guest comments
-  parentId  String?  // for replies
-  likes     Int      @default(0)
-  hidden    Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user    User?    @relation(fields: [userId], references: [id])
-  userId  String?
-  blogPost BlogPost @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
+  id         String        @id @default(cuid())
+  content    String
+  parentId   String?
+  likes      Int           @default(0)
+  hidden     Boolean       @default(false)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  userId     String?
   blogPostId String
-  parent  BlogComment? @relation("CommentReplies", fields: [parentId], references: [id])
-  replies BlogComment[] @relation("CommentReplies")
+  guestName  String?
+  blogPost   BlogPost      @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
+  parent     BlogComment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies    BlogComment[] @relation("CommentReplies")
+  user       User?         @relation(fields: [userId], references: [id])
 
   @@index([blogPostId])
   @@index([userId])
   @@map("blog_comments")
 }
 
-// ─── Study Materials (Books, Papers, etc.) ────
 model StudyMaterial {
   id          String   @id @default(cuid())
   title       String
   author      String
-  type        String   @default("Book") // Book | Research Paper | Course | Resource
-  status      String   @default("Reading") // Reading | Completed | Ongoing | To Read
+  type        String   @default("Book")
+  status      String   @default("Reading")
   description String?
   coverUrl    String?
-  link        String?  // external link to the material
-  fileUrl     String?  // uploaded file path
-  fileName    String?  // original file name
-  fileSize    Int?     // file size in bytes
+  link        String?
+  fileUrl     String?
+  fileName    String?
+  fileSize    Int?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
 
   @@index([userId])
   @@index([type])
   @@map("study_materials")
 }
 
-// ─── Books (Store) ───────────────────────────
 model Book {
-  id              String   @id @default(cuid())
+  id              String      @id @default(cuid())
   title           String
   author          String
   description     String?
   isbn            String?
   publisher       String?
   publicationYear Int?
-  category        String   @default("Astronomy")
+  category        String      @default("Astronomy")
   subcategory     String?
-  tags            String?  // comma-separated
+  tags            String?
   coverImage      String?
-  fileUrl         String?  // uploaded digital file
+  fileUrl         String?
   fileName        String?
   fileSize        Int?
-  previewUrl      String?  // preview/sample file
-  externalLink    String?  // external purchase link
-  price           Float    @default(0)
+  previewUrl      String?
+  externalLink    String?
+  price           Float       @default(0)
   salePrice       Float?
-  isFree          Boolean  @default(true)
-  published       Boolean  @default(true)
-  downloads       Int      @default(0)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  uploader   User   @relation(fields: [uploaderId], references: [id])
-  uploaderId String
-  orderItems OrderItem[]
-  purchases  Purchase[]
+  isFree          Boolean     @default(true)
+  published       Boolean     @default(true)
+  downloads       Int         @default(0)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  uploaderId      String
+  uploader        User        @relation(fields: [uploaderId], references: [id])
+  orderItems      OrderItem[]
+  purchases       Purchase[]
 
   @@index([category, subcategory])
   @@index([uploaderId])
   @@map("books")
 }
 
-// ─── Research Papers ─────────────────────────
 model ResearchPaper {
-  id            String   @id @default(cuid())
-  title         String
-  authors       String   // comma-separated author names
-  abstract      String?
-  journal       String?
-  doi           String?
+  id              String   @id @default(cuid())
+  title           String
+  authors         String
+  abstract        String?
+  journal         String?
+  doi             String?
   publicationYear Int?
-  category      String   @default("Astronomy")
-  subcategory   String?
-  keywords      String?  // comma-separated
-  researchArea  String?
-  fileUrl       String?  // uploaded PDF
-  fileName      String?
-  fileSize      Int?
-  externalLink  String?  // link to paper
-  coverImage    String?
-  downloads     Int      @default(0)
-  published     Boolean  @default(true)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  uploader   User   @relation(fields: [uploaderId], references: [id])
-  uploaderId String
+  category        String   @default("Astronomy")
+  subcategory     String?
+  keywords        String?
+  researchArea    String?
+  fileUrl         String?
+  fileName        String?
+  fileSize        Int?
+  externalLink    String?
+  coverImage      String?
+  downloads       Int      @default(0)
+  published       Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  uploaderId      String
+  uploader        User     @relation(fields: [uploaderId], references: [id])
 
   @@index([category])
   @@index([uploaderId])
   @@map("research_papers")
 }
 
-// ─── Store Products (Admin Study Materials) ──
 model StoreProduct {
-  id            String   @id @default(cuid())
-  title         String
-  description   String?
-  type          String   // Study Notes | PDF Notes | E-books | Books | Study Guides | Question Papers | Practice Materials | Educational Documents | Other
-  category      String   @default("Astronomy")
-  subcategory   String?
-  tags          String?  // comma-separated
-  coverImage    String?
-  fileUrl       String?  // uploaded file
-  fileName      String?
-  fileSize      Int?
-  previewUrl    String?  // preview file
-  price         Float    @default(0)
-  salePrice     Float?
-  isFree        Boolean  @default(true)
-  published     Boolean  @default(true)
-  downloads     Int      @default(0)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  uploader   User   @relation(fields: [uploaderId], references: [id])
-  uploaderId String
-  orderItems OrderItem[]
-  purchases  Purchase[]
-  downloads2 Download[]
+  id          String      @id @default(cuid())
+  title       String
+  description String?
+  type        String
+  category    String      @default("Astronomy")
+  subcategory String?
+  tags        String?
+  coverImage  String?
+  fileUrl     String?
+  fileName    String?
+  fileSize    Int?
+  previewUrl  String?
+  price       Float       @default(0)
+  salePrice   Float?
+  isFree      Boolean     @default(true)
+  published   Boolean     @default(true)
+  downloads   Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  uploaderId  String
+  downloads2  Download[]
+  orderItems  OrderItem[]
+  purchases   Purchase[]
+  uploader    User        @relation(fields: [uploaderId], references: [id])
 
   @@index([category, subcategory])
   @@index([type])
@@ -797,81 +715,73 @@ model StoreProduct {
   @@map("store_products")
 }
 
-// ─── Orders ───────────────────────────────────
 model Order {
-  id              String   @id @default(cuid())
-  orderNumber     String   @unique // human-readable order ID
-  status          String   @default("PENDING") // PENDING | PAYMENT_PROCESSING | PAID | FAILED | CANCELLED | REFUNDED
+  id              String      @id @default(cuid())
+  orderNumber     String      @unique
+  status          String      @default("PENDING")
   totalAmount     Float
-  currency        String   @default("INR")
-  paymentProvider String?  // razorpay | cashfree | payu
-  paymentId       String?  // provider transaction ID
-  paymentMethod   String?  // upi | card | netbanking
-  paymentVerified Boolean  @default(false)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  user     User        @relation(fields: [userId], references: [id])
-  userId   String
-  items    OrderItem[]
-  payment  Payment?
-  purchases Purchase[]
+  currency        String      @default("INR")
+  paymentProvider String?
+  paymentId       String?
+  paymentMethod   String?
+  paymentVerified Boolean     @default(false)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  userId          String
+  items           OrderItem[]
+  user            User        @relation(fields: [userId], references: [id])
+  payment         Payment?
+  purchases       Purchase[]
 
   @@index([userId])
   @@index([status])
   @@map("orders")
 }
 
-// ─── Order Items ──────────────────────────────
 model OrderItem {
-  id        String @id @default(cuid())
+  id        String        @id @default(cuid())
   price     Float
-  quantity  Int    @default(1)
-
-  order     Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  quantity  Int           @default(1)
   orderId   String
-  product   StoreProduct? @relation(fields: [productId], references: [id])
   productId String?
-  book      Book?        @relation(fields: [bookId], references: [id])
   bookId    String?
+  book      Book?         @relation(fields: [bookId], references: [id])
+  order     Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   StoreProduct? @relation(fields: [productId], references: [id])
 
   @@map("order_items")
 }
 
-// ─── Payments ─────────────────────────────────
 model Payment {
-  id                String   @id @default(cuid())
-  provider          String   // razorpay | cashfree | payu
+  id                String    @id @default(cuid())
+  provider          String
   providerPaymentId String?
   amount            Float
-  currency          String   @default("INR")
-  status            String   @default("created") // created | authorized | captured | failed | refunded
-  method            String?  // upi | card | netbanking | wallet
-  metadata          String?  // JSON string with extra payment data
+  currency          String    @default("INR")
+  status            String    @default("created")
+  method            String?
+  metadata          String?
   verifiedAt        DateTime?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-
-  order   Order  @relation(fields: [orderId], references: [id])
-  orderId String @unique
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  orderId           String    @unique
+  order             Order     @relation(fields: [orderId], references: [id])
 
   @@index([providerPaymentId])
   @@map("payments")
 }
 
-// ─── Purchases (User access grant) ───────────
 model Purchase {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-
-  user      User          @relation(fields: [userId], references: [id])
+  id        String        @id @default(cuid())
+  createdAt DateTime      @default(now())
   userId    String
-  product   StoreProduct? @relation(fields: [productId], references: [id])
   productId String?
-  book      Book?         @relation(fields: [bookId], references: [id])
   bookId    String?
-  order     Order         @relation(fields: [orderId], references: [id])
   orderId   String
+  book      Book?         @relation(fields: [bookId], references: [id])
+  order     Order         @relation(fields: [orderId], references: [id])
+  product   StoreProduct? @relation(fields: [productId], references: [id])
+  user      User          @relation(fields: [userId], references: [id])
 
   @@unique([userId, productId])
   @@unique([userId, bookId])
@@ -879,35 +789,32 @@ model Purchase {
   @@map("purchases")
 }
 
-// ─── Downloads ────────────────────────────────
 model Download {
-  id        String   @id @default(cuid())
+  id        String        @id @default(cuid())
   fileUrl   String
   fileName  String?
-  createdAt DateTime @default(now())
-
-  user      User          @relation(fields: [userId], references: [id])
+  createdAt DateTime      @default(now())
   userId    String
-  product   StoreProduct? @relation(fields: [productId], references: [id])
   productId String?
+  product   StoreProduct? @relation(fields: [productId], references: [id])
+  user      User          @relation(fields: [userId], references: [id])
 
   @@index([userId])
   @@map("downloads")
 }
 
-// ─── Visitor Tracking ──────────────────────────
 model Visitor {
-  id         String   @id @default(cuid())
-  ip         String?
-  userAgent  String?
-  page       String   // path visited, e.g. "/" "/blog" "/geology"
-  country    String?  // country name from client-side geo
-  countryCode String? // ISO country code (IN, US, etc.)
-  referer    String?  // where they came from
-  sessionId  String?  // browser session (tab-level)
-  visitorId  String?  // persistent browser fingerprint (localStorage)
-  userId     String?  // logged-in user ID if authenticated
-  createdAt  DateTime @default(now())
+  id          String   @id @default(cuid())
+  ip          String?
+  userAgent   String?
+  page        String
+  country     String?
+  referer     String?
+  sessionId   String?
+  userId      String?
+  createdAt   DateTime @default(now())
+  countryCode String?
+  visitorId   String?
 
   @@index([page])
   @@index([createdAt])
@@ -915,4 +822,3 @@ model Visitor {
   @@index([visitorId])
   @@map("visitors")
 }
-

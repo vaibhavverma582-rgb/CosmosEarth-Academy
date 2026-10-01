@@ -250,7 +250,10 @@ orderRoutes.get("/user/library", async (req: Request, res: Response) => {
 });
 
 // ─── POST /api/purchases/:id/download — Secure download ──
-orderRoutes.post("/purchases/:id/download", async (req: Request, res: Response) => {
+// Registered on both path shapes so it resolves under either mount:
+//   /api/orders/purchases/:id/download  (store page)
+//   /api/purchases/:id/download         (library page)
+const handlePurchaseDownload = async (req: Request, res: Response) => {
   try {
     const userId = req.headers["x-user-id"] as string;
     if (!userId) return res.status(401).json({ error: "Authentication required" });
@@ -290,7 +293,10 @@ orderRoutes.post("/purchases/:id/download", async (req: Request, res: Response) 
   } catch (error) {
     res.status(500).json({ error: "Failed to process download" });
   }
-});
+};
+
+orderRoutes.post("/purchases/:id/download", handlePurchaseDownload);
+orderRoutes.post("/:id/download", handlePurchaseDownload);
 
 // ─── GET /api/admin/orders — All orders (admin) ──
 orderRoutes.get("/admin/all", async (req: Request, res: Response) => {
