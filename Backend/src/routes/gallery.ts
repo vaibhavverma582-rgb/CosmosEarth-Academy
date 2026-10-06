@@ -5,9 +5,9 @@ import multer from "multer";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
+import https from "https";
 import sharp from "sharp";
 import { UPLOAD_DIRS } from "../config/uploads";
-import { createClient } from "@supabase/supabase-js";
 
 export const galleryRoutes = Router();
 
@@ -16,11 +16,7 @@ const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 const SUPABASE_STORAGE_URL = process.env.SUPABASE_STORAGE_URL;
 const SUPABASE_BUCKET = process.env.SUPABASE_STORAGE_BUCKET || "uploads";
-
-let supabase: ReturnType<typeof createClient> | null = null;
-if (SUPABASE_URL && SUPABASE_SERVICE_KEY) {
-  supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
-}
+const isSupabaseConfigured = Boolean(SUPABASE_URL && SUPABASE_SERVICE_KEY);
 
 const getStorageUrl = (filePath: string) => {
   if (!SUPABASE_STORAGE_URL || !filePath) return filePath;
@@ -30,19 +26,35 @@ const getStorageUrl = (filePath: string) => {
 };
 
 const uploadToSupabase = async (localPath: string, storagePath: string): Promise<string | null> => {
-  if (!supabase) return null;
+  if (!isSupabaseConfigured) return null;
 
   try {
     const fileBuffer = fs.readFileSync(localPath);
-    const { error } = await supabase.storage
-      .from(SUPABASE_BUCKET)
-      .upload(storagePath, fileBuffer, {
-        contentType: "image/*",
-        upsert: true,
+    const encodedPath = storagePath.split("/").map(encodeURIComponent).join("/");
+    const endpoint = new URL(
+      `/storage/v1/object/${encodeURIComponent(SUPABASE_BUCKET)}/${encodedPath}`,
+      SUPABASE_URL,
+    );
+    const statusCode = await new Promise<number>((resolve, reject) => {
+      const request = https.request(endpoint, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`,
+          apikey: SUPABASE_SERVICE_KEY,
+          "Content-Type": "application/octet-stream",
+          "Content-Length": fileBuffer.length,
+          "x-upsert": "true",
+        },
+      }, (response) => {
+        response.resume();
+        response.on("end", () => resolve(response.statusCode ?? 500));
       });
+      request.on("error", reject);
+      request.end(fileBuffer);
+    });
 
-    if (error) {
-      console.error("Supabase upload error:", error);
+    if (statusCode < 200 || statusCode >= 300) {
+      console.error(`Supabase upload failed with status ${statusCode}`);
       return null;
     }
 
@@ -52,6 +64,38 @@ const uploadToSupabase = async (localPath: string, storagePath: string): Promise
     console.error("Error uploading to Supabase:", error);
     return null;
   }
+};
+
+const deleteFromSupabase = async (storagePath: string): Promise<void> => {
+  if (!isSupabaseConfigured) return;
+
+  const encodedPath = storagePath.split("/").map(encodeURIComponent).join("/");
+  const endpoint = new URL(
+    `/storage/v1/object/${encodeURIComponent(SUPABASE_BUCKET)}/${encodedPath}`,
+    SUPABASE_URL,
+  );
+
+  await new Promise<void>((resolve, reject) => {
+    const request = https.request(endpoint, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`,
+        apikey: SUPABASE_SERVICE_KEY,
+      },
+    }, (response) => {
+      response.resume();
+      response.on("end", () => {
+        const statusCode = response.statusCode ?? 500;
+        if (statusCode >= 200 && statusCode < 300) {
+          resolve();
+        } else {
+          reject(new Error(`Supabase delete failed with status ${statusCode}`));
+        }
+      });
+    });
+    request.on("error", reject);
+    request.end();
+  });
 };
 
 const generateThumbnail = async (inputPath: string, outputPath: string, width = 400, height = 400): Promise<void> => {
@@ -281,7 +325,7 @@ galleryRoutes.post(
       let finalImageUrl = `/uploads/gallery/${file.filename}`;
       let finalThumbUrl = `/uploads/gallery/${thumbnailFilename}`;
 
-      if (supabase) {
+      if (isSupabaseConfigured) {
         const [imageUploaded, thumbUploaded] = await Promise.all([
           uploadToSupabase(file.path, storageImagePath),
           uploadToSupabase(thumbnailPath, storageThumbPath),
@@ -371,13 +415,13 @@ galleryRoutes.delete("/:id", async (req: Request, res: Response) => {
     });
 
     // Delete from Supabase storage if configured
-    if (supabase && image.imageUrl && image.thumbnailUrl) {
+    if (isSupabaseConfigured && image.imageUrl && image.thumbnailUrl) {
       const storageImagePath = image.imageUrl.replace(/^\/uploads\//, "");
       const storageThumbPath = image.thumbnailUrl.replace(/^\/uploads\//, "");
 
       await Promise.all([
-        supabase.storage.from(SUPABASE_BUCKET).remove([storageImagePath]),
-        supabase.storage.from(SUPABASE_BUCKET).remove([storageThumbPath]),
+        deleteFromSupabase(storageImagePath),
+        deleteFromSupabase(storageThumbPath),
       ]).catch((err) => {
         console.error("Error deleting from Supabase:", err);
       });
